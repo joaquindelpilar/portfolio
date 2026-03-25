@@ -1,555 +1,483 @@
-import React from "react";
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Joaquin.dev</title>
+    <meta
+      name="description"
+      content="Minimal portfolio with a red animated ECG background for GitHub Pages."
+    />
+    <style>
+      :root {
+        --bg: #080808;
+        --panel: rgba(255, 255, 255, 0.03);
+        --panel-hover: rgba(255, 255, 255, 0.05);
+        --border: rgba(255, 255, 255, 0.1);
+        --text: rgba(255, 255, 255, 0.96);
+        --muted: rgba(255, 255, 255, 0.75);
+        --soft: rgba(255, 255, 255, 0.42);
+        --radius: 30px;
+        --max-width: 1120px;
+      }
 
-type ProjectLink = {
-  label: string;
-  href: string;
-};
+      * {
+        box-sizing: border-box;
+      }
 
-type Project = {
-  name: string;
-  tagline: string;
-  description: string;
-  links: ProjectLink[];
-};
+      html {
+        scroll-behavior: smooth;
+      }
 
-const projects: Project[] = [
-  {
-    name: "Project One",
-    tagline: "A featured project",
-    description:
-      "Write a short and honest description here about what this project does and why it matters to you.",
-    links: [
-      { label: "View Project", href: "#" },
-      { label: "Source", href: "#" },
-    ],
-  },
-  {
-    name: "Project Two",
-    tagline: "Another selected work",
-    description:
-      "Use this card for another project, client work, experiment, or anything you want to highlight on your site.",
-    links: [{ label: "Learn More", href: "#" }],
-  },
-  {
-    name: "Project Three",
-    tagline: "Something you are proud of",
-    description:
-      "Keep the text simple and accurate. You can replace this with your real project details later.",
-    links: [{ label: "Open", href: "#" }],
-  },
-];
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+      }
 
-const styles = `
-  :root {
-    --bg: #0a0a0a;
-    --border: rgba(255, 255, 255, 0.1);
-    --text: rgba(255, 255, 255, 0.96);
-    --soft: rgba(255, 255, 255, 0.42);
-    --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
-    --radius-xl: 32px;
-    --max-width: 1120px;
-  }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
 
-  * {
-    box-sizing: border-box;
-  }
+      .background {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
 
-  html {
-    scroll-behavior: smooth;
-  }
+      .background::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at top, rgba(255, 0, 0, 0.16), transparent 30%),
+          linear-gradient(to bottom, rgba(255, 0, 0, 0.05), transparent 26%);
+      }
 
-  body {
-    margin: 0;
-    min-height: 100vh;
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.5;
-    overflow-x: hidden;
-  }
+      .ecg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 22rem;
+        opacity: 1;
+      }
 
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
+      .ecg-line {
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+      }
 
-  .app-shell {
-    min-height: 100vh;
-    background: var(--bg);
-    color: var(--text);
-  }
+      .ecg-line-back {
+        stroke: rgba(255, 40, 40, 0.22);
+        stroke-width: 8;
+        filter: url(#glow);
+      }
 
-  .background {
-    position: fixed;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 0;
-  }
+      .ecg-line-front {
+        stroke: #ff2d2d;
+        stroke-width: 3.5;
+        filter: url(#glow);
+        stroke-dasharray: 380 1220;
+        animation: ecgMove 3.2s linear infinite;
+      }
 
-  .background::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(circle at top, rgba(255, 45, 45, 0.14), transparent 32%),
-      linear-gradient(to bottom, rgba(255, 0, 0, 0.04), transparent 30%);
-  }
+      @keyframes ecgMove {
+        from {
+          stroke-dashoffset: 1600;
+        }
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
 
-  .ecg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 22rem;
-    opacity: 0.95;
-  }
+      .page {
+        position: relative;
+        z-index: 1;
+      }
 
-  .ecg-line {
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    vector-effect: non-scaling-stroke;
-  }
+      .container {
+        width: min(calc(100% - 48px), var(--max-width));
+        margin: 0 auto;
+      }
 
-  .ecg-line-back {
-    stroke: rgba(255, 40, 40, 0.18);
-    stroke-width: 8;
-    filter: url(#ecgGlow);
-  }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(8, 8, 8, 0.72);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--border);
+      }
 
-  .ecg-line-front {
-    stroke: #ff3b3b;
-    stroke-width: 3.5;
-    filter: url(#ecgGlow);
-    stroke-dasharray: 360 1240;
-    animation: ecgMove 3.2s linear infinite;
-  }
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 18px 0;
+      }
 
-  @keyframes ecgMove {
-    from { stroke-dashoffset: 1600; }
-    to { stroke-dashoffset: 0; }
-  }
+      .brand {
+        font-size: 0.8rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.85);
+      }
 
-  .page {
-    position: relative;
-    z-index: 1;
-  }
+      .nav {
+        display: flex;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
 
-  .container {
-    width: min(calc(100% - 48px), var(--max-width));
-    margin: 0 auto;
-  }
+      .nav a,
+      .project-links a,
+      .contact-links a {
+        color: rgba(255, 255, 255, 0.7);
+        transition: color 0.2s ease;
+      }
 
-  .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    background: rgba(10, 10, 10, 0.72);
-    border-bottom: 1px solid var(--border);
-  }
+      .nav a:hover,
+      .project-links a:hover,
+      .contact-links a:hover {
+        color: white;
+      }
 
-  .topbar-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 18px 0;
-  }
+      .hero {
+        min-height: 76vh;
+        display: flex;
+        align-items: center;
+        padding: 96px 0;
+      }
 
-  .brand {
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
-    color: rgba(255, 255, 255, 0.82);
-  }
+      .eyebrow,
+      .label {
+        margin: 0 0 16px;
+        font-size: 0.76rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--soft);
+      }
 
-  .nav {
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
 
-  .nav a {
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.62);
-    transition: color 0.2s ease;
-  }
+      h1 {
+        max-width: 900px;
+        margin-bottom: 0;
+        font-size: clamp(3rem, 7vw, 5.2rem);
+        line-height: 0.98;
+        letter-spacing: -0.04em;
+      }
 
-  .nav a:hover,
-  .project-links a:hover,
-  .contact-links a:hover {
-    color: white;
-    text-decoration: underline;
-  }
+      .button-row {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-top: 40px;
+      }
 
-  .hero {
-    min-height: 78vh;
-    display: flex;
-    align-items: center;
-    padding: 96px 0;
-  }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 22px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        font-size: 0.95rem;
+        font-weight: 600;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+      }
 
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 48px;
-    width: 100%;
-  }
+      .button:hover {
+        transform: translateY(-2px);
+        border-color: rgba(255, 255, 255, 0.3);
+      }
 
-  .eyebrow,
-  .label {
-    margin: 0 0 16px;
-    font-size: 0.76rem;
-    text-transform: uppercase;
-    letter-spacing: 0.3em;
-    color: var(--soft);
-  }
+      .button.primary {
+        background: white;
+        color: black;
+      }
 
-  h1, h2, h3, p {
-    margin-top: 0;
-  }
+      .button.secondary {
+        color: white;
+      }
 
-  h1 {
-    max-width: 900px;
-    margin-bottom: 0;
-    font-size: clamp(3rem, 7vw, 5.2rem);
-    line-height: 0.98;
-    letter-spacing: -0.04em;
-  }
+      .section {
+        padding: 40px 0;
+      }
 
-  .button-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-top: 40px;
-  }
+      .section-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 24px;
+        padding-bottom: 24px;
+        margin-bottom: 42px;
+        border-bottom: 1px solid var(--border);
+      }
 
-  .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 999px;
-    padding: 14px 22px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
-  }
+      h2 {
+        margin: 10px 0 0;
+        font-size: clamp(2rem, 4vw, 2.7rem);
+      }
 
-  .button.primary {
-    background: white;
-    color: black;
-  }
+      .projects {
+        display: grid;
+        gap: 24px;
+      }
 
-  .button.secondary {
-    color: rgba(255, 255, 255, 0.82);
-  }
+      .project {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 28px;
+        transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      }
 
-  .button:hover,
-  .project:hover {
-    transform: translateY(-2px);
-  }
+      .project:hover {
+        transform: translateY(-2px);
+        background: var(--panel-hover);
+        border-color: rgba(255, 255, 255, 0.16);
+      }
 
-  .section {
-    padding: 40px 0;
-  }
+      .project-grid {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 24px;
+      }
 
-  .section-head {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 24px;
-    margin-bottom: 48px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--border);
-  }
+      .project h3 {
+        margin-bottom: 0;
+        font-size: 1.7rem;
+        letter-spacing: -0.02em;
+      }
 
-  .section-head h2,
-  .contact h2 {
-    margin: 10px 0 0;
-    font-size: clamp(2rem, 4vw, 2.7rem);
-  }
+      .tagline {
+        margin-top: 12px;
+        font-size: 1.08rem;
+        color: rgba(255, 255, 255, 0.84);
+      }
 
-  .projects {
-    display: grid;
-    gap: 24px;
-  }
+      .description {
+        max-width: 850px;
+        margin-top: 14px;
+        font-size: 0.96rem;
+        line-height: 1.9;
+        color: rgba(255, 255, 255, 0.6);
+      }
 
-  .project {
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
-    background: rgba(255, 255, 255, 0.03);
-    padding: 28px;
-    transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
-  }
+      .project-links {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-end;
+      }
 
-  .project:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.18);
-  }
+      .project-links a {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        text-decoration-color: rgba(255, 255, 255, 0.2);
+      }
 
-  .project-grid {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 24px;
-  }
+      .contact {
+        padding-top: 20px;
+        padding-bottom: 96px;
+      }
 
-  .project-top {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
-  }
+      .contact-inner {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 24px;
+        padding-top: 28px;
+        border-top: 1px solid var(--border);
+      }
 
-  .project h3 {
-    margin-bottom: 0;
-    font-size: 1.7rem;
-    letter-spacing: -0.02em;
-  }
+      .contact-links {
+        display: grid;
+        gap: 10px;
+        font-size: 0.96rem;
+      }
 
-  .tagline {
-    margin-top: 12px;
-    font-size: 1.08rem;
-    color: rgba(255, 255, 255, 0.82);
-  }
+      @media (max-width: 900px) {
+        .hero {
+          min-height: auto;
+          padding: 72px 0;
+        }
 
-  .description {
-    max-width: 850px;
-    margin-top: 14px;
-    font-size: 0.96rem;
-    line-height: 1.9;
-    color: rgba(255, 255, 255, 0.58);
-  }
+        .project-grid,
+        .contact-inner,
+        .section-head {
+          grid-template-columns: 1fr;
+          flex-direction: column;
+          align-items: flex-start;
+        }
 
-  .project-links {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 12px;
-  }
+        .project-links {
+          align-items: flex-start;
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
 
-  .project-links a {
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.72);
-    text-decoration: underline;
-    text-decoration-color: rgba(255, 255, 255, 0.2);
-    text-underline-offset: 4px;
-  }
+        .ecg {
+          height: 18rem;
+        }
+      }
 
-  .contact {
-    padding-top: 20px;
-    padding-bottom: 96px;
-  }
+      @media (max-width: 640px) {
+        .container {
+          width: min(calc(100% - 32px), var(--max-width));
+        }
 
-  .contact-inner {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 24px;
-    padding-top: 28px;
-    border-top: 1px solid var(--border);
-  }
+        .nav {
+          gap: 16px;
+        }
 
-  .contact-links {
-    display: grid;
-    gap: 10px;
-    font-size: 0.96rem;
-    color: rgba(255, 255, 255, 0.72);
-  }
+        .project {
+          padding: 22px;
+        }
 
-  @media (max-width: 900px) {
-    .project-grid {
-      grid-template-columns: 1fr;
-    }
+        .ecg-line-back {
+          stroke-width: 6;
+        }
 
-    .contact-inner,
-    .section-head {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .hero {
-      min-height: auto;
-      padding: 72px 0;
-    }
-
-    .project-links {
-      justify-content: flex-start;
-      align-items: flex-start;
-      flex-direction: row;
-      flex-wrap: wrap;
-    }
-
-    .ecg {
-      height: 18rem;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .container {
-      width: min(calc(100% - 32px), var(--max-width));
-    }
-
-    .topbar-inner {
-      padding: 16px 0;
-    }
-
-    .nav {
-      gap: 16px;
-    }
-
-    .project {
-      padding: 22px;
-    }
-
-    .ecg-line-back {
-      stroke-width: 6;
-    }
-
-    .ecg-line-front {
-      stroke-width: 2.5;
-    }
-  }
-`;
-
-function BackgroundEcg(): React.ReactElement {
-  return (
-    <div className="background" aria-hidden="true">
-      <svg className="ecg" viewBox="0 0 1600 320" preserveAspectRatio="none">
+        .ecg-line-front {
+          stroke-width: 2.5;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background" aria-hidden="true">
+      <svg class="ecg" viewBox="0 0 1600 320" preserveAspectRatio="none">
         <defs>
-          <filter id="ecgGlow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="4" result="blur" />
+          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
             <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
+              <feMergeNode in="blur"></feMergeNode>
+              <feMergeNode in="SourceGraphic"></feMergeNode>
             </feMerge>
           </filter>
         </defs>
         <path
-          className="ecg-line ecg-line-back"
+          class="ecg-line ecg-line-back"
           d="M0 180 L120 180 L170 180 L205 180 L232 150 L255 220 L285 72 L318 180 L510 180 L560 180 L595 180 L622 150 L645 220 L675 72 L708 180 L900 180 L950 180 L985 180 L1012 150 L1035 220 L1065 72 L1098 180 L1290 180 L1340 180 L1375 180 L1402 150 L1425 220 L1455 72 L1488 180 L1600 180"
-        />
+        ></path>
         <path
-          className="ecg-line ecg-line-front"
+          class="ecg-line ecg-line-front"
           d="M0 180 L120 180 L170 180 L205 180 L232 150 L255 220 L285 72 L318 180 L510 180 L560 180 L595 180 L622 150 L645 220 L675 72 L708 180 L900 180 L950 180 L985 180 L1012 150 L1035 220 L1065 72 L1098 180 L1290 180 L1340 180 L1375 180 L1402 150 L1425 220 L1455 72 L1488 180 L1600 180"
-        />
+        ></path>
       </svg>
     </div>
-  );
-}
 
-function Header(): React.ReactElement {
-  return (
-    <header className="topbar">
-      <div className="container topbar-inner">
-        <a className="brand" href="#top">
-          Joaquin.dev
-        </a>
-        <nav className="nav" aria-label="Primary navigation">
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
-        </nav>
-      </div>
-    </header>
-  );
-}
-
-function Hero(): React.ReactElement {
-  return (
-    <section className="hero container" id="top">
-      <div className="hero-grid">
-        <div>
-          <p className="eyebrow">Portfolio</p>
-          <h1>Joaquin del Pilar</h1>
-          <div className="button-row">
-            <a className="button primary" href="#projects">
-              View Projects
-            </a>
-            <a className="button secondary" href="#contact">
-              Get in Touch
-            </a>
-          </div>
+    <div class="page">
+      <header class="topbar">
+        <div class="container topbar-inner">
+          <a class="brand" href="#top">Joaquin.dev</a>
+          <nav class="nav">
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+          </nav>
         </div>
-      </div>
-    </section>
-  );
-}
+      </header>
 
-function ProjectsSection(): React.ReactElement {
-  return (
-    <section id="projects" className="container section">
-      <div className="section-head">
-        <div>
-          <p className="label">Selected Work</p>
-          <h2>Projects</h2>
-        </div>
-      </div>
-
-      <div className="projects">
-        {projects.map((project) => (
-          <article key={project.name} className="project">
-            <div className="project-grid">
-              <div>
-                <div className="project-top">
-                  <h3>{project.name}</h3>
-                </div>
-                <p className="tagline">{project.tagline}</p>
-                <p className="description">{project.description}</p>
-              </div>
-              <div className="project-links">
-                {project.links.map((link) => (
-                  <a key={`${project.name}-${link.label}`} href={link.href}>
-                    {link.label}
-                  </a>
-                ))}
-              </div>
+      <main id="top">
+        <section class="hero container">
+          <div>
+            <p class="eyebrow">Portfolio</p>
+            <h1>Joaquin del Pilar</h1>
+            <div class="button-row">
+              <a class="button primary" href="#projects">View Projects</a>
+              <a class="button secondary" href="#contact">Get in Touch</a>
             </div>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
+          </div>
+        </section>
 
-function ContactSection(): React.ReactElement {
-  return (
-    <section id="contact" className="container contact">
-      <div className="contact-inner">
-        <div>
-          <p className="label">Contact</p>
-          <h2>Let’s build something good.</h2>
-        </div>
-        <div className="contact-links">
-          <a href="https://github.com/joaquindelpilar" target="_blank" rel="noreferrer">
-            github: @joaquindelpilar
-          </a>
-          <a href="mailto:joaquin_delpilar@dlsu.edu.ph">
-            email: joaquin_delpilar@dlsu.edu.ph
-          </a>
-        </div>
-      </div>
-    </section>
-  );
-}
+        <section id="projects" class="container section">
+          <div class="section-head">
+            <div>
+              <p class="label">Selected Work</p>
+              <h2>Projects</h2>
+            </div>
+          </div>
 
-export default function PortfolioInspiredSite(): React.ReactElement {
-  return (
-    <>
-      <style dangerouslySetInnerHTML={{ __html: styles }} />
-      <div className="app-shell">
-        <BackgroundEcg />
-        <div className="page">
-          <Header />
-          <main>
-            <Hero />
-            <ProjectsSection />
-            <ContactSection />
-          </main>
-        </div>
-      </div>
-    </>
-  );
-}
+          <div class="projects">
+            <article class="project">
+              <div class="project-grid">
+                <div>
+                  <h3>Project One</h3>
+                  <p class="tagline">A featured project</p>
+                  <p class="description">
+                    Write a short and honest description here about what this project does and why it matters to you.
+                  </p>
+                </div>
+                <div class="project-links">
+                  <a href="#">View Project</a>
+                  <a href="#">Source</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="project">
+              <div class="project-grid">
+                <div>
+                  <h3>Project Two</h3>
+                  <p class="tagline">Another selected work</p>
+                  <p class="description">
+                    Use this card for another project, client work, experiment, or anything you want to highlight on your site.
+                  </p>
+                </div>
+                <div class="project-links">
+                  <a href="#">Learn More</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="project">
+              <div class="project-grid">
+                <div>
+                  <h3>Project Three</h3>
+                  <p class="tagline">Something you are proud of</p>
+                  <p class="description">
+                    Keep the text simple and accurate. You can replace this with your real project details later.
+                  </p>
+                </div>
+                <div class="project-links">
+                  <a href="#">Open</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="contact" class="container contact">
+          <div class="contact-inner">
+            <div>
+              <p class="label">Contact</p>
+              <h2>Let’s build something good.</h2>
+            </div>
+            <div class="contact-links">
+              <a href="https://github.com/joaquindelpilar" target="_blank" rel="noreferrer">github: @joaquindelpilar</a>
+              <a href="mailto:joaquin_delpilar@dlsu.edu.ph">email: joaquin_delpilar@dlsu.edu.ph</a>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
