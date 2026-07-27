@@ -3,22 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Joaquin.dev</title>
+    <title>Apps & Subjects</title>
     <meta
       name="description"
-      content="Joaquin del Pilar’s portfolio, featuring projects and an interactive radiation biology exam."
+      content="A simple hub for apps, subjects, study tools, and contact links."
     />
+
     <style>
       :root {
         --bg: #080808;
-        --panel: rgba(255, 255, 255, 0.03);
-        --panel-hover: rgba(255, 255, 255, 0.05);
-        --border: rgba(255, 255, 255, 0.1);
+        --panel: rgba(255, 255, 255, 0.04);
+        --panel-hover: rgba(255, 255, 255, 0.07);
+        --border: rgba(255, 255, 255, 0.12);
         --text: rgba(255, 255, 255, 0.96);
-        --muted: rgba(255, 255, 255, 0.75);
+        --muted: rgba(255, 255, 255, 0.65);
         --soft: rgba(255, 255, 255, 0.42);
-        --radius: 30px;
-        --max-width: 1120px;
+        --accent: #ff2d2d;
+        --radius: 28px;
+        --max-width: 1050px;
       }
 
       * {
@@ -66,7 +68,6 @@
         left: 0;
         width: 100%;
         height: 22rem;
-        opacity: 1;
       }
 
       .ecg-line {
@@ -83,7 +84,7 @@
       }
 
       .ecg-line-front {
-        stroke: #ff2d2d;
+        stroke: var(--accent);
         stroke-width: 3.5;
         filter: url(#glow);
         stroke-dasharray: 380 1220;
@@ -94,6 +95,7 @@
         from {
           stroke-dashoffset: 1600;
         }
+
         to {
           stroke-dashoffset: 0;
         }
@@ -136,19 +138,17 @@
 
       .nav {
         display: flex;
-        gap: 24px;
+        gap: 22px;
         flex-wrap: wrap;
       }
 
       .nav a,
-      .project-links a,
       .contact-links a {
         color: rgba(255, 255, 255, 0.7);
         transition: color 0.2s ease;
       }
 
       .nav a:hover,
-      .project-links a:hover,
       .contact-links a:hover {
         color: white;
       }
@@ -157,181 +157,184 @@
         min-height: 76vh;
         display: flex;
         align-items: center;
-        padding: 96px 0;
+        padding: 112px 0 80px;
       }
 
-      .eyebrow,
-      .label {
-        margin: 0 0 16px;
-        font-size: 0.76rem;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--soft);
-      }
-
-      h1,
-      h2,
-      h3,
-      p {
-        margin-top: 0;
-      }
-
-      h1 {
-        max-width: 900px;
-        margin-bottom: 0;
-        font-size: clamp(3rem, 7vw, 5.2rem);
-        line-height: 0.98;
-        letter-spacing: -0.04em;
-      }
-
-      .button-row {
-        display: flex;
-        gap: 16px;
-        flex-wrap: wrap;
-        margin-top: 40px;
-      }
-
-      .button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 14px 22px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        font-size: 0.95rem;
-        font-weight: 600;
-        transition: transform 0.2s ease, border-color 0.2s ease;
-      }
-
-      .button:hover {
-        transform: translateY(-2px);
-        border-color: rgba(255, 255, 255, 0.3);
-      }
-
-      .button.primary {
-        background: white;
-        color: black;
-      }
-
-      .button.secondary {
-        color: white;
-      }
-
-      .section {
-        padding: 40px 0;
-      }
-
-      .section-head {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        gap: 24px;
-        padding-bottom: 24px;
-        margin-bottom: 42px;
-        border-bottom: 1px solid var(--border);
-      }
-
-      h2 {
-        margin: 10px 0 0;
-        font-size: clamp(2rem, 4vw, 2.7rem);
-      }
-
-      .projects {
+      .hub-grid {
+        width: 100%;
         display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 24px;
       }
 
-      .project {
+      .hub-box {
         background: var(--panel);
         border: 1px solid var(--border);
         border-radius: var(--radius);
-        padding: 28px;
-        transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        overflow: hidden;
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease,
+          border-color 0.2s ease;
       }
 
-      .project:hover {
+      .hub-box:hover {
         transform: translateY(-2px);
         background: var(--panel-hover);
-        border-color: rgba(255, 255, 255, 0.16);
+        border-color: rgba(255, 255, 255, 0.2);
       }
 
-      .project-grid {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 24px;
+      .hub-box[open] {
+        background: rgba(255, 255, 255, 0.055);
+        border-color: rgba(255, 45, 45, 0.38);
       }
 
-      .project h3 {
-        margin-bottom: 0;
-        font-size: 1.7rem;
-        letter-spacing: -0.02em;
-      }
-
-      .tagline {
-        margin-top: 12px;
-        font-size: 1.08rem;
-        color: rgba(255, 255, 255, 0.84);
-      }
-
-      .description {
-        max-width: 850px;
-        margin-top: 14px;
-        font-size: 0.96rem;
-        line-height: 1.9;
-        color: rgba(255, 255, 255, 0.6);
-      }
-
-      .project-links {
+      .hub-box summary {
+        list-style: none;
+        cursor: pointer;
         display: flex;
-        flex-direction: column;
-        gap: 12px;
-        align-items: flex-end;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        min-height: 170px;
+        padding: 34px;
+        font-size: clamp(2rem, 5vw, 3.7rem);
+        font-weight: 700;
+        letter-spacing: -0.04em;
+        user-select: none;
       }
 
-      .project-links a {
-        text-decoration: underline;
-        text-underline-offset: 4px;
-        text-decoration-color: rgba(255, 255, 255, 0.2);
+      .hub-box summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .hub-box summary::after {
+        content: "+";
+        flex: 0 0 auto;
+        font-size: 2rem;
+        font-weight: 300;
+        color: var(--soft);
+        transition: transform 0.25s ease, color 0.25s ease;
+      }
+
+      .hub-box[open] summary::after {
+        transform: rotate(45deg);
+        color: var(--accent);
+      }
+
+      .hub-content {
+        display: grid;
+        gap: 14px;
+        padding: 0 24px 24px;
+      }
+
+      .item {
+        display: block;
+        padding: 22px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        background: rgba(255, 255, 255, 0.025);
+        transition:
+          transform 0.2s ease,
+          background 0.2s ease,
+          border-color 0.2s ease;
+      }
+
+      .item:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.18);
+      }
+
+      .item-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin: 0;
+        font-size: 1.22rem;
+        font-weight: 650;
+      }
+
+      .item-title::after {
+        content: "↗";
+        color: var(--soft);
+        font-size: 1rem;
+      }
+
+      .item-description {
+        margin: 9px 0 0;
+        color: var(--muted);
+        font-size: 0.94rem;
+        line-height: 1.65;
+      }
+
+      .subject-name {
+        margin: 0 0 2px;
+        padding: 4px 2px 8px;
+        color: var(--soft);
+        font-size: 0.76rem;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
       }
 
       .contact {
-        padding-top: 20px;
-        padding-bottom: 96px;
+        padding: 10px 0 80px;
       }
 
       .contact-inner {
         display: flex;
-        align-items: flex-end;
+        align-items: center;
         justify-content: space-between;
         gap: 24px;
         padding-top: 28px;
         border-top: 1px solid var(--border);
       }
 
-      .contact-links {
-        display: grid;
-        gap: 10px;
-        font-size: 0.96rem;
+      .contact-label {
+        margin: 0;
+        color: var(--soft);
+        font-size: 0.76rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
       }
 
-      @media (max-width: 900px) {
+      .contact-links {
+        display: flex;
+        justify-content: flex-end;
+        gap: 20px;
+        flex-wrap: wrap;
+        font-size: 0.95rem;
+      }
+
+      .contact-links a {
+        text-decoration: underline;
+        text-underline-offset: 5px;
+        text-decoration-color: rgba(255, 255, 255, 0.2);
+      }
+
+      @media (max-width: 760px) {
         .hero {
           min-height: auto;
-          padding: 72px 0;
+          padding: 86px 0 60px;
         }
 
-        .project-grid,
-        .contact-inner,
-        .section-head {
+        .hub-grid {
           grid-template-columns: 1fr;
-          flex-direction: column;
-          align-items: flex-start;
         }
 
-        .project-links {
+        .hub-box summary {
+          min-height: 140px;
+          padding: 28px;
+        }
+
+        .contact-inner {
           align-items: flex-start;
-          flex-direction: row;
-          flex-wrap: wrap;
+          flex-direction: column;
+        }
+
+        .contact-links {
+          justify-content: flex-start;
         }
 
         .ecg {
@@ -339,17 +342,23 @@
         }
       }
 
-      @media (max-width: 640px) {
+      @media (max-width: 520px) {
         .container {
-          width: min(calc(100% - 32px), var(--max-width));
+          width: min(calc(100% - 30px), var(--max-width));
+        }
+
+        .topbar-inner {
+          align-items: flex-start;
+          flex-direction: column;
         }
 
         .nav {
           gap: 16px;
         }
 
-        .project {
-          padding: 22px;
+        .hub-box summary {
+          min-height: 120px;
+          font-size: 2.25rem;
         }
 
         .ecg-line-back {
@@ -358,6 +367,21 @@
 
         .ecg-line-front {
           stroke-width: 2.5;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        .ecg-line-front {
+          animation: none;
+        }
+
+        .hub-box,
+        .item {
+          transition: none;
         }
       }
     </style>
@@ -391,126 +415,84 @@
     <div class="page">
       <header class="topbar">
         <div class="container topbar-inner">
-          <a class="brand" href="#top">Joaquin.dev</a>
+          <a class="brand" href="#top">Hub</a>
 
-          <nav class="nav">
-            <a href="#projects">Projects</a>
-            <a href="radiation_biology_110_item_exam.html">Exam</a>
-            <a href="#contact">Contact</a>
+          <nav class="nav" aria-label="Main navigation">
+            <a href="#apps">Apps</a>
+            <a href="#subjects">Subjects</a>
+            <a href="#contact">Links</a>
           </nav>
         </div>
       </header>
 
       <main id="top">
         <section class="hero container">
-          <div>
-            <p class="eyebrow">Portfolio</p>
+          <div class="hub-grid">
+            <details id="apps" class="hub-box">
+              <summary>Apps</summary>
 
-            <h1>Joaquin del Pilar</h1>
-
-            <div class="button-row">
-              <a class="button primary" href="#projects">View Projects</a>
-              <a class="button secondary" href="radiation_biology_110_item_exam.html">Take the Exam</a>
-              <a class="button secondary" href="#contact">Get in Touch</a>
-            </div>
-          </div>
-        </section>
-
-        <section id="projects" class="container section">
-          <div class="section-head">
-            <div>
-              <p class="label">Selected Work</p>
-              <h2>Projects</h2>
-            </div>
-          </div>
-
-          <div class="projects">
-            <article class="project">
-              <div class="project-grid">
-                <div>
-                  <h3>Farmers Direct PH</h3>
-
-                  <p class="tagline">
-                    Marketplace app for local farmers and fishers
+              <div class="hub-content">
+                <a
+                  class="item"
+                  href="https://apps.apple.com/ph/app/farmers-direct-ph/id6761509775"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <p class="item-title">Farmers Direct PH</p>
+                  <p class="item-description">
+                    An iOS marketplace connecting buyers with local farmers and
+                    fishers across the Philippines.
                   </p>
-
-                  <p class="description">
-                    Farmers Direct PH is an iOS marketplace application designed
-                    to connect buyers directly with local farmers and fishers
-                    across the Philippines. The app allows users to browse fresh
-                    produce, seafood, rice, poultry, and other local products
-                    while supporting community-based sellers. Built using
-                    SwiftUI and Firebase, the platform focuses on accessibility,
-                    clean design, and helping small-scale producers reach
-                    customers more efficiently through a modern mobile
-                    experience.
-                  </p>
-                </div>
-
-                <div class="project-links">
-                  <a
-                    href="https://apps.apple.com/ph/app/farmers-direct-ph/id6761509775"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    View on App Store
-                  </a>
-                </div>
+                </a>
               </div>
-            </article>
+            </details>
 
-            <article class="project">
-              <div class="project-grid">
-                <div>
-                  <h3>Radiation Biology Exam</h3>
+            <details id="subjects" class="hub-box">
+              <summary>Subjects</summary>
 
-                  <p class="tagline">
-                    Interactive 110-item multiple-choice study tool
+              <div class="hub-content">
+                <p class="subject-name">Radiation Biology</p>
+
+                <a
+                  class="item"
+                  href="./radiation_biology_110_item_exam.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <p class="item-title">110-Item Multiple-Choice Exam</p>
+                  <p class="item-description">
+                    Open the interactive exam with immediate feedback and
+                    explanations for every answer choice.
                   </p>
-
-                  <p class="description">
-                    A comprehensive browser-based radiation biology exam covering
-                    radiation interactions, dosimetry, direct and indirect damage,
-                    DNA repair, cell survival, radiosensitivity, fractionation,
-                    acute radiation syndrome, carcinogenesis, prenatal effects,
-                    and radiation protection. Every question provides immediate
-                    feedback and explains why each choice is correct or incorrect.
-                    Progress is automatically saved in the user’s browser.
-                  </p>
-                </div>
-
-                <div class="project-links">
-                  <a
-                    href="radiation_biology_110_item_exam.html"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Open Exam
-                  </a>
-                </div>
+                </a>
               </div>
-            </article>
+            </details>
           </div>
         </section>
 
         <section id="contact" class="container contact">
           <div class="contact-inner">
-            <div>
-              <p class="label">Contact</p>
-              <h2>Let’s build something.</h2>
-            </div>
+            <p class="contact-label">Links</p>
 
             <div class="contact-links">
               <a
                 href="https://github.com/joaquindelpilar"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
-                github: @joaquindelpilar
+                GitHub
+              </a>
+
+              <a
+                href="https://www.linkedin.com/in/joaquindelpilar/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn
               </a>
 
               <a href="mailto:joaquin_delpilar@dlsu.edu.ph">
-                email: joaquin_delpilar@dlsu.edu.ph
+                Email
               </a>
             </div>
           </div>
