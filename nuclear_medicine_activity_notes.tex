@@ -1,0 +1,84 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\title{Nuclear Medicine Notes: Radioactive Activity}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Activity Formula}
+
+The activity of a radioactive sample is
+\[
+\boxed{A=-\frac{dN}{dt}}
+\]
+or equivalently,
+\[
+\boxed{A=\lambda N}
+\]
+where
+\begin{itemize}[leftmargin=*]
+    \item $A$ = activity,
+    \item $N$ = number of radioactive nuclei,
+    \item $\lambda$ = decay constant.
+\end{itemize}
+
+\section{Example: Technetium-99m}
+
+Given a Technetium-99m sample with a half-life of
+\[
+T_{1/2}=6\ \text{h}
+\]
+and
+\[
+N=1.0\times10^{15}\ \text{radioactive nuclei}.
+\]
+
+\subsection*{Step 1: Convert hours to seconds}
+\[
+6\ \text{h}\left(\frac{3600\ \text{s}}{1\ \text{h}}\right)=21600\ \text{s}
+\]
+
+\subsection*{Step 2: Calculate the decay constant}
+Using
+\[
+\lambda=\frac{\ln 2}{T_{1/2}},
+\]
+we get
+\[
+\lambda=\frac{\ln 2}{21600\ \text{s}}
+=3.21\times10^{-5}\ \text{s}^{-1}.
+\]
+
+\subsection*{Step 3: Calculate the activity}
+\[
+A=\lambda N
+\]
+\[
+A=(3.21\times10^{-5}\ \text{s}^{-1})(1.0\times10^{15})
+\]
+\[
+\boxed{A=3.21\times10^{10}\ \text{Bq}}
+\]
+
+\section{Curie and Radioactivity Notes}
+
+\begin{itemize}[leftmargin=*]
+    \item Curie discovered radium and polonium.
+    \item The term ``radioactivity'' was coined by Marie Curie.
+    \item One curie (Ci) is
+    \[
+    \boxed{1\ \text{Ci}=3.70\times10^{10}\ \text{disintegrations per second (dps)}}.
+    \]
+    \item The handwritten source also notes that this corresponds to the activity associated with approximately 1 g of radium-226.
+\end{itemize}
+
+\end{document}
