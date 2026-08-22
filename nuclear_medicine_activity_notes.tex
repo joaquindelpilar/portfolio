@@ -1,85 +1,812 @@
-\documentclass[11pt]{article}
+\documentclass[12pt]{article}
+
+% =========================================================
+% PACKAGES
+% =========================================================
+
 \usepackage[margin=1in]{geometry}
-\usepackage{amsmath,amssymb}
-\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt}
+\usepackage{microtype}
+\usepackage{xcolor}
 
-\title{Nuclear Medicine Notes: Radioactive Activity}
+% Clickable table of contents + PDF bookmarks
+\usepackage[
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue,
+    bookmarks=true,
+    bookmarksopen=true,
+    bookmarksnumbered=true,
+    pdfstartview=FitH
+]{hyperref}
+
+% =========================================================
+% DOCUMENT INFORMATION
+% =========================================================
+
+\title{
+    \textbf{Nuclear Medicine Notes}\\[0.4em]
+    \large Radioactive Activity
+}
+
 \author{}
 \date{}
 
+% =========================================================
+% DOCUMENT
+% =========================================================
+
 \begin{document}
+
 \maketitle
 
-\section{Activity Formula}
+% =========================================================
+% TABLE OF CONTENTS
+% =========================================================
 
-The activity of a radioactive sample is
+\tableofcontents
+
+\newpage
+
+% =========================================================
+% SECTION 1
+% =========================================================
+
+\section{Radioactive Activity}
+
+Radioactive activity describes how quickly radioactive nuclei are
+undergoing nuclear transformations.
+
+\subsection{Activity Formula}
+
+Activity is defined as
+
 \[
-\boxed{A=-\frac{dN}{dt}}
+\boxed{
+A=-\frac{dN}{dt}
+}
 \]
-or equivalently,
-\[
-\boxed{A=\lambda N}
-\]
+
 where
-\begin{itemize}[leftmargin=*]
-    \item $A$ = activity,
-    \item $N$ = number of radioactive nuclei,
-    \item $\lambda$ = decay constant.
+
+\begin{itemize}
+
+    \item $A$ = radioactive activity
+
+    \item $N$ = number of radioactive nuclei
+
+    \item $t$ = time
+
 \end{itemize}
 
-\section{Example: Technetium-99m}
+The negative sign is present because the number of radioactive nuclei
+decreases as radioactive decay occurs.
 
-Given a Technetium-99m sample with a half-life of
-\[
-T_{1/2}=6\ \text{h}
-\]
-and
-\[
-N=1.0\times10^{15}\ \text{radioactive nuclei}.
-\]
+Activity can also be expressed as
 
-\subsection*{Step 1: Convert hours to seconds}
 \[
-6\ \text{h}\left(\frac{3600\ \text{s}}{1\ \text{h}}\right)=21600\ \text{s}
-\]
-
-\subsection*{Step 2: Calculate the decay constant}
-Using
-\[
-\lambda=\frac{\ln 2}{T_{1/2}},
-\]
-we get
-\[
-\lambda=\frac{\ln 2}{21600\ \text{s}}
-=3.21\times10^{-5}\ \text{s}^{-1}.
-\]
-
-\subsection*{Step 3: Calculate the activity}
-\[
+\boxed{
 A=\lambda N
+}
 \]
+
+where
+
 \[
-A=(3.21\times10^{-5}\ \text{s}^{-1})(1.0\times10^{15})
+\lambda = \text{decay constant}.
 \]
+
+Therefore,
+
 \[
-\boxed{A=3.21\times10^{10}\ \text{Bq}}
+\boxed{
+A=-\frac{dN}{dt}=\lambda N
+}
 \]
 
-\section{Curie and Radioactivity Notes}
+% =========================================================
+% SECTION 2
+% =========================================================
 
-\begin{itemize}[leftmargin=*]
-    \item Curie discovered radium and polonium.
-    \item The term ``radioactivity'' was coined by Marie Curie.
-    \item One curie (Ci) is
-    \[
-    \boxed{1\ \text{Ci}=3.70\times10^{10}\ \text{disintegrations per second (dps)}}.
-    \]
-    \item The handwritten source also notes that this corresponds to the activity associated with approximately 1 g of radium-226.
-\end{itemize} 
+\section{Decay Constant}
 
+The decay constant is represented by the Greek letter
+
+\[
+\lambda.
+\]
+
+In radioactive decay, $\lambda$ represents the \textbf{decay constant}.
+
+It should not be confused with the use of $\lambda$ for wavelength in
+wave physics.
+
+The decay constant is related to physical half-life by
+
+\[
+\boxed{
+\lambda=\frac{\ln 2}{T_{1/2}}
+}
+\]
+
+Since
+
+\[
+\ln 2 \approx 0.693,
+\]
+
+this can also be written as
+
+\[
+\boxed{
+\lambda=\frac{0.693}{T_{1/2}}
+}
+\]
+
+% =========================================================
+
+\subsection{Units of the Decay Constant}
+
+The units of $\lambda$ depend on the time unit used.
+
+If time is measured in seconds,
+
+\[
+\lambda
+\quad\text{has units of}\quad
+\mathrm{s}^{-1}.
+\]
+
+If time is measured in hours,
+
+\[
+\lambda
+\quad\text{has units of}\quad
+\mathrm{h}^{-1}.
+\]
+
+For example,
+
+\[
+\mathrm{s}^{-1}
+=
+\frac{1}{\mathrm{s}}
+\]
+
+means ``per second.''
+
+Similarly,
+
+\[
+\mathrm{h}^{-1}
+=
+\frac{1}{\mathrm{h}}
+\]
+
+means ``per hour.''
+
+% =========================================================
+% SECTION 3
+% =========================================================
+
+\section{Physical Half-Life}
+
+Physical half-life is the time required for one-half of the radioactive
+nuclei in a sample to decay.
+
+It is represented by
+
+\[
+T_{1/2}.
+\]
+
+The relationship between physical half-life and the decay constant is
+
+\[
+\boxed{
+T_{1/2}
+=
+\frac{\ln 2}{\lambda}
+}
+\]
+
+or
+
+\[
+\boxed{
+T_{1/2}
+=
+\frac{0.693}{\lambda}
+}
+\]
+
+% =========================================================
+
+\subsection{Relationship with Decay Constant}
+
+Physical half-life and decay constant are inversely related.
+
+\[
+\boxed{
+T_{1/2}\uparrow
+\quad\Longrightarrow\quad
+\lambda\downarrow
+}
+\]
+
+and
+
+\[
+\boxed{
+T_{1/2}\downarrow
+\quad\Longrightarrow\quad
+\lambda\uparrow
+}
+\]
+
+A radionuclide with a \textbf{short physical half-life} has a relatively
+large decay constant.
+
+A radionuclide with a \textbf{long physical half-life} has a relatively
+small decay constant.
+
+% =========================================================
+% SECTION 4
+% =========================================================
+
+\section{Technetium-99m Example}
+
+Technetium-99m has a physical half-life of approximately
+
+\[
+T_{1/2}=6~\mathrm{hours}.
+\]
+
+Suppose a Tc-99m sample contains
+
+\[
+N=1.0\times10^{15}
+\]
+
+radioactive nuclei.
+
+We want to determine the activity of the sample.
+
+% =========================================================
+
+\subsection{Step 1: Convert Hours to Seconds}
+
+There are
+
+\[
+3600~\mathrm{s}
+\]
+
+in one hour.
+
+Therefore,
+
+\[
+6~\mathrm{h}
+\left(
+\frac{3600~\mathrm{s}}
+{1~\mathrm{h}}
+\right)
+=
+21600~\mathrm{s}.
+\]
+
+Thus,
+
+\[
+\boxed{
+T_{1/2}=21600~\mathrm{s}
+}
+\]
+
+% =========================================================
+
+\subsection{Step 2: Calculate the Decay Constant}
+
+Use
+
+\[
+\lambda
+=
+\frac{\ln 2}{T_{1/2}}.
+\]
+
+Substitute the half-life:
+
+\[
+\lambda
+=
+\frac{0.693}{21600~\mathrm{s}}.
+\]
+
+Therefore,
+
+\[
+\boxed{
+\lambda
+=
+3.21\times10^{-5}~\mathrm{s}^{-1}
+}
+\]
+
+% =========================================================
+
+\subsection{Step 3: Calculate Activity}
+
+Use
+
+\[
+A=\lambda N.
+\]
+
+Substitute the values:
+
+\[
+A
+=
+\left(
+3.21\times10^{-5}~\mathrm{s}^{-1}
+\right)
+\left(
+1.0\times10^{15}
+\right).
+\]
+
+When multiplying powers of ten,
+
+\[
+10^{-5}\times10^{15}
+=
+10^{10}.
+\]
+
+Therefore,
+
+\[
+\boxed{
+A
+=
+3.21\times10^{10}~\mathrm{Bq}
+}
+\]
+
+This is
+
+\[
+32,100,000,000~\mathrm{Bq}.
+\]
+
+In other words, approximately
+
+\[
+\boxed{
+32.1\text{ billion disintegrations occur every second}
+}
+\]
+
+in the sample.
+
+% =========================================================
+% SECTION 5
+% =========================================================
+
+\section{Becquerel}
+
+The Becquerel, abbreviated as
+
+\[
+\mathrm{Bq},
+\]
+
+is the SI unit of radioactive activity.
+
+By definition,
+
+\[
+\boxed{
+1~\mathrm{Bq}
+=
+1~\text{disintegration per second}
+}
+\]
+
+or
+
+\[
+\boxed{
+1~\mathrm{Bq}
+=
+1~\mathrm{s}^{-1}
+}
+\]
+
+when referring to radioactive transformations.
+
+Therefore,
+
+\[
+3.21\times10^{10}~\mathrm{Bq}
+\]
+
+means approximately
+
+\[
+3.21\times10^{10}
+\]
+
+radioactive disintegrations occur each second.
+
+% =========================================================
+% SECTION 6
+% =========================================================
+
+\section{Disintegrations per Minute}
+
+DPM stands for
+
+\[
+\boxed{
+\text{Disintegrations Per Minute}
+}
+\]
+
+It expresses radioactive activity in terms of the number of nuclear
+disintegrations occurring every minute.
+
+Since
+
+\[
+1~\mathrm{minute}=60~\mathrm{seconds},
+\]
+
+and
+
+\[
+1~\mathrm{Bq}
+=
+1~\text{disintegration per second},
+\]
+
+then
+
+\[
+\boxed{
+1~\mathrm{Bq}=60~\mathrm{dpm}
+}
+\]
+
+For example,
+
+\[
+100~\mathrm{Bq}
+\times60
+=
+6000~\mathrm{dpm}.
+\]
+
+Therefore,
+
+\[
+\boxed{
+100~\mathrm{Bq}
+=
+6000~\mathrm{dpm}
+}
+\]
+
+% =========================================================
+% SECTION 7
+% =========================================================
+
+\section{Curie and Radioactivity}
+
+\subsection{Marie Curie}
+
+Marie Curie is associated with the discovery of the radioactive
+elements \textbf{radium} and \textbf{polonium}.
+
+She also coined the term
+
+\[
+\boxed{
+\text{radioactivity}
+}
+\]
+
+to describe the phenomenon of spontaneous radiation emission from
+unstable atoms.
+
+% =========================================================
+
+\subsection{Radium and Polonium}
+
+Two important elements associated with the work of Marie Curie are
+
+\begin{itemize}
+
+    \item \textbf{Radium}
+
+    \item \textbf{Polonium}
+
+\end{itemize}
+
+These discoveries became important to the early understanding of
+radioactivity.
+
+% =========================================================
+
+\subsection{The Curie}
+
+The Curie is a unit of radioactive activity and is abbreviated as
+
+\[
+\mathrm{Ci}.
+\]
+
+One Curie corresponds to
+
+\[
+\boxed{
+1~\mathrm{Ci}
+=
+3.70\times10^{10}
+~\text{disintegrations per second}
+}
+\]
+
+Since
+
+\[
+1~\mathrm{Bq}
+=
+1~\text{disintegration per second},
+\]
+
+we can write
+
+\[
+\boxed{
+1~\mathrm{Ci}
+=
+3.70\times10^{10}~\mathrm{Bq}
+}
+\]
+
+The Curie was historically based on the activity associated with
+approximately
+
+\[
+\boxed{
+1~\mathrm{g}
+}
+\]
+
+of radium-226.
+
+% =========================================================
+% SECTION 8
+% =========================================================
+
+\section{Amount Remaining After Multiple Half-Lives}
+
+After every physical half-life, one-half of the radioactive nuclei
+remain.
+
+The amount remaining can be calculated using
+
+\[
+\boxed{
+N=\frac{N_0}{2^n}
+}
+\]
+
+where
+
+\begin{itemize}
+
+    \item $N_0$ = original number of radioactive nuclei
+
+    \item $N$ = number of radioactive nuclei remaining
+
+    \item $n$ = number of half-lives that have passed
+
+\end{itemize}
+
+The number of half-lives can be calculated using
+
+\[
+\boxed{
+n=\frac{t}{T_{1/2}}
+}
+\]
+
+% =========================================================
+
+\subsection{Example}
+
+Suppose
+
+\[
+N_0=800,
+\]
+
+the physical half-life is
+
+\[
+T_{1/2}=6~\mathrm{hours},
+\]
+
+and the total elapsed time is
+
+\[
+t=18~\mathrm{hours}.
+\]
+
+First determine the number of half-lives:
+
+\[
+n
+=
+\frac{18}{6}
+=
+3.
+\]
+
+Therefore,
+
+\[
+N
+=
+\frac{800}{2^3}.
+\]
+
+Since
+
+\[
+2^3=8,
+\]
+
+we obtain
+
+\[
+N
+=
+\frac{800}{8}
+=
+\boxed{100}.
+\]
+
+This can also be visualized as
+
+\[
+800
+\xrightarrow{6~h}
+400
+\xrightarrow{6~h}
+200
+\xrightarrow{6~h}
+100.
+\]
+
+The decay does not stop at 100.
+
+If another half-life passes,
+
+\[
+100\rightarrow50,
+\]
+
+and another gives
+
+\[
+50\rightarrow25.
+\]
+
+% =========================================================
+% SECTION 9
+% =========================================================
+
+\section{Key Formulas}
+
+\subsection{Activity}
+
+\[
+\boxed{
+A=-\frac{dN}{dt}
+}
+\]
+
+\[
+\boxed{
+A=\lambda N
+}
+\]
+
+% =========================================================
+
+\subsection{Decay Constant}
+
+\[
+\boxed{
+\lambda
+=
+\frac{\ln2}{T_{1/2}}
+=
+\frac{0.693}{T_{1/2}}
+}
+\]
+
+% =========================================================
+
+\subsection{Physical Half-Life}
+
+\[
+\boxed{
+T_{1/2}
+=
+\frac{\ln2}{\lambda}
+=
+\frac{0.693}{\lambda}
+}
+\]
+
+% =========================================================
+
+\subsection{Number Remaining}
+
+\[
+\boxed{
+N=\frac{N_0}{2^n}
+}
+\]
+
+with
+
+\[
+\boxed{
+n=\frac{t}{T_{1/2}}
+}
+\]
+
+% =========================================================
+
+\subsection{Activity Units}
+
+\[
+\boxed{
+1~\mathrm{Bq}
+=
+1~\text{disintegration per second}
+}
+\]
+
+\[
+\boxed{
+1~\mathrm{Bq}
+=
+60~\mathrm{dpm}
+}
+\]
+
+\[
+\boxed{
+1~\mathrm{Ci}
+=
+3.70\times10^{10}~\mathrm{Bq}
+}
+\]
+
+% =========================================================
+% END DOCUMENT
+% =========================================================
 
 \end{document}
