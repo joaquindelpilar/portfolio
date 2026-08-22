@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Apps & Subjects</title>
+
     <meta
       name="description"
       content="A simple hub for apps, subjects, study tools, and contact links."
@@ -45,6 +47,10 @@
         text-decoration: none;
       }
 
+      /* =========================
+         BACKGROUND
+      ========================= */
+
       .background {
         position: fixed;
         inset: 0;
@@ -57,9 +63,18 @@
         content: "";
         position: absolute;
         inset: 0;
+
         background:
-          radial-gradient(circle at top, rgba(255, 0, 0, 0.16), transparent 30%),
-          linear-gradient(to bottom, rgba(255, 0, 0, 0.05), transparent 26%);
+          radial-gradient(
+            circle at top,
+            rgba(255, 0, 0, 0.16),
+            transparent 30%
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(255, 0, 0, 0.05),
+            transparent 26%
+          );
       }
 
       .ecg {
@@ -101,6 +116,10 @@
         }
       }
 
+      /* =========================
+         PAGE
+      ========================= */
+
       .page {
         position: relative;
         z-index: 1;
@@ -111,13 +130,20 @@
         margin: 0 auto;
       }
 
+      /* =========================
+         TOP NAVIGATION
+      ========================= */
+
       .topbar {
         position: sticky;
         top: 0;
         z-index: 10;
+
         background: rgba(8, 8, 8, 0.72);
+
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
+
         border-bottom: 1px solid var(--border);
       }
 
@@ -125,7 +151,9 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+
         gap: 20px;
+
         padding: 18px 0;
       }
 
@@ -133,6 +161,7 @@
         font-size: 0.8rem;
         letter-spacing: 0.3em;
         text-transform: uppercase;
+
         color: rgba(255, 255, 255, 0.85);
       }
 
@@ -153,25 +182,40 @@
         color: white;
       }
 
+      /* =========================
+         HERO
+      ========================= */
+
       .hero {
         min-height: 76vh;
+
         display: flex;
         align-items: center;
+
         padding: 112px 0 80px;
       }
 
       .hub-grid {
         width: 100%;
+
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
+
         gap: 24px;
       }
 
+      /* =========================
+         MAIN HUB BOXES
+      ========================= */
+
       .hub-box {
         background: var(--panel);
+
         border: 1px solid var(--border);
         border-radius: var(--radius);
+
         overflow: hidden;
+
         transition:
           transform 0.2s ease,
           background 0.2s ease,
@@ -180,60 +224,88 @@
 
       .hub-box:hover {
         transform: translateY(-2px);
+
         background: var(--panel-hover);
+
         border-color: rgba(255, 255, 255, 0.2);
       }
 
       .hub-box[open] {
         background: rgba(255, 255, 255, 0.055);
+
         border-color: rgba(255, 45, 45, 0.38);
       }
 
-      .hub-box summary {
+      .hub-box > summary {
         list-style: none;
         cursor: pointer;
+
         display: flex;
         align-items: center;
         justify-content: space-between;
+
         gap: 20px;
+
         min-height: 170px;
+
         padding: 34px;
+
         font-size: clamp(2rem, 5vw, 3.7rem);
         font-weight: 700;
+
         letter-spacing: -0.04em;
+
         user-select: none;
       }
 
-      .hub-box summary::-webkit-details-marker {
+      .hub-box > summary::-webkit-details-marker {
         display: none;
       }
 
-      .hub-box summary::after {
+      .hub-box > summary::after {
         content: "+";
+
         flex: 0 0 auto;
+
         font-size: 2rem;
         font-weight: 300;
+
         color: var(--soft);
-        transition: transform 0.25s ease, color 0.25s ease;
+
+        transition:
+          transform 0.25s ease,
+          color 0.25s ease;
       }
 
-      .hub-box[open] summary::after {
+      .hub-box[open] > summary::after {
         transform: rotate(45deg);
+
         color: var(--accent);
       }
 
       .hub-content {
         display: grid;
+
         gap: 14px;
+
         padding: 0 24px 24px;
       }
 
+      /* =========================
+         ITEMS
+      ========================= */
+
       .item {
         display: block;
+
         padding: 22px;
+
         border-radius: 20px;
+
         border: 1px solid rgba(255, 255, 255, 0.09);
+
         background: rgba(255, 255, 255, 0.025);
+
         transition:
           transform 0.2s ease,
           background 0.2s ease,
@@ -242,41 +314,134 @@
 
       .item:hover {
         transform: translateY(-2px);
+
         background: rgba(255, 255, 255, 0.06);
+
         border-color: rgba(255, 255, 255, 0.18);
       }
 
       .item-title {
         display: flex;
+
         align-items: center;
         justify-content: space-between;
+
         gap: 18px;
+
         margin: 0;
+
         font-size: 1.22rem;
         font-weight: 650;
       }
 
       .item-title::after {
         content: "↗";
+
         color: var(--soft);
+
         font-size: 1rem;
       }
 
       .item-description {
         margin: 9px 0 0;
+
         color: var(--muted);
+
         font-size: 0.94rem;
+
         line-height: 1.65;
       }
 
-      .subject-name {
-        margin: 0 0 2px;
-        padding: 4px 2px 8px;
-        color: var(--soft);
-        font-size: 0.76rem;
-        letter-spacing: 0.24em;
-        text-transform: uppercase;
+      /* =========================
+         SUBJECT DROPDOWNS
+      ========================= */
+
+      .subject-dropdown {
+        border: 1px solid rgba(255, 255, 255, 0.09);
+
+        border-radius: 20px;
+
+        overflow: hidden;
+
+        background: rgba(255, 255, 255, 0.025);
+
+        transition:
+          background 0.2s ease,
+          border-color 0.2s ease;
       }
+
+      .subject-dropdown:hover {
+        background: rgba(255, 255, 255, 0.045);
+
+        border-color: rgba(255, 255, 255, 0.16);
+      }
+
+      .subject-dropdown[open] {
+        background: rgba(255, 255, 255, 0.04);
+
+        border-color: rgba(255, 45, 45, 0.25);
+      }
+
+      .subject-dropdown .subject-summary {
+        list-style: none;
+
+        cursor: pointer;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 16px;
+
+        padding: 20px 22px;
+
+        color: rgba(255, 255, 255, 0.9);
+
+        font-size: 0.82rem;
+        font-weight: 600;
+
+        letter-spacing: 0.18em;
+
+        text-transform: uppercase;
+
+        user-select: none;
+      }
+
+      .subject-dropdown .subject-summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .subject-dropdown .subject-summary::after {
+        content: "+";
+
+        color: var(--soft);
+
+        font-size: 1.25rem;
+        font-weight: 300;
+
+        transition:
+          transform 0.2s ease,
+          color 0.2s ease;
+      }
+
+      .subject-dropdown[open] .subject-summary::after {
+        transform: rotate(45deg);
+
+        color: var(--accent);
+      }
+
+      .subject-content {
+        display: grid;
+
+        gap: 12px;
+
+        padding: 0 12px 12px;
+      }
+
+      /* =========================
+         CONTACT
+      ========================= */
 
       .contact {
         padding: 10px 0 80px;
@@ -284,38 +449,57 @@
 
       .contact-inner {
         display: flex;
+
         align-items: center;
         justify-content: space-between;
+
         gap: 24px;
+
         padding-top: 28px;
+
         border-top: 1px solid var(--border);
       }
 
       .contact-label {
         margin: 0;
+
         color: var(--soft);
+
         font-size: 0.76rem;
+
         letter-spacing: 0.3em;
+
         text-transform: uppercase;
       }
 
       .contact-links {
         display: flex;
+
         justify-content: flex-end;
+
         gap: 20px;
+
         flex-wrap: wrap;
+
         font-size: 0.95rem;
       }
 
       .contact-links a {
         text-decoration: underline;
+
         text-underline-offset: 5px;
+
         text-decoration-color: rgba(255, 255, 255, 0.2);
       }
+
+      /* =========================
+         TABLET
+      ========================= */
 
       @media (max-width: 760px) {
         .hero {
           min-height: auto;
+
           padding: 86px 0 60px;
         }
 
@@ -323,13 +507,15 @@
           grid-template-columns: 1fr;
         }
 
-        .hub-box summary {
+        .hub-box > summary {
           min-height: 140px;
+
           padding: 28px;
         }
 
         .contact-inner {
           align-items: flex-start;
+
           flex-direction: column;
         }
 
@@ -342,6 +528,10 @@
         }
       }
 
+      /* =========================
+         MOBILE
+      ========================= */
+
       @media (max-width: 520px) {
         .container {
           width: min(calc(100% - 30px), var(--max-width));
@@ -349,6 +539,7 @@
 
         .topbar-inner {
           align-items: flex-start;
+
           flex-direction: column;
         }
 
@@ -356,9 +547,16 @@
           gap: 16px;
         }
 
-        .hub-box summary {
+        .hub-box > summary {
           min-height: 120px;
+
           font-size: 2.25rem;
+        }
+
+        .subject-dropdown .subject-summary {
+          padding: 18px;
+
+          font-size: 0.75rem;
         }
 
         .ecg-line-back {
@@ -370,6 +568,10 @@
         }
       }
 
+      /* =========================
+         REDUCED MOTION
+      ========================= */
+
       @media (prefers-reduced-motion: reduce) {
         html {
           scroll-behavior: auto;
@@ -380,7 +582,8 @@
         }
 
         .hub-box,
-        .item {
+        .item,
+        .subject-dropdown {
           transition: none;
         }
       }
@@ -388,93 +591,320 @@
   </head>
 
   <body>
+
+    <!-- =========================
+         ECG BACKGROUND
+    ========================== -->
+
     <div class="background" aria-hidden="true">
-      <svg class="ecg" viewBox="0 0 1600 320" preserveAspectRatio="none">
+
+      <svg
+        class="ecg"
+        viewBox="0 0 1600 320"
+        preserveAspectRatio="none"
+      >
+
         <defs>
-          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+
+          <filter
+            id="glow"
+            x="-20%"
+            y="-20%"
+            width="140%"
+            height="140%"
+          >
+
+            <feGaussianBlur
+              stdDeviation="4"
+              result="blur"
+            ></feGaussianBlur>
+
             <feMerge>
+
               <feMergeNode in="blur"></feMergeNode>
+
               <feMergeNode in="SourceGraphic"></feMergeNode>
+
             </feMerge>
+
           </filter>
+
         </defs>
 
         <path
           class="ecg-line ecg-line-back"
-          d="M0 180 L120 180 L170 180 L205 180 L232 150 L255 220 L285 72 L318 180 L510 180 L560 180 L595 180 L622 150 L645 220 L675 72 L708 180 L900 180 L950 180 L985 180 L1012 150 L1035 220 L1065 72 L1098 180 L1290 180 L1340 180 L1375 180 L1402 150 L1425 220 L1455 72 L1488 180 L1600 180"
+          d="
+            M0 180
+            L120 180
+            L170 180
+            L205 180
+            L232 150
+            L255 220
+            L285 72
+            L318 180
+            L510 180
+            L560 180
+            L595 180
+            L622 150
+            L645 220
+            L675 72
+            L708 180
+            L900 180
+            L950 180
+            L985 180
+            L1012 150
+            L1035 220
+            L1065 72
+            L1098 180
+            L1290 180
+            L1340 180
+            L1375 180
+            L1402 150
+            L1425 220
+            L1455 72
+            L1488 180
+            L1600 180
+          "
         ></path>
 
         <path
           class="ecg-line ecg-line-front"
-          d="M0 180 L120 180 L170 180 L205 180 L232 150 L255 220 L285 72 L318 180 L510 180 L560 180 L595 180 L622 150 L645 220 L675 72 L708 180 L900 180 L950 180 L985 180 L1012 150 L1035 220 L1065 72 L1098 180 L1290 180 L1340 180 L1375 180 L1402 150 L1425 220 L1455 72 L1488 180 L1600 180"
+          d="
+            M0 180
+            L120 180
+            L170 180
+            L205 180
+            L232 150
+            L255 220
+            L285 72
+            L318 180
+            L510 180
+            L560 180
+            L595 180
+            L622 150
+            L645 220
+            L675 72
+            L708 180
+            L900 180
+            L950 180
+            L985 180
+            L1012 150
+            L1035 220
+            L1065 72
+            L1098 180
+            L1290 180
+            L1340 180
+            L1375 180
+            L1402 150
+            L1425 220
+            L1455 72
+            L1488 180
+            L1600 180
+          "
         ></path>
+
       </svg>
+
     </div>
 
-    <div class="page">
-      <header class="topbar">
-        <div class="container topbar-inner">
-          <a class="brand" href="#top">Hub</a>
+    <!-- =========================
+         PAGE
+    ========================== -->
 
-          <nav class="nav" aria-label="Main navigation">
-            <a href="#apps">Apps</a>
-            <a href="#subjects">Subjects</a>
-            <a href="#contact">Links</a>
+    <div class="page">
+
+      <!-- NAVIGATION -->
+
+      <header class="topbar">
+
+        <div class="container topbar-inner">
+
+          <a
+            class="brand"
+            href="#top"
+          >
+            Hub
+          </a>
+
+          <nav
+            class="nav"
+            aria-label="Main navigation"
+          >
+
+            <a href="#apps">
+              Apps
+            </a>
+
+            <a href="#subjects">
+              Subjects
+            </a>
+
+            <a href="#contact">
+              Links
+            </a>
+
           </nav>
+
         </div>
+
       </header>
 
+      <!-- =========================
+           MAIN CONTENT
+      ========================== -->
+
       <main id="top">
+
         <section class="hero container">
+
           <div class="hub-grid">
-            <details id="apps" class="hub-box">
-              <summary>Apps</summary>
+
+            <!-- =========================
+                 APPS
+            ========================== -->
+
+            <details
+              id="apps"
+              class="hub-box"
+            >
+
+              <summary>
+                Apps
+              </summary>
 
               <div class="hub-content">
+
                 <a
                   class="item"
                   href="https://apps.apple.com/ph/app/farmers-direct-ph/id6761509775"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <p class="item-title">Farmers Direct PH</p>
-                  <p class="item-description">
-                    An iOS marketplace connecting buyers with local farmers and
-                    fishers across the Philippines.
+
+                  <p class="item-title">
+                    Farmers Direct PH
                   </p>
+
+                  <p class="item-description">
+                    An iOS marketplace connecting buyers with local farmers
+                    and fishers across the Philippines.
+                  </p>
+
                 </a>
+
               </div>
+
             </details>
 
-            <details id="subjects" class="hub-box">
-              <summary>Subjects</summary>
+            <!-- =========================
+                 SUBJECTS
+            ========================== -->
+
+            <details
+              id="subjects"
+              class="hub-box"
+            >
+
+              <summary>
+                Subjects
+              </summary>
 
               <div class="hub-content">
-                <p class="subject-name">Radiation Biology</p>
 
-                <a
-                  class="item"
-                  href="./radiation_biology_110_item_exam.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <p class="item-title">110-Item Multiple-Choice Exam</p>
-                  <p class="item-description">
-                    Open the interactive exam with immediate feedback and
-                    explanations for every answer choice.
-                  </p>
-                </a>
+                <!-- =====================
+                     RADIATION BIOLOGY
+                ====================== -->
+
+                <details class="subject-dropdown">
+
+                  <summary class="subject-summary">
+                    Radiation Biology
+                  </summary>
+
+                  <div class="subject-content">
+
+                    <a
+                      class="item"
+                      href="./radiation_biology_110_item_exam.html"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+
+                      <p class="item-title">
+                        110-Item Multiple-Choice Exam
+                      </p>
+
+                      <p class="item-description">
+                        Open the interactive exam with immediate feedback
+                        and explanations for every answer choice.
+                      </p>
+
+                    </a>
+
+                  </div>
+
+                </details>
+
+                <!-- =====================
+                     NUCLEAR MEDICINE
+                ====================== -->
+
+                <details class="subject-dropdown">
+
+                  <summary class="subject-summary">
+                    Nuclear Medicine
+                  </summary>
+
+                  <div class="subject-content">
+
+                    <a
+                      class="item"
+                      href="./nuclear_medicine_activity_notes.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+
+                      <p class="item-title">
+                        Radioactive Activity
+                      </p>
+
+                      <p class="item-description">
+                        Study notes covering radioactive activity,
+                        decay constant, physical half-life, Tc-99m
+                        calculations, Becquerels, and Curies.
+                      </p>
+
+                    </a>
+
+                  </div>
+
+                </details>
+
               </div>
+
             </details>
+
           </div>
+
         </section>
 
-        <section id="contact" class="container contact">
+        <!-- =========================
+             CONTACT / LINKS
+        ========================== -->
+
+        <section
+          id="contact"
+          class="container contact"
+        >
+
           <div class="contact-inner">
-            <p class="contact-label">Links</p>
+
+            <p class="contact-label">
+              Links
+            </p>
 
             <div class="contact-links">
+
               <a
                 href="https://github.com/joaquindelpilar"
                 target="_blank"
@@ -494,10 +924,16 @@
               <a href="mailto:joaquin_delpilar@dlsu.edu.ph">
                 Email
               </a>
+
             </div>
+
           </div>
+
         </section>
+
       </main>
+
     </div>
+
   </body>
 </html>
