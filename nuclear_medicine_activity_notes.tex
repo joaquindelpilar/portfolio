@@ -11,6 +11,9 @@
 \usepackage{lmodern}
 \usepackage{microtype}
 \usepackage{xcolor}
+\setlength{\emergencystretch}{2em}
+\widowpenalty=10000
+\clubpenalty=10000
 
 % Clickable table of contents + PDF bookmarks
 \usepackage[
@@ -30,7 +33,7 @@
 
 \title{
     \textbf{Nuclear Medicine Notes}\\[0.4em]
-    \large Radioactive Activity
+    \large Radioactive Activity and Decay Processes
 }
 
 \author{}
@@ -808,5 +811,796 @@ n=\frac{t}{T_{1/2}}
 % =========================================================
 % END DOCUMENT
 % =========================================================
+
+\clearpage
+\section{Radioactive Decay: Foundations and Classification}
+This addition is a detailed discussion guide for nuclear medicine. Learn the
+core clinical modes first: alpha, beta minus, beta plus, electron capture,
+and nuclear de-excitation by gamma emission or internal conversion. Later
+sections cover rare particle-emission and double-weak processes.
+Some names describe a primary transformation, others a subsequent step;
+they are not all mutually exclusive categories.
+
+\subsection{How to read a nuclear equation}
+Write a nuclide as $ {}^{A}_{Z}X$, where $Z$ is proton number, $A$ is
+nucleon (mass) number, and neutron number is $N=A-Z$. Here $A$ means
+\emph{mass number}; in the earlier activity formulas, $A$ means
+\emph{activity}. Context matters.
+
+An asterisk denotes an excited nuclear state; $m$ denotes a metastable
+state that persists long enough to be treated as an isomer. Isotopes
+share $Z$, isobars share $A$, isotones share $N$, and nuclear isomers
+share $A$ and $Z$ but differ in nuclear energy state.
+
+For every equation, check electric charge and nucleon number on both
+sides. Also conserve total energy, momentum, and angular momentum.
+An emitted electron has charge $-1$ but mass number zero: mass number
+counts nucleons, not all particles with mass. Neutrinos have mass number
+and electric charge zero.
+
+\subsection{Why decay happens and what the Q-value means}
+An unstable parent can transform to a lower-total-energy configuration.
+Excess neutrons often favor beta minus decay; proton excess often favors
+beta plus or electron capture. Very heavy nuclei may favor alpha emission
+or fission. An excited nucleus can lose excitation without changing its
+element. These are guides, not substitutes for actual masses and nuclear
+selection rules.
+
+The energy release is $Q=(m_{\rm initial}-m_{\rm final})c^2$, using a
+consistent accounting of all participating masses. A spontaneous channel
+requires positive available energy, but a positive $Q$ alone does not
+guarantee a fast transition. Barriers, nuclear structure, and selection
+rules strongly influence its probability.
+
+The daughter may be radioactive, stable, or excited. Disappearance of
+the parent does not mean all radioactivity has vanished. Different
+possible daughter states give different branches with their own energies
+and probabilities. Use evaluated decay data when exact numbers matter.
+
+\subsection{Nuclear-change reference}
+\begin{center}
+\small
+\begin{tabular}{llll}
+\hline
+Process & Daughter $A$ & Daughter $Z$ & Daughter $N$\\
+\hline
+Alpha & $A-4$ & $Z-2$ & $N-2$\\
+Beta minus & $A$ & $Z+1$ & $N-1$\\
+Beta plus / electron capture & $A$ & $Z-1$ & $N+1$\\
+Gamma / internal conversion & $A$ & $Z$ & $N$\\
+Internal pair creation & $A$ & $Z$ & $N$\\
+One neutron emission & $A-1$ & $Z$ & $N-1$\\
+One proton emission & $A-1$ & $Z-1$ & $N$\\
+Two-neutron emission & $A-2$ & $Z$ & $N-2$\\
+Two-proton emission & $A-2$ & $Z-2$ & $N$\\
+Double beta minus & $A$ & $Z+2$ & $N-2$\\
+Double EC / EC$\beta^+$ / $2\beta^+$ & $A$ & $Z-2$ & $N+2$\\
+Cluster $ {}^{a}_{z}C$ & $A-a$ & $Z-z$ & $N-a+z$\\
+Spontaneous fission & \multicolumn{3}{l}{Partition among fragments and particles}\\
+\hline
+\end{tabular}
+\end{center}
+Gamma, conversion, and pair creation describe nuclear de-excitation.
+They do not change the chemical element.
+
+\section{Alpha Decay}
+\subsection{Mechanism, equation, and example}
+An alpha particle is a helium-4 nucleus: two protons plus two neutrons,
+with charge $+2e$. It initially has no bound electrons.
+\[
+{}^{A}_{Z}X \longrightarrow {}^{A-4}_{Z-2}Y+{}^{4}_{2}\mathrm{He}.
+\]
+For example,
+\[
+{}^{226}_{88}\mathrm{Ra}\longrightarrow
+{}^{222}_{86}\mathrm{Rn}+{}^{4}_{2}\mathrm{He}.
+\]
+The daughter is a different element. Alpha emission is characteristic
+of many heavy radionuclides, though it is not confined to a single
+strict mass-number boundary. Escape through the Coulomb barrier is
+explained by quantum tunneling.
+
+\subsection{Energy spectrum and recoil}
+For a particular transition to a specified daughter state, the alpha
+energy is discrete. Several daughter levels can produce several alpha
+lines. Energy is shared between the alpha and recoiling daughter:
+\[
+Q=T_\alpha+T_Y,\qquad
+T_\alpha\simeq Q\frac{M_Y}{M_Y+m_\alpha}.
+\]
+The heavy daughter receives less kinetic energy but is not motionless.
+If the daughter is excited, gamma emission or conversion can follow.
+
+\subsection{Nuclear medicine significance}
+Alpha particles have high linear energy transfer (LET): they deposit
+substantial energy over a short track, typically tens of micrometres in
+soft tissue for therapeutic alpha energies. Range depends on energy
+and material, so it is not one universal value. This supports targeted
+alpha therapy; radium-223 is a clinical example and actinium-225 is
+important in targeted-therapy research and development.
+
+Low penetration reduces external exposure through intact skin, but
+internally deposited alpha emitters can cause intense local irradiation.
+Daughter recoil can disrupt a radionuclide's chemical attachment;
+the location and decay of radioactive daughters therefore matter.
+
+\paragraph{Meeting answer.}
+Alpha decay ejects a helium nucleus, so mass number falls by four and
+atomic number by two. It gives discrete alpha energies for each branch,
+high LET, and a short tissue range.
+
+\section{Beta Minus Decay}
+\subsection{Mechanism and conservation}
+At the nucleon level,
+\[
+n\longrightarrow p+e^-+\bar{\nu}_e.
+\]
+At the nuclide level,
+\[
+{}^{A}_{Z}X\longrightarrow{}^{A}_{Z+1}Y+e^-+\bar{\nu}_e.
+\]
+One neutron becomes a proton through the weak interaction. $A$ is
+unchanged, $Z$ increases by one, and $N$ decreases by one. The electron
+is created in the transformation; it is not an orbital electron that
+was stored inside the nucleus. An electron antineutrino is emitted.
+
+An important example is
+\[
+{}^{131}_{53}\mathrm{I}\longrightarrow
+{}^{131}_{54}\mathrm{Xe}^{*}+e^-+\bar{\nu}_e,
+\]
+with subsequent daughter de-excitation on appropriate branches.
+Other nuclear medicine beta emitters include yttrium-90 and lutetium-177.
+
+\subsection{Why the spectrum is continuous}
+The decay energy is shared among the electron, antineutrino, and recoil.
+Consequently the electron has a continuous distribution up to a
+branch-specific endpoint, rather than the same energy in every event.
+The endpoint is not the mean energy. Different populated daughter
+levels give different endpoints.
+
+Using neutral atomic masses and neglecting small atomic corrections,
+\[
+Q_{\beta^-}=[M_{\rm atom}(X)-M_{\rm atom}(Y)]c^2.
+\]
+Subtract daughter excitation energy when considering an excited-state
+branch. The antineutrino usually escapes without depositing energy in
+the patient or detector.
+
+\subsection{Allowed and forbidden transitions}
+These labels classify angular-momentum and parity requirements; they
+do not change the beta-minus, beta-plus, or EC rules for $A$ and $Z$.
+For allowed beta transitions, the emitted leptons carry zero orbital
+angular momentum. Allowed Fermi transitions have $\Delta J=0$ with no
+parity change. Allowed Gamow--Teller transitions have $\Delta J=0,1$
+with no parity change, excluding $0\rightarrow0$. Higher-order
+contributions permit forbidden transitions, often at reduced rates.
+The word forbidden therefore does not mean impossible.
+
+Transition strength and available energy both matter. An allowed
+transition is not guaranteed to have a short half-life, and a higher
+energy alone does not determine the decay rate. Evaluated $\log ft$
+values help characterize beta-transition strength.
+
+\subsection{Clinical and radiation implications}
+Beta particles deposit energy through ionization and excitation and
+usually travel farther than therapeutic alpha particles. Their finite
+range creates a cross-fire effect: energy can reach neighboring cells
+beyond the cell that contains the radionuclide. Its extent depends on
+the spectrum, tissue, and source distribution.
+
+Electrons can also emit bremsstrahlung when decelerated in matter,
+especially in high-$Z$ material. Bremsstrahlung is an interaction after
+emission, not a separate nuclear decay mode. Low-$Z$ shielding is often
+used nearest a strong beta source, with additional shielding selected
+for any resulting photons and other emissions.
+
+\paragraph{Meeting answer.}
+Beta minus converts a neutron into a proton and emits an electron and
+an antineutrino. Mass number stays fixed, atomic number increases, and
+the electron spectrum is continuous because energy is shared.
+
+\section{Beta Plus Decay and Positron Annihilation}
+\subsection{Primary nuclear transformation}
+\[
+p\longrightarrow n+e^++\nu_e,\qquad
+{}^{A}_{Z}X\longrightarrow{}^{A}_{Z-1}Y+e^++\nu_e.
+\]
+Inside an energetically suitable nucleus, a proton converts to a neutron.
+$A$ stays fixed, $Z$ decreases by one, and $N$ increases by one.
+A positron and an electron neutrino are emitted. This equation does
+not imply that an isolated free proton can spontaneously undergo this
+decay; the nuclear mass balance must permit it.
+
+For example,
+\[
+{}^{18}_{9}\mathrm{F}\longrightarrow
+{}^{18}_{8}\mathrm{O}+e^++\nu_e.
+\]
+Fluorine-18 has a half-life of about 110 minutes and also has an
+electron-capture branch. Carbon-11, nitrogen-13, oxygen-15, gallium-68,
+and rubidium-82 are other useful PET examples.
+
+\subsection{The 1.022 MeV threshold}
+With neutral atomic masses,
+\[
+Q_{\beta^+}=[M_{\rm atom}(X)-M_{\rm atom}(Y)-2m_e]c^2.
+\]
+Thus the parent-daughter atomic mass-energy difference must exceed
+$2m_ec^2=1.022$ MeV for a ground-state positron-emission branch.
+Excited-state branches require additional energy. The factor of two
+arises from atomic-electron bookkeeping as well as creating the
+positron; it does not mean the nucleus emits two positrons.
+The available kinetic energy is shared, so the positron spectrum is
+continuous.
+
+\subsection{What the PET scanner detects}
+The positron slows through interactions and then usually annihilates
+with an electron. For approximately stationary two-photon annihilation,
+\[
+e^++e^-\longrightarrow\gamma+\gamma,\qquad E_\gamma\simeq511~\mathrm{keV}
+\]
+for \emph{each} photon. The photons travel in nearly opposite directions
+to conserve momentum. PET uses coincident detection to define a line
+of response. It does not directly image the emitted positron.
+
+The 511 keV photons are produced by annihilation, not by a 511 keV
+nuclear level transition in fluorine-18. Positron travel before
+annihilation and slight non-collinearity contribute to resolution
+limits. Annihilation in flight and three-photon processes also exist,
+so exactly two back-to-back photons is the useful dominant model,
+not a description of every possible event.
+
+\paragraph{Meeting answer.}
+Beta plus decreases atomic number by one and emits a positron and a
+neutrino. The positron later annihilates, usually producing two
+approximately opposed 511 keV photons for PET.
+
+\section{Electron Capture}
+\subsection{Mechanism and example}
+A proton interacts with an atomic electron whose wavefunction overlaps
+the nucleus:
+\[
+p+e^-\longrightarrow n+\nu_e,
+\qquad
+{}^{A}_{Z}X+e^-\longrightarrow{}^{A}_{Z-1}Y+\nu_e.
+\]
+$A$ stays fixed, $Z$ decreases by one, and $N$ increases by one.
+Capture commonly occurs from the K shell, but L and other shells can
+contribute. It is not an electron physically spiraling into the nucleus.
+
+For example,
+\[
+{}^{123}_{53}\mathrm{I}+e^-\longrightarrow{}^{123}_{52}\mathrm{Te}^{*}+\nu_e.
+\]
+Iodine-123 is useful for imaging because subsequent nuclear and atomic
+relaxation produces detectable photons. Indium-111 and thallium-201
+are other familiar electron-capture radionuclides.
+
+\subsection{Energetics and competition with positron emission}
+The total atomic mass-energy release is approximately
+\[
+Q_{\rm EC}=[M_{\rm atom}(X)-M_{\rm atom}(Y)]c^2.
+\]
+For a particular daughter level and captured shell, neutrino energy is
+approximately $Q_{\rm EC}-E^*-B_i-E_{\rm recoil}$, where $B_i$
+accounts for the atomic vacancy energy. Capture from a specified shell
+and to a specified state therefore gives an approximately discrete
+neutrino energy.
+
+Electron capture does not have the 1.022 MeV positron-production
+threshold. It can occur when beta plus is energetically forbidden,
+provided its own final state is accessible. When both modes are possible,
+they can compete; the branching ratio is nuclide dependent.
+
+\subsection{The atomic vacancy}
+Capture leaves a vacancy in an electron shell. An outer electron fills
+it, releasing energy as a characteristic X-ray or transferring energy
+to another electron, which escapes as an Auger electron. Further
+vacancies can produce a cascade. A daughter nuclear excited state
+may separately emit gamma rays or conversion electrons.
+
+Distinguish the two relaxation systems: X-rays and Auger electrons
+come from \emph{atomic-shell} rearrangement; gamma rays come from
+\emph{nuclear} level transitions. Electron capture emits no primary
+beta particle. It can nevertheless lead to emitted electrons through
+these secondary processes.
+
+\paragraph{Meeting answer.}
+Electron capture uses an orbital electron to convert a proton into a
+neutron. It lowers atomic number by one, emits a neutrino, and leaves
+an atomic vacancy that can produce characteristic X-rays or Auger electrons.
+
+\section{Gamma Emission and Isomeric Transition}
+\subsection{Energy changes without transmutation}
+\[
+{}^{A}_{Z}X^*\longrightarrow{}^{A}_{Z}X+\gamma.
+\]
+A gamma photon carries away nuclear excitation energy. Proton and
+neutron numbers do not change. Photon energy is approximately the
+level spacing, with a small recoil correction. Individual transitions
+give discrete photon energies; cascades give multiple lines.
+
+An excited daughter created by alpha or beta decay may de-excite
+almost immediately. A metastable state has a delayed transition
+because its decay is hindered by its nuclear structure. The name
+\emph{isomeric transition} (IT) describes de-excitation of an isomer,
+which can proceed through gamma emission and/or internal conversion.
+IT is not synonymous with gamma emission in every event.
+
+\subsection{Technetium-99m and SPECT}
+The simplified transformation is
+\[
+{}^{99m}_{43}\mathrm{Tc}\longrightarrow{}^{99}_{43}\mathrm{Tc}
++\text{de-excitation radiation}.
+\]
+Tc-99m has an approximately six-hour half-life and a prominent
+approximately 140.5 keV photon useful for gamma-camera/SPECT imaging.
+Its actual level scheme includes a cascade and conversion; not every
+parent decay gives one 140.5 keV photon. Tc-99 is still radioactive,
+with a much longer half-life, so a ground state need not be stable.
+
+SPECT detects emitted single photons through a collimator, whereas PET
+uses coincidence detection of annihilation photons. Both rely on photons
+escaping the body. Gamma photons have zero charge and interact
+indirectly through secondary charged particles; they are attenuated
+probabilistically rather than having a sharp finite range.
+
+\subsection{Gamma rays versus X-rays}
+The defining distinction is origin, not simply energy. Gamma rays come
+from nuclear transitions; characteristic X-rays come from electronic
+transitions. Their energy ranges can overlap. Identical-energy photons
+interact with matter in the same way regardless of that label.
+
+\section{Internal Conversion and Internal Pair Creation}
+\subsection{Internal conversion: an alternative to a gamma photon}
+An excited nucleus transfers energy directly to a bound atomic electron,
+which is ejected:
+\[
+{}^{A}_{Z}X^*+e^-_{\rm bound}
+\longrightarrow{}^{A}_{Z}X+e^-_{\rm conversion}.
+\]
+This is schematic electron bookkeeping, not capture of an extra incoming
+electron. $A$ and $Z$ remain unchanged. A real gamma photon is not first
+emitted and then absorbed; conversion and photon emission are alternative
+channels for the nuclear transition.
+
+For conversion from shell $i$,
+\[
+T_{e,i}\simeq E_{\rm transition}-B_i.
+\]
+The transition must supply enough energy to remove that electron.
+The resulting electron energies are discrete for a given nuclear
+transition and shell. Vacancies subsequently yield X-rays and Auger
+electrons, as in electron capture.
+
+The internal conversion coefficient for a transition is
+\[
+\alpha_{\rm IC}=\frac{\text{conversion-electron transitions}}
+{\text{gamma-photon transitions}}.
+\]
+If those are the only two channels,
+$P_{\rm IC}=\alpha_{\rm IC}/(1+\alpha_{\rm IC})$ and
+$P_\gamma=1/(1+\alpha_{\rm IC})$. For example, a hypothetical
+$\alpha_{\rm IC}=0.25$ gives 20\% conversion and 80\% gamma emission.
+This is a probability for that transition, not automatically an
+emission yield per parent decay.
+
+\subsection{Electron capture versus conversion versus beta minus}
+\begin{itemize}
+\item \textbf{Electron capture:} an existing electron is consumed,
+a proton becomes a neutron, $Z$ decreases, and a neutrino is emitted.
+\item \textbf{Internal conversion:} an existing electron is ejected,
+the nucleus loses excitation, and $Z$ does not change.
+\item \textbf{Beta minus:} an electron is created with an antineutrino,
+a neutron becomes a proton, and $Z$ increases.
+\end{itemize}
+Auger electrons are a fourth category: they are ejected by
+\emph{atomic} relaxation. Knowing only that an electron was emitted
+is insufficient to diagnose beta minus decay.
+
+\subsection{Internal pair creation}
+With sufficient nuclear transition energy, de-excitation can instead
+create an electron-positron pair:
+\[
+{}^{A}_{Z}X^*\longrightarrow{}^{A}_{Z}X+e^-+e^+.
+\]
+$A$ and $Z$ do not change. The transition energy must exceed approximately
+1.022 MeV, and the excess becomes kinetic and recoil energy. The two
+leptons share the kinetic energy; their individual energies need not
+be discrete. The positron can subsequently annihilate.
+
+This is not beta plus: there is no proton-to-neutron conversion and no
+required neutrino. It is also distinct from \emph{external pair
+production}, where an already-existing high-energy photon interacts
+with matter. Electric-monopole ($E0$), $0^+\rightarrow0^+$ nuclear
+transitions cannot emit a single gamma photon; conversion and, when
+energetically allowed, internal pair creation are important alternatives.
+Rare two-photon nuclear de-excitation is another possible electromagnetic
+channel, with two photons sharing one transition's energy.
+
+\section{Spontaneous Fission and Cluster Radioactivity}
+\subsection{Spontaneous fission}
+A heavy nucleus can split without an incoming projectile:
+\[
+{}^{A}_{Z}X\longrightarrow
+{}^{A_1}_{Z_1}Y+{}^{A_2}_{Z_2}W+k\,{}^{1}_{0}n
++\text{energy}.
+\]
+For this simplified binary channel, $A=A_1+A_2+k$ and $Z=Z_1+Z_2$.
+There is a distribution of fragment masses, kinetic energies, and neutron
+multiplicities, not one unique daughter or a single fixed neutron count.
+Excited fragments emit prompt radiation; radioactive products may later
+undergo beta decay and produce delayed radiation.
+
+Californium-252 is a familiar spontaneous-fission neutron source,
+although alpha decay is its dominant decay branch. Ternary fission
+also occurs, with an additional light charged fragment. Spontaneous
+fission is a decay mode; neutron-induced fission is a nuclear reaction
+initiated by neutron absorption. Reactor fission can produce medically
+useful nuclides such as molybdenum-99, but that production route must
+not be mislabeled spontaneous decay.
+
+\subsection{Cluster emission}
+A heavy nucleus can emit a bound nuclear cluster heavier than an alpha:
+\[
+{}^{A}_{Z}X\longrightarrow{}^{A-a}_{Z-z}Y+{}^{a}_{z}C.
+\]
+A classic example is
+\[
+{}^{223}_{88}\mathrm{Ra}\longrightarrow
+{}^{209}_{82}\mathrm{Pb}+{}^{14}_{6}\mathrm{C}.
+\]
+Charge and mass number balance: $88=82+6$ and $223=209+14$.
+Cluster radioactivity is a strongly asymmetric fragmentation channel;
+distinguish it from both alpha decay and ordinary fission.
+It is rare and has no routine role as a clinical imaging mode.
+
+\section{Nucleon Emission and Delayed Particle Decay}
+\subsection{Neutron emission}
+\[
+{}^{A}_{Z}X\longrightarrow{}^{A-1}_{Z}X+{}^{1}_{0}n.
+\]
+The element stays the same, but $A$ and $N$ fall by one. This can occur
+from neutron-unbound states or very neutron-rich systems. A neutron
+has no Coulomb barrier; energetic accessibility and nuclear structure
+determine the emission. Most ordinary neutron-rich radionuclides
+should not simply be assumed to emit neutrons: many undergo beta minus.
+Free-neutron beta decay is a separate weak process.
+
+\subsection{Proton emission and multiple-nucleon emission}
+\[
+{}^{A}_{Z}X\longrightarrow{}^{A-1}_{Z-1}Y+{}^{1}_{1}p.
+\]
+$A$ and $Z$ fall by one, while $N$ stays fixed. Proton-rich unbound
+nuclei can emit a proton by penetrating the Coulomb barrier. Nuclear
+proton emission does not mean hypothetical decay of the proton itself.
+
+Two-proton emission gives $(A-2,Z-2)$; two-neutron emission gives
+$(A-2,Z)$. Emission can be correlated/direct or proceed sequentially
+through intermediate states, depending on the accessible energies.
+Higher-multiplicity nucleon emission is also possible in very unbound
+systems. These are specialist nuclear-structure processes, not ordinary
+PET or SPECT decay routes.
+
+\subsection{Beta-delayed particles: two steps}
+Beta decay can populate a daughter above a particle-separation threshold.
+That daughter then emits a neutron, proton, alpha, multiple particles,
+or, in heavy systems, undergoes fission.
+
+For beta-delayed neutron emission,
+\[
+{}^{A}_{Z}X\xrightarrow{\beta^-}{}^{A}_{Z+1}Y^*
+\longrightarrow{}^{A-1}_{Z+1}Y+n.
+\]
+The first arrow also emits $e^-+\bar{\nu}_e$. A classic example is
+Br-87 beta decay feeding states in Kr-87 that can emit a neutron to
+Kr-86. Some branches may instead remain particle bound.
+
+For a beta-plus-delayed proton branch, the final residual nucleus has
+$(A-1,Z-2)$ relative to the initial parent: the first step lowers $Z$
+by one and the second removes a proton. Electron capture can also
+feed particle-unbound states. The delay generally reflects the
+parent's weak-decay waiting time; emission from the unbound daughter
+is often prompt. Delayed neutrons are particularly important in reactor
+kinetics.
+
+Rare beta-delayed deuteron ($d={}^2\mathrm{H}$) and triton
+($t={}^3\mathrm{H}$) emission are additional light-particle channels.
+For example, He-6 can undergo a rare beta-delayed deuteron breakup
+into an alpha particle and a deuteron, with an electron and
+antineutrino from the weak transformation. Balance the beta step and
+the breakup separately. Particle-unbound light nuclei can also break
+up into alpha particles; Be-8 decaying into two alphas is a familiar
+example. These processes should not be confused with emitting a
+single free neutron or proton.
+
+\section{Double-Weak Decay and Other Rare Variants}
+\subsection{Two-neutrino double beta minus}
+For some nuclei, single beta decay is energetically blocked or strongly
+suppressed while a second-order weak transition to $(A,Z+2)$ is possible:
+\[
+{}^{A}_{Z}X\longrightarrow{}^{A}_{Z+2}Y+2e^-+2\bar{\nu}_e.
+\]
+This observed process leaves $A$ fixed, increases $Z$ by two, and
+decreases $N$ by two. Examples include Ge-76 to Se-76 and Xe-136 to
+Ba-136. The electrons share energy with antineutrinos, so their summed
+kinetic energy is continuous. It is not simply two ordinary, temporally
+separate beta decays through a populated intermediate daughter.
+
+\subsection{Proton-to-neutron double-weak channels}
+These change $Z$ by $-2$ at fixed $A$:
+\begin{align*}
+2\beta^+:\quad &{}^{A}_{Z}X\rightarrow{}^{A}_{Z-2}Y+2e^++2\nu_e,\\
+\mathrm{EC}\beta^+:\quad &{}^{A}_{Z}X+e^-\rightarrow
+{}^{A}_{Z-2}Y+e^++2\nu_e,\\
+2\mathrm{EC}:\quad &{}^{A}_{Z}X+2e^-\rightarrow{}^{A}_{Z-2}Y+2\nu_e.
+\end{align*}
+For neutral atomic mass differences, double positron emission requires
+more than $4m_ec^2=2.044$ MeV; EC plus positron emission requires
+more than approximately 1.022 MeV, with shell and excitation requirements
+also included. Double capture has no positron-creation threshold, but
+the final nuclear and atomic state must still be energetically accessible.
+Double electron capture has been observed, for example in Xe-124.
+Do not infer that every conceivable double-weak channel has been observed
+in every candidate nuclide. These processes have exceptionally long
+half-lives and are not routine medical imaging mechanisms.
+
+\subsection{Neutrinoless modes: keep hypotheses separate}
+The proposed neutrinoless double-beta-minus process is
+\[
+{}^{A}_{Z}X\longrightarrow{}^{A}_{Z+2}Y+2e^-.
+\]
+It would violate lepton number; it must not be presented as an established
+decay observation. Unlike the two-neutrino mode, essentially all
+available energy would appear in the electrons, apart from recoil.
+Experiments search for a peak near the endpoint of their summed energy.
+Neutrinoless double capture and related positron channels are also
+research hypotheses. A recent LEGEND-200 report cited below found
+no signal; a non-observation constrains the half-life rather than proving
+the process impossible.
+
+\subsection{Bound-state beta decay and radiative variants}
+In bound-state beta minus decay, the newly created electron occupies a
+vacant bound orbital of the daughter rather than escaping as a free
+beta particle. The nuclear changes remain those of beta minus, and an
+antineutrino is emitted. This is especially relevant to highly ionized
+atoms; it is not the normal assumption for a radiopharmaceutical in tissue.
+
+Rare radiative beta decay or radiative electron capture includes an
+additional photon in association with the weak process. Such photons
+must be distinguished from later daughter nuclear gamma rays and
+atomic characteristic X-rays. These are variants of the underlying weak
+mode, not additional changes to the $A,Z$ rules.
+
+\section{Connecting Decay Modes to Activity and Imaging}
+\subsection{Branching fractions and emitted radiation}
+If a parent has competing channels,
+\[
+\lambda_{\rm total}=\sum_i\lambda_i,\qquad
+b_i=\frac{\lambda_i}{\lambda_{\rm total}},\qquad
+A_i=b_iA_{\rm total}.
+\]
+There is one overall parent half-life:
+$T_{1/2}=\ln2/\lambda_{\rm total}$. A branch's partial half-life is
+$T_{1/2,i}=T_{1/2}/b_i$, not a separate observed disappearance time
+for the same parent sample.
+
+Activity counts transformations. Photon yield counts photons emitted
+per parent transformation. A cascade may emit more than one photon;
+conversion or other branches may suppress a particular line.
+For emission yield $y$ and detection efficiency $\epsilon$,
+\[
+\text{ideal net count rate}=A\,y\,\epsilon.
+\]
+Efficiency here includes the relevant geometry and detection factors.
+Real measurements also require appropriate corrections for attenuation,
+scatter, background, and dead time.
+
+\paragraph{Worked hypothetical example.}
+A 20 MBq source has a photon yield of 0.80 photons per decay. Its photon
+emission rate is $20\times10^6\times0.80=16\times10^6$ photons/s.
+At a total detection efficiency of 0.001, the ideal count rate is
+16,000 counts/s. Neither count rate nor photon rate equals activity
+automatically.
+
+\subsection{Decay chains and the Mo-99/Tc-99m generator}
+Mo-99 undergoes beta minus decay and feeds Tc-99m on a substantial
+branch. Tc-99m then undergoes isomeric de-excitation to Tc-99.
+In a generator, separation removes daughter activity; daughter production
+continues from the remaining parent.
+
+For a two-member chain with parent feeding fraction $b$,
+\[
+\frac{dN_D}{dt}=b\lambda_PN_P-\lambda_DN_D.
+\]
+For $N_D(0)=0$ and unequal decay constants,
+\[
+N_D(t)=\frac{b\lambda_PN_P(0)}{\lambda_D-\lambda_P}
+\left(e^{-\lambda_Pt}-e^{-\lambda_Dt}\right).
+\]
+This explains why daughter activity can rise while parent activity falls.
+Secular equilibrium is approached when the parent half-life is much
+longer than the daughter's; transient equilibrium can occur when it is
+longer but not overwhelmingly so. A daughter longer lived than its parent
+does not establish these same equilibrium conditions.
+
+\subsection{Physical, biological, and effective half-life}
+The decay mode and physical half-life describe the radionuclide.
+Biological clearance describes removal from a tissue or body compartment.
+For independent, single-exponential decay and clearance,
+\[
+\lambda_{\rm eff}=\lambda_{\rm phys}+\lambda_{\rm bio},\qquad
+\frac{1}{T_{\rm eff}}=\frac{1}{T_{\rm phys}}+\frac{1}{T_{\rm bio}}.
+\]
+For hypothetical physical and biological half-lives of six and twelve
+hours, $T_{\rm eff}=4$ hours. Complex uptake and multi-compartment
+clearance need more detailed models. Biological removal does not
+change the radionuclide's nuclear identity.
+
+\subsection{Clinical comparison}
+\begin{itemize}
+\item \textbf{SPECT:} useful escaping photons; examples include Tc-99m
+de-excitation and photons following I-123 electron capture.
+\item \textbf{PET:} positron emission followed by annihilation;
+F-18 and Ga-68 are familiar examples.
+\item \textbf{Beta therapy:} electron energy deposited over a finite
+range; examples include I-131, Y-90, and Lu-177.
+\item \textbf{Alpha therapy:} short tracks with high LET; Ra-223 is an
+example. Daughter emissions and redistribution must also be considered.
+\item \textbf{Auger-emitter strategies:} atomic electron cascades can
+deposit energy very locally. Biological effect depends strongly on
+subcellular localization, especially proximity to DNA.
+\end{itemize}
+These categories are not exclusive: a therapeutic radionuclide can also
+emit imaging photons. Clinical suitability depends on the entire decay
+scheme, half-life, chemical targeting, and biodistribution.
+
+\section{Processes That Are Often Mistaken for Decay Modes}
+\begin{itemize}
+\item \textbf{Characteristic X-ray emission and Auger/Coster--Kronig
+emission:} atomic vacancy relaxation, often following EC or conversion.
+Coster--Kronig transitions involve subshells of the same principal shell.
+\item \textbf{Positron annihilation:} a particle-antiparticle interaction
+after positron production, not a change of nuclear $A$ or $Z$.
+\item \textbf{Bremsstrahlung:} radiation from charged-particle
+deceleration in matter, not nuclear transmutation.
+\item \textbf{Photoelectric absorption, Compton scattering, and external
+pair production:} photon interactions in matter; distinguish them from
+the processes that produced the photons.
+\item \textbf{Neutron activation and induced fission:} reactions driven
+by an incoming particle; their products may subsequently decay.
+\end{itemize}
+
+\section{Meeting Practice: Questions with Model Answers}
+\begin{enumerate}
+\item \textbf{How do you identify the mode from a daughter nuclide?}
+Compare $A$ and $Z$: $(-4,-2)$ suggests alpha, $(0,+1)$ beta minus,
+and $(0,-1)$ beta plus or EC. Distinguish the last two by emitted
+particles and energetics.
+\item \textbf{Can a decay leave the element unchanged?}
+Yes. Gamma emission, conversion, and pair de-excitation leave both
+$A$ and $Z$ unchanged. Neutron emission leaves $Z$ unchanged but
+reduces $A$.
+\item \textbf{Why does beta decay need a neutrino or antineutrino?}
+The additional particle carries energy, momentum, and angular momentum;
+the full process also respects the lepton accounting of ordinary weak
+decay. It explains why beta energies are not all identical.
+\item \textbf{Which beta process emits an antineutrino?}
+Beta minus emits $\bar{\nu}_e$; beta plus and EC emit $\nu_e$.
+\item \textbf{Why can EC occur when beta plus cannot?}
+EC does not need the 1.022 MeV neutral-atomic mass difference required
+for positron emission. Its selected final state must still be accessible.
+\item \textbf{Does 511 keV equal the positron's initial kinetic energy?}
+No. It is each photon's energy in approximately at-rest two-photon
+annihilation, corresponding to the electron rest energy.
+\item \textbf{Is internal conversion a beta decay?}
+No. Conversion ejects a pre-existing atomic electron and leaves nuclear
+$Z$ unchanged; beta minus creates an electron and increases $Z$.
+\item \textbf{Can electron capture produce electrons outside the atom?}
+Yes, indirectly: the vacancy can lead to Auger electrons, and an excited
+daughter can undergo conversion. No primary beta particle is emitted
+by the capture step.
+\item \textbf{Are gamma rays always higher energy than X-rays?}
+No. Origin defines the names, and their energy ranges overlap.
+\item \textbf{Does Tc-99m turn into another element?}
+Its usual IT route produces Tc-99, the same element and mass number
+in a lower nuclear state. Tc-99 itself remains radioactive.
+\item \textbf{Does one Bq mean one detected photon per second?}
+No. It means one transformation per second; photon yield and detector
+efficiency determine the photon count rate.
+\item \textbf{Why is an alpha source relevant despite short range?}
+When located within tissue it deposits energy densely near its location.
+Short external range does not imply negligible internal effect.
+\item \textbf{What is the difference between endpoint and mean beta energy?}
+The endpoint is the maximum allowed electron kinetic energy for a branch;
+the mean is an average over its entire spectrum.
+\item \textbf{Is a beta-delayed neutron emitted in the beta step?}
+No. Beta decay feeds an unbound daughter, which then emits a neutron.
+\item \textbf{How does spontaneous fission differ from alpha decay?}
+Fission distributes the parent among large fragments, often plus
+neutrons. Alpha decay emits specifically a helium-4 nucleus.
+\item \textbf{Is double beta decay the same as a decay chain?}
+No. Double beta is a second-order transition between nuclei differing
+by two charge units; an ordinary chain populates a real intermediate
+nuclide in successive decays.
+\item \textbf{Has neutrinoless double beta decay been established?}
+No confirmed observation is established in the research sources cited
+here. Explain it as a searched-for process, not a clinical decay mode.
+\item \textbf{What happens if two decay branches are available?}
+Their decay constants add. The total half-life reflects both routes;
+branching fractions describe the fraction following each one.
+\item \textbf{Does heating normally change physical half-life?}
+Ordinary temperature and chemical changes generally have negligible
+effects for clinical calculations. EC and highly ionized atoms require
+care: electron availability can affect electron-dependent decay.
+\item \textbf{How would you explain any decay in one minute?}
+State the driving instability, write the equation, give changes in
+$A,Z,N$, identify all primary and secondary radiations, describe the
+energy spectrum, and connect one example to nuclear medicine.
+\end{enumerate}
+
+\subsection{Quick equation drills}
+\begin{enumerate}
+\item Po-210 emits an alpha: $A=206$, $Z=82$, so the daughter is Pb-206.
+\item P-32 undergoes beta minus: $A=32$, $Z=16$, so the daughter is S-32,
+with an electron and antineutrino.
+\item F-18 undergoes beta plus: $A=18$, $Z=8$, so the daughter is O-18,
+with a positron and neutrino.
+\item I-123 captures an electron: $A=123$, $Z=52$, so the daughter is
+Te-123, often initially excited.
+\item A hypothetical 200 keV transition converts a 30 keV bound electron:
+its kinetic energy is approximately 170 keV, neglecting recoil.
+\item After three half-lives, 12.5\% of the original parent remains.
+Its activity is also 12.5\% if no parent is added or newly produced.
+\end{enumerate}
+
+\section{References and Further Study for the Decay Addition}
+The explanations and practice problems above are an original study
+synthesis. Numerical examples labeled hypothetical are teaching
+calculations, not measured nuclide data. Half-lives and energies quoted
+in the discussion are rounded. Consult the full evaluated decay scheme
+for precise branch intensities, uncertainties, and dosimetry.
+
+\begin{enumerate}
+\item IAEA, \emph{Nuclear Medicine Physics: A Handbook for Teachers and
+Students} (2014), nuclear-physics and radiation-interaction chapters.
+\href{https://www-pub.iaea.org/mtcd/publications/pdf/pub1617web-1294055.pdf}{Open handbook}.
+\item NNDC, \emph{NuDat 3} and ENSDF evaluated data.
+\href{https://www.nndc.bnl.gov/nudat3/}{Open nuclide database};
+\href{https://www.nndc.bnl.gov/nudat3/help/betadecay.jsp}{beta-decay definitions};
+\href{https://www.nndc.bnl.gov/nudat3/help/alphadecay.jsp}{alpha-decay definitions}.
+\item NNDC, \emph{Tc-99 IT decay (6.0072 h)}, ENSDF evaluation (2017).
+\href{https://www.nndc.bnl.gov/ensnds/99/Tc/99tc_it_decay_6.0072_h.pdf}{Open evaluated scheme}.
+\item TUNL, \emph{F-18 Ground-State Decays}.
+\href{https://nucldata.tunl.duke.edu/nucldata/GroundStatedecays/18F.shtml}{Open evaluation}.
+\item NNDC, \emph{Double-Beta Decay Help}.
+\href{https://www.nndc.bnl.gov/bbdecay/help.html}{Definitions and observables}.
+\item Argonne National Laboratory, \emph{Nuclear Structure at the Edge:
+Proton Decay and the Invariant-Mass Method} (2021).
+\href{https://www.anl.gov/event/nuclear-structure-at-the-edge-proton-decay-and-the-invariantmass-method}{Direct and sequential two-proton decay}.
+\item U.S. Department of Energy, \emph{DOE Explains: Beta Decay}.
+\href{https://www.energy.gov/science/doe-explainsbeta-decay}{Overview of ordinary and double-beta modes}.
+\item LEGEND Collaboration, \emph{First Results on the Search for Lepton
+Number Violating Neutrinoless Double-Beta Decay with the LEGEND-200
+Experiment}. \href{https://journals.aps.org/prl/abstract/10.1103/25tk-nctn}{Research report}.
+\item XENON Collaboration, \emph{First observation of two-neutrino
+double electron capture in Xe-124 with XENON1T} (2019).
+\href{https://arxiv.org/abs/1904.11002}{Research report}.
+\item GSI, \emph{Weak decays in highly charged ions}.
+\href{https://www.gsi.de/work/forschung/appamml/atom-quanten-fundamentalphysik/experimente/weak-decays-in-highly-charged-ions}{Bound-state beta decay}.
+\item NNDC, \emph{Nuclear Data Sheets Policies}, beta-transition
+classification. \href{https://www.nndc.bnl.gov/nds/docs/NDSPolicies.pdf}{Allowed and forbidden transitions}.
+\item NNDC, \emph{Ra-223 carbon-14 decay}.
+\href{https://www.nndc.bnl.gov/ensnds/209/Pb/223ra_14c_decay.pdf}{Evaluated cluster-emission scheme}.
+\item Walz et al., \emph{Observation of the competitive double-gamma
+nuclear decay}, Nature (2015).
+\href{https://www.nature.com/articles/nature15543}{Two-photon nuclear decay}.
+\item \emph{First observation of beta-delayed deuteron emission},
+Physics Letters B (1990).
+\href{https://www.sciencedirect.com/science/article/abs/pii/037026939090091J}{He-6 measurement}.
+\item NIST, \emph{Radiative Decay of the Neutron}.
+\href{https://www.nist.gov/programs-projects/radiative-decay-neutron}{Radiative weak-decay variant}.
+\end{enumerate}
 
 \end{document}
