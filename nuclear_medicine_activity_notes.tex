@@ -22,826 +22,424 @@
 \fancyfoot[C]{\thepage}
 \setlength{\headheight}{15pt}
 \newcommand{\nucl}[3]{\ensuremath{{}^{#1}_{#2}\mathrm{#3}}}
-\newcommand{\source}[1]{\par\textcolor{teal}{\small\textbf{Recording basis:} #1}\par\nopagebreak[4]}
-\newcommand{\extra}{\par\textcolor{teal}{\small\textbf{Supplementary explanation / worked extension.}}\par\nopagebreak[4]}
-\newcommand{\clarify}[1]{\par\textbf{Precision note.} #1\par}
+\setcounter{tocdepth}{2}
+\let\originalsubsection\subsection
+\renewcommand{\subsection}{\Needspace{8\baselineskip}\originalsubsection}
 \begin{document}
 \hypersetup{pageanchor=false}
 \begin{titlepage}
-\vspace*{17mm}
+\vspace*{24mm}
 {\color{teal}\large NUC MD 01\par}
-\vspace{6mm}
+\vspace{8mm}
 {\color{navy}\Huge\bfseries Nuclear Medicine\par}
-\vspace{5mm}
-{\LARGE Foundations, Activity\par and Radioactive Decay\par}
-\vspace{10mm}
-{\large Study Notes\par}
-\vspace{12mm}
-\hrule
 \vspace{6mm}
-\textbf{How to use this edition}
-
-Read Sections 1--7 for the foundations. Sections 8--10 extend the material into clearance, production and image formation. The final sections provide corrected terminology, worked practice and a compact formula sheet.
-
-The explanations emphasize precise terminology, clearly stated assumptions and consistent units. Worked examples connect the physical principles to practical calculations, while references support further study.
-
-\textbf{Using the calculations.} Follow each derivation before substituting numerical values. Rounded teaching data are distinguished from evaluated nuclear data, and supplementary sections provide context for further study.
-
+{\LARGE Foundations, Activity\par and Radioactive Decay\par}
+\vspace{14mm}
+{\large Lecture Notes\par}
 \vfill
-{\small Educational physics notes; numerical activity examples are calculations, not prescriptions or facility protocols.}
 \end{titlepage}
 \hypersetup{pageanchor=true}
-\tableofcontents
+{\small\tableofcontents}
 \clearpage
+\section{Physics Foundations}
+Nuclear medicine is built on the production, utilization, measurement, and safe handling of \textbf{radionuclides}. The \textbf{medical physicist} is the bridge between theory, technology, and clinical application.
 
-\section{Recording map and the purpose of nuclear medicine physics}
-\subsection{Source coverage}
-All four relevant recordings found in the available Plaud library were used. The library listing contained 14 recordings; the remaining titles concerned other courses. All 469 transcript segments in the four selected recordings were retrieved, including every continuation page.
+The course emphasizes a \textbf{physics-based foundation}, building on atomic and nuclear topics from Radiation Physics I. Assignments primarily serve \textbf{self-assessment} and may be discussed in subsequent meetings, including board work. The approach is \textbf{algebra-based}, with calculus appearing in guided examples.
 
-\begin{longtable}{P{0.12\linewidth}P{0.19\linewidth}P{0.60\linewidth}}
-\toprule ID / date & Recording length & Topics used \\\midrule
-L1 / 7 Sep & 86 min 32 s & Nuclear Medicine Physics Foundations and Course Orientation: course scope; physicist's role; atomic structure; quantum numbers; quarks; fundamental forces.\\
-L2 / 10 Sep & 94 min 31 s & Fundamental Forces, Standard Model, and the Atomic Nucleus: particles; atomic models; nuclide notation; mass units; stability chart; nuclear binding energy and exercises.\\
-L3 / 14 Sep & 46 min 19 s & Radioactive Decay and Half-Life: differential equation; exponential law; half-life derivation; statistical decay; parent and daughter nuclei.\\
-L4 / 17 Sep & 65 min 17 s & Radioactive Decay Kinetics, Nuclear Medicine Dosing, and Course Logistics: mean life; specific activity; weight-based activity; decay modes; fission; conservation laws.\\
-\bottomrule
-\end{longtable}
-L1 has 94 segments, L2 107, L3 121 and L4 147. Recording identifiers and coverage notes are retained in Appendix~\ref{app:sources}. Durations are recording metadata; timestamps refer to elapsed recording time.
+\subsection{Radioactivity and Practical Work}
+Radioactivity decays continuously. Transit times reduce the activity of radionuclides delivered to distant facilities and create logistical challenges.
 
-\subsection{The physical chain}
-\source{L1, approximately 11:00--31:00 and 62:00--73:00.}
-Nuclear medicine uses radionuclides to investigate physiology and disease, and in selected applications to deliver therapy. A radiopharmaceutical combines a radionuclide with a chemical form that determines how it distributes in the body. Understanding the radionuclide alone is insufficient: chemical targeting, uptake and clearance determine where its radiation originates.
+Accurate activity measurements begin with a \textbf{dose calibrator}. Radiation safety emphasizes \textbf{ALARA (As Low As Reasonably Achievable)} and protection through \textbf{time, distance, and shielding}.
 
-\begin{center}
-\begin{tikzpicture}[every node/.style={draw=navy,rounded corners,align=center,text width=3.5cm,minimum height=1.05cm,font=\small},>=stealth]
-\node (n) at (0,0) {Nuclear state\\and decay};
-\node (r) at (4.6,0) {Emitted radiation\\and transport};
-\node (d) at (9.2,0) {Detection\\and counts};
-\node (q) at (9.2,-1.8) {Reconstruction\\and quantification};
-\node (i) at (4.6,-1.8) {Image quality\\and interpretation};
-\node (s) at (0,-1.8) {Optimization\\and radiation protection};
-\draw[->,thick] (n)--(r);\draw[->,thick] (r)--(d);
-\draw[->,thick] (d)--(q);\draw[->,thick] (q)--(i);\draw[->,thick] (i)--(s);
-\end{tikzpicture}
-\end{center}
-The medical physicist connects these stages: measuring activity, characterizing instruments, assessing quantitative accuracy, investigating artifacts and optimizing examinations. Physicians provide clinical interpretation and medical decisions; technologists perform procedures and assigned quality-control tasks; engineers service equipment. Responsibilities overlap and depend on local training and governance.
+\subsection{Atomic and Nuclear Structure}
 
-\subsection{Course roadmap: what was previewed}
-The orientation named six broad areas: nuclear foundations; radiation interactions; planar and gamma camera imaging; SPECT; PET and hybrid imaging; quantitative imaging, QA/QC, protection and theranostics. Detailed reconstruction, SUV, partial-volume effects and instrument testing were \emph{announced topics}, not completed lectures in these recordings. Section~\ref{sec:imaging} offers a concise supplementary introduction.
-
-A source continues to decay when an instrument is switched off. This makes time, distance, shielding and contamination control central to unsealed-source work. Optimization seeks image quality sufficient for the clinical task with appropriate activity and acquisition settings. Activity, absorbed dose and image quality are connected but are different quantities.
-
-\section{Atoms, nuclei and notation}
-\source{L1, 73:00--78:00; L2, 37:00--71:00.}
-\subsection{Atomic models and electronic structure}
-Dalton's atomic model, Thomson's electron-containing model, Rutherford's compact nucleus and Bohr's quantized orbits form a historical sequence. Modern quantum mechanics describes electrons using orbitals and probability distributions. Bohr's model is useful for hydrogen-like systems, but literal circular orbits do not describe general many-electron atoms.
-
-The nucleus contains protons and neutrons, jointly called nucleons. It contains almost all atomic mass; electrons occupy the much larger surrounding region. A neutral atom has as many electrons as protons. Removing an electron creates a positive ion; adding one can create a negative ion. Ionization changes electronic charge without necessarily changing nuclear composition.
-
-\begin{center}
-\begin{tabular}{llll}
-\toprule Particle & Charge & Approximate mass (u) & Rest energy (MeV)\\\midrule
-Electron & $-e$ & 0.00054858 & 0.510999\\
-Proton & $+e$ & 1.00727647 & 938.272\\
-Neutron & 0 & 1.00866492 & 939.565\\
-\bottomrule
-\end{tabular}
-\end{center}
-Values are rounded for study. A hydrogen-1 \emph{atom} has mass about 1.00782503 u; this differs from the proton mass because it includes an electron, less electronic binding energy.
-
-\subsection{The four electron quantum numbers}
-\begin{center}
-\begin{tabular}{P{0.17\linewidth}P{0.32\linewidth}P{0.40\linewidth}}
-\toprule Symbol & Allowed values & Meaning\\\midrule
-$n$ & $1,2,3,\ldots$ & Principal shell; K, L, M correspond to $n=1,2,3$.\\
-$\ell$ & $0,1,\ldots,n-1$ & Orbital angular momentum; $s,p,d,f$ correspond to $\ell=0,1,2,3$.\\
-$m_\ell$ & $-\ell,\ldots,0,\ldots,+\ell$ & Orbital angular-momentum projection; $2\ell+1$ values.\\
-$m_s$ & $-\tfrac12,+\tfrac12$ & Spin projection for a spin-$\tfrac12$ electron.\\
-\bottomrule
-\end{tabular}
-\end{center}
-\clarify{Three orbital orientations apply to the $p$ subshell, not every subshell. Electron spin is intrinsic angular momentum, not a tiny sphere rotating mechanically. Valence electrons are associated with outer-shell chemistry; K-shell electrons are inner-shell electrons.}
-The Pauli principle permits at most two electrons with opposite spin projections in a given spatial orbital. In many-electron atoms, energy depends on more than $n$ alone because of screening and electron interactions.
-
-\subsection{Nuclide notation and nuclear families}
-Write a nuclide as $\nucl{A}{Z}{X}$, where
-\[
- A=Z+N_n,\qquad Z=\text{proton number},\qquad N_n=\text{neutron number}.
-\]
-Here $N_n$ denotes neutrons \emph{within one nucleus}; later, $N(t)$ counts undecayed nuclei \emph{in a sample}. Likewise, $A$ in a nuclide label is mass number; $A(t)$ in a decay equation is activity. Mass number counts nucleons and is dimensionless; it is not the measured atomic mass in u.
-
-\begin{center}
-\begin{tabular}{P{0.16\linewidth}P{0.29\linewidth}P{0.44\linewidth}}
-\toprule Family & Same quantity & Example / distinction\\\midrule
-Isotopes & $Z$ & $^1$H, $^2$H, $^3$H; different $N_n$.\\
-Isotones & $N_n$ & $^2$H and $^3$He each have one neutron.\\
-Isobars & $A$ & $^3$H and $^3$He each have three nucleons.\\
-Nuclear isomers & $A,Z$ & $^{99m}$Tc and $^{99}$Tc; different nuclear energy states.\\
-\bottomrule
-\end{tabular}
-\end{center}
-Hydrogen-1, hydrogen-2 and hydrogen-3 are protium, deuterium and tritium. Their nuclei are the proton, deuteron and triton. Hydronium ($\mathrm{H_3O^+}$) is a molecular ion, not another name for hydrogen-1.
-
-An asterisk indicates an excited nuclear state. The suffix $m$ indicates a metastable nuclear state, which persists long enough to be identified separately. An ionic charge is placed at upper right, for example $\nucl{23}{11}{Na}^{+}$. Isotopes have closely similar electronic chemistry, although isotope effects occur; their nuclear decay properties can be very different.
-
-\subsection{Size and radiation terminology}
-A useful nuclear-radius estimate is
-\[
-R\simeq r_0 A^{1/3},\qquad r_0\simeq1.2\text{--}1.3~\mathrm{fm},\quad1~\mathrm{fm}=10^{-15}~\mathrm m.
-\]
-The lecture used 1.3 fm. The exponent acts on \emph{mass number}, not atomic number. This is an approximate nuclear-size model, particularly crude for very light nuclei.
-
-Ionizing radiation can remove bound electrons through its interactions. Alpha and beta particles are directly ionizing; photons and neutrons transfer energy to secondary charged particles. Excitation raises an atom or nucleus to a higher state without necessarily ejecting a particle. Electronic excitation and nuclear excitation involve different structures and typically different energy scales.
-
-\section{Fundamental interactions and nuclear stability}
-\source{L1, 78:00--85:00; L2, 7:00--37:00 and 71:00--85:00; L4, 58:00--63:00.}
-\subsection{Particles and forces: corrected framework}
-Electrons are elementary leptons. Protons and neutrons are composite baryons with valence-quark contents $uud$ and $udd$. Up and down quark charges are $+2e/3$ and $-e/3$, respectively:
-\[
-Q_p=2(2e/3)-e/3=e,\qquad Q_n=2e/3-2e/3=0.
-\]
-These fractions describe \emph{charge}, not spin. Quarks have spin $1/2$. Baryons have half-integer spin, while mesons have integer spin; a baryon spin of $2/3$ is not the correct classification.
-
-\begin{longtable}{P{0.17\linewidth}P{0.22\linewidth}P{0.49\linewidth}}
-\toprule Interaction & Carrier / description & Relevance here\\\midrule
-Strong & Gluons at quark level & Binds quarks; its residual nuclear interaction binds nucleons over nuclear distances.\\
-Electromagnetic & Photon & Atomic binding, charged-particle interactions, nuclear photon transitions and proton repulsion.\\
-Weak & $W^\pm,Z^0$ & Beta transformations and electron capture.\\
-Gravitational & General relativity; graviton hypothetical & Negligible for ordinary nuclear calculations; not included in the Standard Model.\\
-\bottomrule
-\end{longtable}
-\clarify{Strong and weak do not mean ``stable-nucleus force'' and ``unstable-nucleus force.'' Both stable and radioactive nuclei have strong interactions. The type of transition determines the interaction involved. The four forces do not have equal intrinsic strengths. Dominance also depends on distance, energy and the system: gravity dominates many astronomical systems, while electromagnetic forces underlie chemistry and everyday contact forces.}
-The Higgs boson is a scalar particle associated with the Higgs field, not the common gauge carrier of all interactions. Its 2012 discovery supported the Higgs mechanism; it was not the first validation of general relativity. The Standard Model contains strong and electroweak physics without constituting a demonstrated grand-unified theory. Supersymmetry, grand unification and string-theory proposals are distinct ideas; they should not be treated as synonymous established results. See the CERN references in Section~\ref{sec:refs}.
-
-\subsection{Stability is an energy and structure question}
-The competition between nuclear attraction, proton Coulomb repulsion, neutron--proton balance, shell structure and pairing affects stability. For many light stable nuclides $N_n\approx Z$; heavier stable nuclides generally have more neutrons than protons. Neutrons contribute nuclear binding without additional proton--proton repulsion. This trend does not mean arbitrarily adding neutrons always stabilizes a nucleus.
-
-Pairing favors even numbers of protons and neutrons. The familiar light stable odd--odd nuclides are $^2$H, $^6$Li, $^{10}$B and $^{14}$N. Avoid memorizing a universal count of stable nuclides from one chart: classifications depend on what decay has been observed, long-lived exceptions and whether isomers are counted.
-
-A long half-life does not make a radioactive nuclide strictly stable. A daughter can also remain radioactive. A decay is energetically possible when total final rest energy is lower, but barriers and selection rules strongly affect the rate. Increasing binding energy per nucleon is a useful trend, not a universal test for every decay channel; use the full mass balance.
-
-\subsection{Reading a nuclide chart without reversing directions}
-First read the axes. For a chart with horizontal $N_n$ and vertical $Z$:
-\begin{center}
-\begin{tabular}{llll}
-\toprule Process & $\Delta N_n$ & $\Delta Z$ & Direction\\\midrule
-$\alpha$ & $-2$ & $-2$ & Left and down\\
-$\beta^-$ & $-1$ & $+1$ & Left and up\\
-$\beta^+$ or EC & $+1$ & $-1$ & Right and down\\
-Gamma / internal conversion & 0 & 0 & Same nuclide position\\
-Neutron emission & $-1$ & 0 & Left\\
-Proton emission & 0 & $-1$ & Down\\
-\bottomrule
-\end{tabular}
-\end{center}
-If the axes are interchanged, the visual directions change while the numerical changes remain the same. Simultaneous increases in $N_n$ and $Z$ do not describe one of the listed ordinary spontaneous decays; nuclear capture or fusion reactions must be distinguished from decay. The IAEA LiveChart is useful for checking a particular nuclide's actual branches.
-
-\subsection{Coulomb barriers and neutron interactions}
-A positive projectile encounters repulsion approaching a positive nucleus; quantum tunneling can permit penetration below a classical barrier. Neutrons have no electrostatic Coulomb barrier, but their interactions still depend on energy and nuclear structure. Nuclear forces do not switch off at a perfectly sharp universal surface, and electromagnetic interactions do not disappear inside the nucleus.
-
-Neutron hazard cannot be inferred from mass alone. Neutron energy, fluence and interaction pathways matter, including recoil protons and capture radiation. Ordinary alpha emission is not automatically accompanied by neutron emission. A source such as an alpha emitter mixed with a suitable target can generate neutrons through a separate $(\alpha,n)$ reaction.
-
-\section{Mass, energy and the binding-energy exercises}
-\source{L2, approximately 50:00--63:00 and 85:00--93:00.}
-\subsection{Atomic mass unit and energy conversion}
-One unified atomic mass unit is one twelfth of the mass of a free, neutral carbon-12 atom at rest in its ground state:
-\[
-1~\mathrm u\simeq1.6605391\times10^{-27}~\mathrm{kg},\qquad
-1~\mathrm u\,c^2\simeq931.494~\mathrm{MeV}.
-\]
-Also $c=299\,792\,458~\mathrm{m\,s^{-1}}$ exactly and $1~\mathrm{eV}=1.602176634\times10^{-19}~\mathrm J$ exactly. Therefore
-\[
-\frac{(1.6605391\times10^{-27})(2.99792458\times10^8)^2}
- {1.602176634\times10^{-13}}\simeq931.494~\mathrm{MeV}.
-\]
-The denominator converts joules to MeV. Equivalently, $1~\mathrm u\simeq931.494~\mathrm{MeV}/c^2$. Do not equate mass with energy without the $c^2$ conversion. The speed of light is of order $10^{8}$, not $10^{-8}$, in metres per second.
-
-The complete free-particle energy relation is $E^2=p^2c^2+m^2c^4$. At rest, $p=0$ and $E=mc^2$. Carbon-12 is a reference convention; it is not selected because carbon exists only as isolated atoms. Chemical bonding and nuclear stability are separate concepts.
-
-\subsection{Mass defect and binding energy}
-For a nucleus containing $Z$ protons and $N_n$ neutrons,
-\[
-\Delta m=Zm_p+N_nm_n-M_{\rm nucleus},\qquad B=\Delta m c^2.
-\]
-$B$ is the energy required to separate the nucleus into free nucleons, or released when the bound system forms. Mass defect has mass units; binding energy has energy units. They are related, not numerically interchangeable quantities.
-
-If using tabulated neutral \emph{atomic} masses, the common teaching approximation is
-\[
-\boxed{B\simeq[Zm(^1\mathrm H)+N_nm_n-M_{\rm atom}]c^2.}
-\]
-Hydrogen atomic masses account for the $Z$ electrons. Do not combine a bare proton mass with a neutral atomic mass without correcting the electrons. More precisely, if $B_e$ denotes total positive electronic binding energy,
-\[
-B_{\rm nuclear}=[Zm(^1\mathrm H)+N_nm_n-M_{\rm atom}]c^2+ZB_e(\mathrm H)-B_e(X).
-\]
-The electron correction is small for light nuclei but matters in precise heavy-nucleus calculations. The exercises below explicitly use the usual approximation.
-
-\subsection{Worked helium-4 calculation}
-\extra
-Using $m(^1\mathrm H)=1.00782503223~\mathrm u$, $m_n\simeq1.008664916~\mathrm u$, and $M(^4\mathrm{He})=4.00260325413~\mathrm u$,
-\begin{align*}
-\Delta m&=2(1.00782503223)+2(1.008664916)-4.00260325413\\
-&\simeq0.0303766423~\mathrm u,\\
-B&\simeq0.0303766423\times931.494\simeq28.2957~\mathrm{MeV},\\
-B/A&\simeq7.0739~\mathrm{MeV\ per\ nucleon}.
-\end{align*}
-\clarify{The L2 transcript states an exercise target of 27.27 MeV. Standard masses give about \textbf{28.30 MeV} for helium-4. The 27.27 value may be a spoken or transcription error; it should not be forced by altering the calculation. The original slide was not available for comparison.}
-
-\subsection{Solutions to the other assigned nuclides}
-\extra
-The same atomic-mass approximation gives the following independently calculated results. Atomic masses come from the NIST isotopic-mass table, not natural-element average atomic weights.
-\begin{center}\small
-\begin{tabular}{lrrrrr}
-\toprule Nuclide & $Z$ & $N_n$ & Atomic mass (u) & $B$ (MeV) & $B/A$ (MeV)\\\midrule
-$^4$He & 2 & 2 & 4.00260325413 & 28.296 & 7.074\\
-$^7$Li & 3 & 4 & 7.0160034366 & 39.245 & 5.606\\
-$^{16}$O & 8 & 8 & 15.99491461957 & 127.619 & 7.976\\
-$^{235}$U & 92 & 143 & 235.0439301 & 1783.863 & 7.591\\
-\bottomrule
-\end{tabular}\end{center}
-For example, lithium-7 gives $\Delta m=3m(^1\mathrm H)+4m_n-M(^7\mathrm{Li})\simeq0.0421313~\mathrm u$. Uranium's entry is the uncorrected atomic-mass approximation, not a claim to millielectronvolt or even kiloelectronvolt precision in nuclear binding energy. Retain guard digits in the arithmetic and round the final answer to the accuracy of the assumptions.
-
-\subsection{Binding energy per nucleon and reaction energy}
-$B/A$ helps compare average binding, and broadly rises toward the iron/nickel region before decreasing for heavier nuclei. Fusion of suitable light nuclei and fission of suitable heavy nuclei can release energy. Total $B$, $B/A$, and a particular reaction's $Q$ are different quantities.
-\[
-Q=\left(\sum m_{\rm initial}-\sum m_{\rm final}\right)c^2.
-\]
-For an isolated spontaneous decay, positive available $Q$ is required. Rest mass itself need not be conserved: total energy, including rest energy and kinetic energy, is conserved. Mass-number balance checks nucleons, not rest mass in kilograms.
-
-\section{Activity and the exponential decay law}
-\source{L3, approximately 1:00--36:00 and 41:00--45:00; L4, 3:00--6:00.}
-\subsection{Random nuclei, predictable populations}
-Radioactive decay is stochastic: one cannot predict the exact decay time of a particular nucleus. For a population of a single nuclear state with constant decay constant $\lambda$, the probability of decay in a small interval $dt$, conditional on survival, is approximately $\lambda dt$.
-
-For the expected number $N(t)$ of surviving nuclei, with no production or removal other than decay,
-\[
-\frac{dN}{dt}=-\lambda N,\qquad \boxed{A(t)=\lambda N(t)=-\frac{dN}{dt}}.
-\]
-Activity is nonnegative. The minus sign compensates for the decrease in parent population. If a compartment also gains or loses nuclei biologically, $-dN/dt$ is \emph{not} purely nuclear activity; the nuclear-decay rate remains $\lambda_{\rm phys}N$.
-
-\subsection{Derivation with an explicit reference time}
-Separate variables and integrate:
-\[
-\int_{N_0}^{N(t)}\frac{dN'}{N'}=-\lambda\int_{t_0}^{t}dt',\qquad
-\ln\frac{N(t)}{N_0}=-\lambda(t-t_0).
-\]
-Exponentiate both sides:
-\[
-\boxed{N(t)=N_0e^{-\lambda(t-t_0)}},\qquad
-\boxed{A(t)=A_0e^{-\lambda(t-t_0)}}.
-\]
-\clarify{One \emph{applies} the exponential function to undo a logarithm; one does not multiply by $e$. Likewise, taking $\ln$ is not multiplication by $\ln$. $N_0$ is a number of nuclei and $A_0=\lambda N_0$ is activity.}
-The exponent must be dimensionless. If $\lambda$ is in $\mathrm h^{-1}$, time must be in hours. For $A=\lambda N$ expressed in Bq, use $\lambda$ in $\mathrm s^{-1}$.
-
-\subsection{Physical half-life}
-At $t-t_0=T_{1/2}$, $A/A_0=1/2$. Thus
-\[
-\ln(1/2)=-\lambda T_{1/2},\qquad
-\boxed{\lambda=\frac{\ln2}{T_{1/2}}},\qquad
-\boxed{T_{1/2}=\frac{\ln2}{\lambda}}.
-\]
-Consequently,
-\[
-\boxed{\frac{A(t)}{A_0}=\frac{N(t)}{N_0}=2^{-(t-t_0)/T_{1/2}}}.
-\]
-A shorter half-life means a larger decay constant, not necessarily a larger activity unless the number of radioactive nuclei is also specified.
-
-\begin{center}
-\begin{tabular}{rrrrrr}
-\toprule Elapsed half-lives & 0 & 1 & 2 & 3 & 4\\\midrule
-Fraction remaining & 1 & $1/2$ & $1/4$ & $1/8$ & $1/16$\\
-Percentage & 100 & 50 & 25 & 12.5 & 6.25\\
-\bottomrule
-\end{tabular}
-\end{center}
-After ten half-lives, $2^{-10}\simeq0.0009766$, or 0.09766\%, remains in the expectation model. This is not automatically a regulatory release criterion.
-
-\begin{center}
-\begin{tikzpicture}[x=1.55cm,y=3cm,>=stealth]
-\draw[->] (0,0)--(5.5,0) node[right] {$t/T_{1/2}$};
-\draw[->] (0,0)--(0,1.18) node[above] {$A/A_0$};
-\foreach \x in {1,2,3,4,5}{\draw (\x,0.02)--(\x,-0.02) node[below]{\x};}
-\foreach \y/\lab in {0.25/0.25,0.5/0.5,1/1}{\draw (-0.05,\y)--(0.05,\y);\node[left] at (0,\y){\lab};}
-\draw[teal,very thick,domain=0:5,samples=70] plot (\x,{pow(2,-\x)});
-\draw[dashed,gray] (1,0)--(1,.5)--(0,.5);
-\end{tikzpicture}
-\end{center}
-The continuous expected curve approaches zero asymptotically. A finite collection of discrete nuclei can eventually have no parent nuclei left; this does not contradict the exponential expectation. A detector can register zero counts during an interval even when the source is still radioactive. Background and detection limits further separate measurement from true activity.
-
-\subsection{Units and useful conversions}
-\[
-1~\mathrm{Bq}=1~\text{nuclear transformation per second}=1~\mathrm{s^{-1}},
-\]
-\[
-1~\mathrm{Bq}=60~\mathrm{dpm},\qquad1~\mathrm{Ci}=3.7\times10^{10}~\mathrm{Bq},
-\]
-\[
-1~\mathrm{mCi}=37~\mathrm{MBq},\qquad1~\mathrm{\mu Ci}=37~\mathrm{kBq}.
-\]
-Becquerel and hertz share dimensions of inverse time but describe different phenomena. Counts per second (cps) and disintegrations per second (dps) are not generally equal. The curie historically relates to radium-226 activity; the modern conversion above is exact.
-
-\subsection{Worked activity and scheduling calculations}
-\extra
-\textbf{1. Activity from nuclei.} For a teaching Tc-99m half-life of 6.00 h and $N=10^{15}$,
-\[
-T_{1/2}=21600~\mathrm s,\quad\lambda=3.2090\times10^{-5}~\mathrm{s^{-1}},
-\quad A=3.2090\times10^{10}~\mathrm{Bq}=32.09~\mathrm{GBq}.
-\]
-This large sample activity is an arithmetic example, not a suggested patient activity.
-
-\textbf{2. Forward decay.} A separated sample is 800 MBq at 08:00, with 6.00 h half-life. At 14:00 it is 400 MBq; at 02:00 the following day, 18 h have elapsed and it is $800/2^3=100$ MBq.
-
-\textbf{3. Back-correction.} To have 300 MBq after 3 h for the same half-life, the earlier activity must be
-\[
-A_0=A(t)e^{\lambda\Delta t}=300\,2^{3/6}=424.26~\mathrm{MBq}.
-\]
-Earlier activity is larger. Neglecting handling losses is an explicit assumption.
-
-\textbf{4. Solve for time.} The time to fall from $A_0$ to a lower $A$ is
-\[
-\Delta t=\frac{\ln(A_0/A)}{\lambda}=T_{1/2}\frac{\ln(A_0/A)}{\ln2}.
-\]
-Falling from 400 to 50 MBq with a 6 h half-life takes $6\log_2 8=18$ h.
-
-\textbf{5. Infer half-life.} If a decay-only source falls from 200 to 125 MBq in 4 h,
-\[
-\lambda=\frac{\ln(200/125)}{4}=0.11750~\mathrm h^{-1},\quad T_{1/2}=5.899~\mathrm h.
-\]
-Measured count rates can substitute only when background is removed and geometry, efficiency and other response factors are unchanged.
-
-\subsection{Limits of the constant-decay assumption}
-Each nuclide and nuclear state has its own decay properties. Ordinary temperature and chemical changes generally do not materially alter the half-lives used in routine nuclear medicine calculations. Electron-dependent modes, especially electron capture, can be affected by electron occupancy; highly ionized systems require special treatment. A mixture does not usually follow one exponential, and daughter activity can increase through parent feeding.
-
-\section{Mean life, specific activity and administered activity}
-\source{L4, approximately 6:00--13:00.}
-\subsection{Mean life is not an average of isotope half-lives}
-For a single exponential lifetime distribution, measured from the reference time,
-\[
-S(t)=e^{-\lambda t},\qquad p(t)=\lambda e^{-\lambda t},\quad t\geq0,
-\]
-where $S$ is survival probability and $p$ is the normalized decay-time density. The $\lambda$ factor is necessary: $\int_0^\infty p(t)dt=1$.
-\[
-\boxed{\tau=\int_0^\infty t\lambda e^{-\lambda t}dt=\frac1\lambda
-=\frac{T_{1/2}}{\ln2}\simeq1.4427T_{1/2}}.
-\]
-At $t=\tau$, the expected surviving fraction is $1/e\simeq36.79\%$. At $T_{1/2}$ it is 50\%. For the 6.00 h teaching half-life, $\tau=8.656$ h. Mean life is useful for any exponential radionuclide, not only long-lived ones.
-
-\clarify{The transcript's ``mean half-life'' discussion blends different ideas. Mean life $\tau$ is defined for a lifetime distribution. It is not a universal effective half-life for a mixed-isotope vial.}
-For independent isotopes with initial activities $A_{i0}$,
-\[
-A_{\rm total}(t)=\sum_i A_{i0}e^{-\lambda_i t}.
-\]
-The apparent logarithmic slope changes as their proportions change. If asking for the mean remaining lifetime of a randomly selected radioactive nucleus, initial \emph{number fractions} $f_i$ give $\sum_i f_i/\lambda_i$; this still does not make the mixture single-exponential. Include daughter production separately where relevant.
-
-\subsection{Three denominators that must not be confused}
-\begin{longtable}{P{0.25\linewidth}P{0.24\linewidth}P{0.39\linewidth}}
-\toprule Quantity & Expression / units & What the denominator means\\\midrule
-Specific activity & $a_s=A/m$; Bq/g & Mass of specified material, radionuclide or chemical preparation; state the convention.\\
-Volumetric activity concentration & $C_A=A/V$; MBq/mL & Volume of a solution or tissue region.\\
-Weight-normalized administered activity & $k=A_{\rm admin}/m_{\rm patient}$; MBq/kg & Patient body mass, not mass of radioactive compound.\\
-Molar activity (supplement) & $A/n$; GBq/$\mu$mol & Amount of the specified chemical species.\\
-\bottomrule
-\end{longtable}
-For a pure radionuclide with molar mass $M$, $N=mN_A/M$ and
-\[
- a_{s,\rm pure}=\frac{\lambda N_A}{M}.
-\]
-The units of $M$ must match the desired mass denominator. Added stable carrier decreases activity per mass of the combined material. A high specific or molar activity may reduce the chemical mass administered for a given activity; it does not by itself specify patient absorbed dose.
-
-\subsection{The FDG example: retain the arithmetic, correct the rule}
-The lecture discusses 4 MBq/kg and possible lower activities as a study topic. \textbf{Do not interpret 4 MBq/kg as a universal minimum for all FDG examinations.} The EANM tumour-imaging guideline version 3.0 relates administered activity to the imaging system, acquisition duration and patient characteristics. Optimization must preserve diagnostic performance; ethnicity alone is not an adequate activity-selection rule. Adult and paediatric protocols also differ. See the EANM reference in Section~\ref{sec:refs}.
-
-\extra
-\textbf{Hypothetical arithmetic only.} If an exercise specifies $k=4~\mathrm{MBq/kg}$ and a 60 kg patient, then $A_{\rm target}=240$ MBq. If a solution is 120 MBq/mL \emph{at the administration reference time}, the ideal volume is
-\[
-V=\frac{A_{\rm target}}{C_A}=\frac{240}{120}=2.00~\mathrm{mL}.
-\]
-If that concentration instead refers to 60 minutes earlier, using a rounded F-18 half-life of 110 min,
-\[
-C_A(60)=120\,2^{-60/110}\simeq82.2~\mathrm{MBq/mL},\quad
-V\simeq2.92~\mathrm{mL}.
-\]
-Actual dispensing additionally uses measured activity, timing, residual activity, validated geometry and the authorized protocol. Pre- and post-administration measurements must be decay-corrected to the same reference time before subtraction.
-
-\subsection{Activity is not absorbed dose}
-Activity is measured in Bq; absorbed dose is energy deposited per mass, in gray ($1~\mathrm{Gy}=1~\mathrm{J/kg}$). Equal activities of different radionuclides need not give equal organ doses. Emission energies and yields, spatial distribution, residence time and tissue mass all matter. A dose calibrator principally measures \emph{activity}; it does not directly measure a patient's absorbed dose.
-
-\section{Radioactive decay processes}
-\source{L4, approximately 13:00--64:00. Internal conversion and Auger detail were deferred; their explanations below are supplementary.}
-\subsection{Conservation and a compact comparison}
-Check charge, nucleon number, total energy and momentum in each complete equation; angular momentum must also be conserved. Ordinary beta and capture equations include a neutrino or antineutrino to complete energy, momentum and lepton accounting. Omitting them may abbreviate a chart label, but it does not give the full physical reaction.
-
-\begin{center}\small
-\begin{tabular}{lllll}
-\toprule Mode & Daughter $A$ & Daughter $Z$ & Daughter $N_n$ & Primary output\\\midrule
-Alpha & $A-4$ & $Z-2$ & $N_n-2$ & Helium nucleus\\
-Beta minus & $A$ & $Z+1$ & $N_n-1$ & $e^-+\bar\nu_e$\\
-Beta plus & $A$ & $Z-1$ & $N_n+1$ & $e^++\nu_e$\\
-Electron capture & $A$ & $Z-1$ & $N_n+1$ & $\nu_e$; electron consumed\\
-Gamma & $A$ & $Z$ & $N_n$ & Photon\\
-Internal conversion & $A$ & $Z$ & $N_n$ & Orbital electron ejected\\
-Neutron emission & $A-1$ & $Z$ & $N_n-1$ & Neutron\\
-Proton emission & $A-1$ & $Z-1$ & $N_n$ & Proton\\
-\bottomrule
-\end{tabular}\end{center}
-Neutron and proton emission were named but not developed in detail in L4. Nuclear de-excitation can follow an earlier alpha or beta decay, so the categories are not mutually exclusive descriptions of an entire decay scheme.
-
-\subsection{Alpha decay}
-\[
-\nucl{A}{Z}{X}\longrightarrow\nucl{A-4}{Z-2}{Y}+\nucl{4}{2}{He},
-\qquad\nucl{238}{92}{U}\longrightarrow\nucl{234}{90}{Th}+\nucl{4}{2}{He}.
-\]
-An alpha particle is a helium-4 \emph{nucleus}, containing two protons and two neutrons with charge $+2e$, not initially a neutral helium atom. The daughter is a different element. Alpha emission is common in heavy radioactive nuclei and involves tunneling through the Coulomb barrier.
-
-\extra
-For a specified daughter level, alpha energy is discrete and the daughter recoils. In the nonrelativistic two-body approximation,
-\[
-Q=T_\alpha+T_D,\qquad T_\alpha\simeq Q\frac{M_D}{M_D+m_\alpha}.
-\]
-Several daughter levels produce several alpha lines. Excited daughters can subsequently de-excite. Alpha particles deposit energy densely over short ranges, making localization crucial in targeted therapy. Low penetration through intact skin does not imply low hazard after internal uptake.
-
-\subsection{Beta-minus decay}
-\[
-n\longrightarrow p+e^-+\bar\nu_e,
-\qquad\nucl{A}{Z}{X}\longrightarrow\nucl{A}{Z+1}{Y}+e^-+\bar\nu_e.
-\]
-The electron is created in the weak transformation; it is not a pre-existing electron stored in the nucleus. Mass number is unchanged because one neutron becomes one proton. The electron's nuclear-equation labels are $\nucl{0}{-1}{e}$: zero nucleons, charge $-e$, but \emph{nonzero rest mass}.
-
-The lecture's example is
-\[
-\nucl{14}{6}{C}\longrightarrow\nucl{14}{7}{N}+e^-+\bar\nu_e.
-\]
-\extra
-Electron kinetic energy is continuous because energy is shared with the antineutrino and recoil. A branch has an endpoint energy; this is not its mean beta energy. Using neutral atomic masses, approximately
-\[
-Q_{\beta^-}=[M(X)-M(Y)]c^2;
-\]
-subtract daughter excitation energy for an excited-state branch. Nuclear medicine beta emitters include I-131, Y-90 and Lu-177; photon emission depends on the full daughter scheme, not the beta-minus label alone.
-
-\subsection{Beta-plus decay and annihilation}
-For an energetically allowed transformation inside a nucleus,
-\[
-p\longrightarrow n+e^++\nu_e,
-\qquad\nucl{A}{Z}{X}\longrightarrow\nucl{A}{Z-1}{Y}+e^++\nu_e.
-\]
-The free isolated proton does not spontaneously undergo this reaction: the nuclear mass balance is essential. The lecture uses $\nucl{10}{6}{C}\to\nucl{10}{5}{B}+e^++\nu_e$. A medically important example is $\nucl{18}{9}{F}\to\nucl{18}{8}{O}+e^++\nu_e$.
-
-\extra
-With neutral atomic masses,
-\[
-Q_{\beta^+}=[M(X)-M(Y)-2m_e]c^2.
-\]
-The parent--daughter atomic mass-energy difference must exceed $2m_ec^2\simeq1.022$ MeV for an allowed ground-state branch. Excitation adds to the requirement. The positron has a continuous initial kinetic-energy spectrum.
-
-After slowing in matter, a positron usually annihilates with an electron:
-\[
-e^++e^-\longrightarrow\gamma+\gamma.
-\]
-For two-photon annihilation approximately at rest, each photon has about 511 keV and the directions are approximately opposite. PET detects these photons in coincidence. It does not directly detect a 511 keV photon emitted by the F-18 nucleus. Positron range and non-collinearity limit spatial resolution. Annihilation in flight and three-photon channels mean that ``always exactly two photons at exactly $180^\circ$'' is too absolute.
-
-\subsection{Electron capture and atomic relaxation}
-\[
-p+e^-\longrightarrow n+\nu_e,
-\qquad\nucl{A}{Z}{X}+e^-\longrightarrow\nucl{A}{Z-1}{Y}+\nu_e.
-\]
-Capture generally involves an occupied bound orbital with wavefunction overlap at the nucleus, commonly the K shell; other shells also contribute. It is a \emph{weak} transformation, not simply electrostatic attraction switching off nuclear forces. Like beta plus, it decreases $Z$ by one and increases $N_n$ by one at fixed $A$.
-
-The lecture gives carbon-11 capture to boron-11. This is a possible minor branch; carbon-11 is primarily a positron emitter. Iodine-123 is a clearer medically relevant capture example:
-\[
-\nucl{123}{53}{I}+e^-\longrightarrow\nucl{123}{52}{Te}^{*}+\nu_e.
-\]
-The daughter can subsequently emit nuclear photons or conversion electrons. Capture also leaves an atomic vacancy. Filling a vacancy releases electronic transition energy through characteristic X-rays or nonradiative electron emission, potentially followed by a cascade.
-
-\extra
-The total atomic mass release is approximately $[M(X)-M(Y)]c^2$. Energy available to the neutrino in a specified channel is reduced by nuclear excitation, atomic vacancy energy and recoil. Capture has no positron-creation threshold and can occur when beta plus is forbidden, if the chosen final state is accessible. Neutrino energy is approximately discrete for a specified daughter level and captured shell.
-
-\subsection{Gamma emission and metastable nuclei}
-\[
-\nucl{A}{Z}{X}^{*}\longrightarrow\nucl{A}{Z}{X}+\gamma.
-\]
-The nucleus loses excitation without changing proton or neutron number. Photon energy is approximately the level-energy difference, with a small recoil correction. A ground-state daughter need not be stable against later decay.
-
-The important example is $^{99m}$Tc de-excitation to $^{99}$Tc, with a prominent photon near 140.5 keV. The daughter is \emph{Tc-99}, not Tc-99m, and remains long-lived and radioactive. Likewise, the familiar 662 keV line associated with Cs-137 arises from de-excitation of Ba-137m populated after Cs-137 beta decay.
-
-\clarify{Gamma rays are distinguished from characteristic X-rays by their nuclear rather than electronic origin, not by a universal energy cutoff. Their energy ranges overlap. Annihilation radiation is another distinct origin of photons.}
-
-\subsection{Internal conversion and Auger electrons}
-\extra
-Internal conversion transfers nuclear transition energy directly to an orbital electron, which is ejected:
-\[
-T_{\rm IC}\simeq E_{\rm transition}-B_{\rm shell}-E_{\rm recoil}.
-\]
-The nucleus keeps the same $A$ and $Z$. There is no real emitted gamma photon that must first be reabsorbed. Conversion competes with gamma emission and produces electron lines determined by the transition and shell. The vacancy can subsequently generate X-rays or Auger electrons. The conversion coefficient is $\alpha_{\rm IC}=N_{\rm conversion}/N_\gamma$ for the specified transition.
-
-An Auger process is \emph{atomic} relaxation: energy from filling one vacancy ejects another electron. It is a nonradiative competing relaxation route, not necessarily an X-ray emitted and then trapped in the atom. In a simple shell-energy description,
-\[
-T_{\rm Auger}\simeq B_i-B_j-B_k,
-\]
-with more accurate calculations accounting for changed electron configurations. Conversion electrons originate from nuclear transition energy; Auger electrons originate from atomic rearrangement; beta electrons originate in a weak nuclear transformation.
-
-\subsection{Spontaneous and neutron-induced fission}
-Spontaneous fission requires no incoming projectile:
-\[
-\nucl{A}{Z}{X}\longrightarrow
-\nucl{A_1}{Z_1}{Y}+\nucl{A_2}{Z_2}{W}+k\nucl{1}{0}{n},
-\]
-with $A=A_1+A_2+k$ and $Z=Z_1+Z_2$ for this simplified channel. Fragments, neutron multiplicity and emitted radiation vary. Cf-252 has a spontaneous-fission branch, although its dominant decay is alpha emission.
-
-The lecture's uranium example is instead \textbf{neutron-induced fission}:
-\[
-\nucl{235}{92}{U}+\nucl{1}{0}{n}\longrightarrow\nucl{236}{92}{U}^{*}
-\longrightarrow\nucl{141}{56}{Ba}+\nucl{92}{36}{Kr}+3\nucl{1}{0}{n}.
-\]
-This is one illustrative product channel, not the unique outcome. Charge is $92=56+36$ and nucleon number is $236=141+92+3$. The mass-92, $Z=36$ fragment is \emph{krypton}, not plutonium. Additional energy appears in fragment kinetic energy and radiation.
-
-A moderator primarily slows neutrons; control rods primarily absorb neutrons to control reactivity. The emitted fission neutrons are initially fast, not automatically thermal. A chain reaction is not the same concept as a sequential radioactive decay chain.
-
-\subsection{Weak reactions are not interchangeable reverse arrows}
-\clarify{Ordinary beta-minus decay does not require an incoming neutrino. The process $\nu_e+n\to p+e^-$ is neutrino capture, a separate reaction. Positron capture and reverse weak reactions have their own incoming particles and energy requirements. Do not reverse a partial equation with missing neutrinos and call it the same spontaneous decay.}
-
-\section{Supplement: clearance, integrated activity and generators}
-\extra
-These ideas extend the foundations. Biological/effective half-lives and production were previewed in L1; daughter growth was mentioned in L3. They were not fully derived in the four recordings.
-\subsection{Physical, biological and effective half-life}
-Physical half-life describes nuclear transformation. Biological half-life describes removal from a defined compartment. With independent single-exponential clearance and decay and no continuing uptake,
-\[
-\frac{dN}{dt}=-(\lambda_p+\lambda_b)N,\quad
-\lambda_{\rm eff}=\lambda_p+\lambda_b,
-\]
-\[
-\boxed{\frac1{T_{\rm eff}}=\frac1{T_p}+\frac1{T_b}},\qquad
-\boxed{T_{\rm eff}=\frac{T_pT_b}{T_p+T_b}}.
-\]
-For finite positive $T_p,T_b$, $T_{\rm eff}$ is shorter than either. If $T_p=6$ h and $T_b=12$ h, $T_{\rm eff}=4$ h. Removal from an organ does not mean the radionuclide has decayed; it may move elsewhere. Uptake, recirculation and multiple compartments invalidate a one-exponential description.
-
-\subsection{Time-integrated activity}
-For $A(t)=A_0e^{-\lambda t}$,
-\[
-\widetilde A(0,t)=\int_0^t A(t')dt'=\frac{A_0}{\lambda}(1-e^{-\lambda t}),
-\qquad\widetilde A(0,\infty)=\frac{A_0}{\lambda}=A_0\tau.
-\]
-With activity in Bq and time in seconds, integrated activity counts expected nuclear transformations. In a clearance compartment use the \emph{effective} decay of compartmental activity, yielding $A_0/\lambda_{\rm eff}$. Absorbed-dose calculation additionally requires emitted energy and the fraction deposited in each target, not merely integrated activity.
-
-\subsection{Parent--daughter growth}
-For a parent $P$ feeding a daughter $D$ with fraction $b$,
-\[
-\frac{dN_P}{dt}=-\lambda_PN_P,\qquad
-\frac{dN_D}{dt}=b\lambda_PN_P-\lambda_DN_D.
-\]
-If $N_D(0)=0$ and $\lambda_D\ne\lambda_P$,
-\[
-N_D(t)=\frac{b\lambda_PN_P(0)}{\lambda_D-\lambda_P}
-\left(e^{-\lambda_Pt}-e^{-\lambda_Dt}\right).
-\]
-Multiplying by $\lambda_D$ gives daughter activity. It can initially rise while parent activity falls. For a much longer-lived parent, secular equilibrium approaches $A_D\simeq bA_P$ after several daughter half-lives. When the parent is longer-lived but not overwhelmingly so, transient equilibrium may arise; the asymptotic ratio is $b\lambda_D/(\lambda_D-\lambda_P)$.
-
-In a Mo-99/Tc-99m generator, Mo-99 (about 66 h half-life) feeds Tc-99m (about 6 h). Chemical elution separates technetium from molybdenum. Parent remaining in the generator produces more daughter. With ideal complete daughter removal, the daughter activity maximum occurs at
-\[
-t_{\max}=\frac{\ln(\lambda_D/\lambda_P)}{\lambda_D-\lambda_P}\simeq22.8~\mathrm h
-\]
-using 66 h and 6 h. Elution yield, breakthrough and radiochemical quality require actual quality-control measurements.
-
-\subsection{Production routes}
-Reactors produce radionuclides through neutron activation or fission-product routes; cyclotrons use accelerated charged particles in nuclear reactions; generators exploit parent--daughter separation. A production route must be checked for the specific nuclide. It is not sound to assume I-123, I-124 and I-131 are all inevitably co-produced in one reactor extraction. Radionuclidic purity concerns other radionuclides; radiochemical purity concerns chemical forms; chemical purity concerns nonradioactive contaminants.
-
-\section{Supplement: from emissions to an image}\label{sec:imaging}
-\extra
-The following is a study preview of the imaging topics announced in L1, not a claim that they were taught in full.
-\subsection{Branching fractions and emission yields}
-If competing channels have partial decay constants $\lambda_i$, then
-\[
-\lambda_{\rm total}=\sum_i\lambda_i,\qquad b_i=\lambda_i/\lambda_{\rm total},
-\qquad A_i=b_i A_{\rm total}.
-\]
-The parent has one overall disappearance half-life, $\ln2/\lambda_{\rm total}$. A partial half-life is $T_{1/2}/b_i$. A branch fraction is not automatically the yield of a particular photon line: cascades can emit multiple photons and internal conversion can compete with photon emission.
-
-\subsection{Activity, photon yield and count rate}
-If $y$ is photons in the chosen emission line per transformation and $\epsilon$ is the total relevant detection efficiency,
-\[
-R_{\rm net}\simeq A\,y\,\epsilon.
-\]
-For 20 MBq, $y=0.80$ and $\epsilon=0.001$, the ideal photon emission rate is $16\times10^6$ photons/s and detected rate is 16000 cps. Activity, photon rate and count rate differ. Background, attenuation, scatter, dead time and the event-selection rules must be accounted for in a real measurement.
-
-\subsection{Interaction and attenuation basics}
-Photoelectric absorption transfers a photon's energy to a bound electron and leaves a vacancy. Compton scattering transfers part of the energy to an electron and redirects the photon. For a monoenergetic narrow beam through uniform material,
-\[
-I(x)=I_0e^{-\mu x}.
-\]
-$\mu$ is an attenuation coefficient in inverse length. The half-value layer is $\ln2/\mu$, which has length units; physical radioactive half-life has time units. Scatter entering a broad-beam detector complicates this simple attenuation model. Attenuation correction is essential to reliable quantitative emission imaging.
-
-\subsection{Planar imaging, SPECT and PET}
-A gamma camera uses a collimator to select photon directions and detector signals to estimate interaction positions and energies. Better geometric collimator resolution usually trades against sensitivity. Planar imaging superimposes activity through depth. SPECT acquires projections around the subject and reconstructs a tomographic activity distribution. Filtered backprojection and iterative methods are reconstruction approaches, not simply fixed properties of particular manufacturers.
-
-PET uses coincidence lines of response between detected annihilation photons. True coincidences arise from the same annihilation; scattered coincidences include deflected photons; random coincidences combine unrelated events. PET/CT and SPECT/CT combine functional and anatomical information, with CT commonly supporting attenuation correction. Motion or misregistration can create artifacts.
-
-For PET time of flight,
-\[
-\Delta x=\frac{c\Delta t}{2},
-\]
-where the sign depends on which detector's time is subtracted. Timing narrows probable location along a line; it does not eliminate the need for image reconstruction.
-
-\subsection{Statistics and quantification}
-For ideal independent counting with $C$ expected counts, Poisson standard deviation is approximately $\sqrt C$, so relative uncertainty is about $1/\sqrt C$. Four times the counts halve this component of relative noise. Background subtraction adds variance from both measurements. Dead time and correction/reconstruction methods can change the simple statistical model.
-
-A body-weight-normalized SUV compares regional activity concentration with net administered activity per body mass, with consistent units and decay reference time:
-\[
-\mathrm{SUV}_{bw}=\frac{C_{\rm tissue}}{A_{\rm net}/m_{\rm body}}.
-\]
-Using Bq/g in numerator and denominator gives a dimensionless ratio. If imaging concentration is in Bq/mL, an approximately unit-density convention is commonly implicit. SUVs depend on uptake interval, glucose state, calibration, reconstruction, partial-volume effects and other conditions. They are not intrinsically diagnosis-specific.
-
-\subsection{Diagnostic and therapeutic roles}
-The same nuclear physics supports different clinical goals. Imaging favors emissions that escape tissue and can be detected with useful spatial and energy information. Therapy seeks energy deposition in the intended target while limiting irradiation elsewhere. A radionuclide can emit both therapeutic particles and useful imaging photons.
-
-\begin{center}\small
-\begin{tabular}{P{0.20\linewidth}P{0.29\linewidth}P{0.39\linewidth}}
-\toprule Role & Illustrative radionuclides & Main physical connection\\\midrule
-Single-photon imaging & Tc-99m, I-123 & Detectable photons from nuclear de-excitation.\\
-PET & F-18, C-11 & Positron emission followed by annihilation.\\
-Beta-particle therapy & I-131, Y-90, Lu-177 & Electron energy deposited over a finite range.\\
-Alpha-particle therapy & Ra-223; Ac-225 in targeted-therapy development & Dense energy deposition over short tracks; daughter recoil and distribution matter.\\
-Auger-based approaches & Suitable electron-capture emitters & Highly local electron cascades; subcellular localization matters.\\
-\bottomrule
-\end{tabular}
-\end{center}
-Theranostics links diagnostic targeting information with a corresponding therapeutic strategy, often using different radionuclides attached to related targeting molecules. It does not require one radionuclide to serve both purposes. Current approval, availability and indications vary; this table is a physical comparison rather than a treatment-selection guide.
-
-\subsection{QA/QC and radiation protection}
-QA is the wider system ensuring reliable work; QC includes measurements that check performance. Examples include activity-meter constancy and geometry response, camera uniformity and energy response, SPECT centre-of-rotation alignment, and PET normalization and calibration checks. Frequencies and acceptance limits must follow the equipment, protocol and applicable guidance rather than a generic list.
-
-Patient medical exposures are governed by justification and optimization; occupational/public dose limits are not patient diagnostic dose caps. Diagnostic reference levels help identify protocols needing review and are not individual patient limits. Time, distance and appropriate shielding reduce exposure; contamination monitoring addresses spread of radioactive material. These principles do not justify lowering activity below what the clinical task requires.
-
-\section{Supplement: less common decay variants}
-\extra
-This section retains broader study coverage beyond the recordings without treating rare processes as routine imaging mechanisms.
-\subsection{Particle emission and delayed emission}
-Neutron emission gives $(A-1,Z)$; proton emission gives $(A-1,Z-1)$. A neutron-unbound state can emit a neutron without a Coulomb barrier; a proton-emitting state encounters a Coulomb barrier. Neutron-rich nuclei do not all emit neutrons: ordinary beta-minus decay is common.
-
-Beta decay can first populate an excited daughter above a particle threshold, followed by particle emission:
-\[
-\nucl{A}{Z}{X}\xrightarrow{\beta^-}\nucl{A}{Z+1}{Y}^{*}
-\longrightarrow\nucl{A-1}{Z+1}{Y}+n.
-\]
-The first step also emits $e^-+\bar\nu_e$. The delay reflects the parent weak decay. Two-proton and two-neutron emission may be direct/correlated or sequential, depending on accessible states. Cluster emission ejects a bound cluster heavier than an alpha, leaving $(A-a,Z-z)$ for an emitted $\nucl{a}{z}{C}$. These require nuclide-specific evaluated data.
-
-\subsection{Other de-excitation channels}
-An energetic nuclear transition can create an electron--positron pair internally when sufficient energy is available (above approximately 1.022 MeV, with recoil accounted for). This is distinct from beta plus: $A$ and $Z$ remain unchanged. It is also distinct from an already propagating photon producing a pair in matter. Rare two-photon nuclear de-excitation is another electromagnetic route.
-
-\subsection{Double-weak and electron-occupancy effects}
-Two-neutrino double-beta-minus decay has the form
-\[
-\nucl{A}{Z}{X}\longrightarrow\nucl{A}{Z+2}{Y}+2e^-+2\bar\nu_e.
-\]
-It is a second-order weak process rather than two ordinary decays through a populated intermediate state. Double electron capture changes $Z$ by $-2$ and consumes two electrons. Positron/capture combinations have their own mass thresholds and final-state requirements. These are extremely slow processes, not routine nuclear medicine production or imaging mechanisms.
-
-A proposed neutrinoless double-beta mode would omit the antineutrinos and violate lepton number; it must be kept distinct from established two-neutrino modes. No experimental discovery claim is made here. In bound-state beta-minus decay, the newly produced electron occupies an available bound orbital, particularly relevant to highly ionized atoms. Radiative weak-decay variants include an additional photon. These qualifications explain why the simplest neutral-atom decay model is not universal.
-
-\section{Corrections and unresolved transcript details}
-The corrections below identify important differences between transcript wording and the scientific statements used in this edition. They do not establish whether an error originated with speech, transcription or an unseen slide.
-\begin{longtable}{P{0.17\linewidth}P{0.32\linewidth}P{0.39\linewidth}}
-\toprule Recording & Wording / issue & Treatment in these notes\\\midrule
-\endfirsthead
-\toprule Recording & Wording / issue & Treatment in these notes\\\midrule
-\endhead
-L1 75--77 min & Quantum-number orientations; quark fractions called spin & General $m_\ell$ range given; $2/3$ and $-1/3$ identified as charges.\\
-L2 10--35 min & Weak for unstable, strong for stable; equal force strengths & Interaction-based description; dominance separated from relative strength.\\
-L2 24--25 min & Higgs as gauge carrier / validation of relativity & Higgs field role distinguished from gauge bosons and general relativity.\\
-L2 55--58 min & Carbon-12 reference explained by isolated-atom occurrence & Reference definition stated without the incorrect chemical rationale.\\
-L2 about 70 min & ``Cesium-157'' with about 30-year half-life & Consistent identification is Cs-137; no invented Cs-157 data.\\
-L2 76--84 min & Abrupt force switch; alpha poisoning linked to neutrons & Finite-range interactions explained; alpha emission does not imply neutrons.\\
-L2 about 88 min & Speed of light exponent / unit errors & $c\simeq3\times10^8~\mathrm{m/s}$.\\
-L2 92--93 min & Helium-4 target 27.27 MeV & Computed about 28.30 MeV; slide comparison remains unavailable.\\
-L3 12--24 min & ``Multiply by $e$ / $\ln$'' & Exponentiation / logarithm operations shown explicitly.\\
-L3 32--35 min & Activity can never be zero & Continuous expectation separated from finite populations and measured counts.\\
-L3 38--40 min & Daughter terminology attributed to Marie Curie & Unsupported etymology omitted; parent/daughter/progeny retained as terminology.\\
-L4 6--9 min & Mean life as isotope-mixture half-life & $\tau=1/\lambda$; mixture described as a sum of exponentials.\\
-L4 10--13 min & Specific activity used for patient MBq/kg; 4 MBq/kg minimum & Distinct denominators; guideline- and scanner-dependent activity.\\
-L4 20--38 min & Mass number and atomic number interchanged; electrons described as massless & $A$ counts nucleons, $Z$ protons; electron mass nonzero.\\
-L4 35--47 min & Inner electrons called valence; EC as electrostatic; Auger via trapped X-ray & Inner/valence distinction, weak capture, and nonradiative atomic relaxation.\\
-L4 48--56 min & Stable gamma daughter; Tc-99m daughter label; spontaneous fission example & Lower-energy may remain radioactive; Tc-99 daughter; induced fission distinguished.\\
-L4 55--57 min & Plutonium-92 at $Z=36$; emitted thermal neutrons; moderator regulates by analogy & Kr-92; initial fast neutrons; moderator slowing distinguished from control-rod absorption.\\
-L4 59--60 min & Odd--odd list ends ``nitrogen-4'' & Nitrogen-14; hydrogen example identified as deuterium.\\
-\bottomrule
-\end{longtable}
-Course administration is time-sensitive. The orientation settled on 45\% examinations and 5\% attendance, while the initially spoken group-component figures are internally inconsistent if all treated as separate components. The current syllabus should resolve the group weighting; these notes do not invent a 100\% grading scheme. L4 announced online meetings on 21 and 24 September and an intended in-person return on 28 September, subject to announcements. These are historical recording statements, not verified current scheduling instructions.
-
-\clearpage
-\section{Practice with worked answers}
-\extra
-\begingroup
-\setlist[enumerate]{itemsep=10pt}
-\begin{enumerate}
-\item \textbf{Identify the nucleus.} A nuclide has $A=131$, $Z=53$. How many neutrons?\\
-$N_n=131-53=78$. It is iodine-131. A neutral atom has 53 electrons; ionization can change electron number without changing these nuclear labels.
-
-\item \textbf{Specific activity from a pure isotope.} Find the ideal activity per gram for a hypothetical pure radionuclide with 6 h half-life and molar mass 99 g/mol.\\
-$\lambda=0.693147/21600=3.2090\times10^{-5}~\mathrm{s^{-1}}$. Then $a_s=\lambda N_A/M\simeq1.952\times10^{17}~\mathrm{Bq/g}$. A real carrier-containing solution can have a much smaller value.
-
-\item \textbf{Unit conversion.} Convert 5 mCi to MBq and dpm.\\
-$5\times37=185$ MBq. Multiplying $185\times10^6$ Bq by 60 gives $1.11\times10^{10}$ dpm. This is transformations per minute, not detected counts per minute.
-
-\item \textbf{Partial half-life interval.} A 6 h source starts at 600 MBq. What remains after 9 h?\\
-$A=600\,2^{-9/6}=212.13$ MBq. Non-integer numbers of half-lives are valid.
-
-\item \textbf{Mean life.} A source has $\lambda=0.20~\mathrm h^{-1}$. Find mean life and half-life.\\
-$\tau=5.00$ h and $T_{1/2}=0.693147/0.20=3.466$ h.
-
-\item \textbf{Mixture.} Two independent components each start at 100 MBq and have half-lives 2 h and 6 h. Find total activity after 6 h.\\
-$A=100/2^3+100/2=12.5+50=62.5$ MBq. Using an arithmetic mean half-life of 4 h would give a different, incorrect result.
-
-\item \textbf{Integrated activity.} A single decay-only source starts at 100 MBq with a 6 h half-life. Find transformations during the first 6 h.\\
-$\widetilde A=(100\times10^6)/(3.2090\times10^{-5})\times(1-1/2)\simeq1.558\times10^{12}$ transformations. Convert hours to seconds before combining with Bq.
-
-\item \textbf{Net administered activity.} Pre-administration syringe activity is 250 MBq at 10:00. Residual is 10 MBq at 10:10. Using a 110 min half-life, calculate net activity referred to 10:00.\\
-Residual back-corrected to 10:00 is $10\,2^{10/110}=10.650$ MBq; net is $239.350$ MBq. Both values need the same reference time.
-
-\item \textbf{Effective half-life.} $T_p=8$ h and $T_b=24$ h.\\
-$T_{\rm eff}=8\times24/(8+24)=6$ h. In the stated model compartmental activity falls to one quarter after 12 h.
-
-\item \textbf{Alpha daughter.} $\nucl{210}{84}{Po}$ emits an alpha.\\
-The daughter has $A=206$, $Z=82$: $\nucl{206}{82}{Pb}$. Include $\nucl{4}{2}{He}$ on the product side.
-
-\item \textbf{Beta and capture.} Compare $^{14}$C beta minus with $^{18}$F beta plus.\\
-C-14 gives N-14, an electron and an antineutrino. F-18 gives O-18, a positron and a neutrino. Neither process changes mass number.
-
-\Needspace{6\baselineskip}
-\item \textbf{Threshold test.} A hypothetical neutral-atom mass difference is 0.80 MeV/$c^2$. Is ground-state beta plus possible?\\
-No: $Q_{\beta^+}=0.80-1.022=-0.222$ MeV. Electron capture may be possible if its nuclear and atomic final state is accessible; it must be checked separately.
-
-\item \textbf{Conversion electron.} A 200 keV nuclear transition converts an electron bound by 30 keV.\\
-Its kinetic energy is approximately 170 keV, neglecting recoil. This is not a continuous beta spectrum.
-
-\item \textbf{Count precision.} Compare 10000 counts with 40000 counts.\\
-Ideal relative Poisson uncertainties are 1\% and 0.5\%. Doubling counts alone improves relative uncertainty by $\sqrt2$, not a factor of two.
-
-\item \textbf{Chart direction.} On horizontal $N_n$, vertical $Z$, what decay moves one square left and one up?\\
-Beta minus: $(\Delta N_n,\Delta Z)=(-1,+1)$. Recheck axes before using directional mnemonics.
-
-\item \textbf{Why is 511 keV not the beta-plus endpoint?}\\
-It is approximately the energy of each photon from at-rest two-photon annihilation. Initial positron kinetic energies are distributed continuously according to the beta-decay branch.
-
-\item \textbf{Does a ground-state daughter mean no further activity?}\\
-No. Tc-99 is the lower nuclear state after Tc-99m de-excitation, yet is itself radioactive. ``Ground state'' and ``stable nuclide'' describe different properties.
-
-\item \textbf{Can all nuclei in a small sample have decayed?}\\
-Yes. The nonzero exponential curve is the expected population, not a guarantee that at least one parent survives in every finite realization.
-\end{enumerate}
-\endgroup
-
-\clearpage
-\section{One-page equation and distinction sheet}
-\begin{align*}
-N_n&=A-Z,& R&\simeq r_0A^{1/3},\\
-B&=\Delta mc^2,& 1~\mathrm u\,c^2&\simeq931.494~\mathrm{MeV},\\
-A(t)&=\lambda N(t),& \lambda&=\ln2/T_{1/2},\\
-A(t)&=A_0e^{-\lambda\Delta t}=A_0\,2^{-\Delta t/T_{1/2}},&
-\Delta t&=\ln(A_0/A)/\lambda,\\
-\tau&=1/\lambda=T_{1/2}/\ln2,&
-p(t)&=\lambda e^{-\lambda t},\\
-C_A&=A/V,& a_s&=A/m,\\
-A_{\rm target}&=k\,m_{\rm patient},& V&=A_{\rm target}/C_A,\\
-T_{\rm eff}&=T_pT_b/(T_p+T_b),&\widetilde A_\infty&=A_0/\lambda_{\rm eff},\\
-R_{\rm net}&\simeq A y\epsilon,& \sigma_C/C&\simeq1/\sqrt C.
-\end{align*}
-The effective-half-life and integrated-activity expressions assume a single compartment without continued input. Counting expressions are idealizations.
+An \textbf{atom} is the smallest unit retaining chemical identity; atoms join to form molecules. Electrons surround a central \textbf{nucleus} composed of \textbf{protons} and \textbf{neutrons}. The number of protons defines the element.
 
 \begin{itemize}
-\item \textbf{Activity versus dose:} Bq counts transformations per second; Gy measures deposited joules per kilogram.
-\item \textbf{Mass number versus atomic number:} $A$ counts nucleons; $Z$ identifies the element.
-\item \textbf{Half-life versus mean life:} 50\% surviving at $T_{1/2}$; about 36.8\% at $\tau$.
-\item \textbf{Primary versus secondary radiation:} beta plus produces a positron; annihilation produces the PET photons. EC or conversion can be followed by X-rays/Auger electrons.
-\item \textbf{Reference times:} decay-correct activity and residual measurements before comparing or subtracting them.
-\item \textbf{Precision:} check units, use isotope masses, retain guard digits, state approximation and round only the result.
-\end{itemize}
-\[
-1~\mathrm{Ci}=37~\mathrm{GBq},\quad1~\mathrm{mCi}=37~\mathrm{MBq},\quad
-1~\mathrm{Bq}=60~\mathrm{dpm}.
-\]
-
-\clearpage
-\section{References and verification sources}\label{sec:refs}
-The lectures provide the topic sequence and questions. The following sources support corrections and further checking. Numerical practice and diagrams are original teaching material, not copied textbook figures. Accessed 18 September 2026. Exact decay schemes should be checked in evaluated data rather than inferred from a simplified example.
-\begin{enumerate}
-\item IAEA, \emph{Nuclear Medicine Physics: A Handbook for Teachers and Students} (2014), particularly Chapter 1: atomic/nuclear physics, binding energy, decay and decay chains. \href{https://www-pub.iaea.org/MTCD/Publications/PDF/Pub1617web-1294055.pdf}{Full handbook}.
-\item IAEA Nuclear Data Section, \emph{LiveChart of Nuclides}. \href{https://nucleus.iaea.org/Pages/livechart-of-nuclides-av.aspx}{Nuclide-chart entry page}. Use for nuclide-specific half-lives and branches; chart axes must be inspected.
-\item NNDC, Brookhaven National Laboratory, \emph{NuDat 3: Beta Decay}. \href{https://www.nndc.bnl.gov/nudat3/help/betadecay.jsp}{Weak transformations, Q-values and classification}. \href{https://www.nndc.bnl.gov/nudat3/}{NuDat evaluated-data interface}.
-\item NIST, \emph{Atomic Weights and Isotopic Compositions for All Elements}. \href{https://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl}{Isotopic atomic-mass table}. Used for H-1, He-4, Li-7, O-16 and U-235 exercise inputs. \href{https://physics.nist.gov/cuu/Constants/}{Fundamental constants}.
-\item CERN, \emph{The Standard Model}. \href{https://home.web.cern.ch/science/physics/standard-model/}{Particles, interactions and limits of the model}. CERN, \emph{What's so special about the Higgs boson?} \href{https://home.cern/science/physics/higgs-boson/what/}{Higgs mechanism and discovery}.
-\item Boellaard et al., \emph{[$^{18}$F]FDG PET/CT: EANM procedure guidelines for tumour imaging: version 3.0}, The EANM Journal (2025), 100006. \href{https://doi.org/10.1016/j.eanmj.2025.100006}{Guideline and supplementary material}; \href{https://eanm.org/publications/guidelines/overview/oncology/}{EANM oncology guideline directory}. Used to qualify the universal-activity claim; activity selection depends on scanner, acquisition and patient factors.
-\item NNDC, \emph{Tc-99 isomeric-transition decay, 6.0072 h}, evaluated July 2017. \href{https://www.nndc.bnl.gov/ensnds/99/Tc/99tc_it_decay_6.0072_h.pdf}{Evaluated levels and gamma-ray data}. The 6 h and 140.5 keV figures in these notes are deliberately rounded.
-\item IAEA, \emph{Radiation Protection and Safety of Radiation Sources: International Basic Safety Standards}, GSR Part 3. \href{https://nucleus.iaea.org/sites/nss-oui/Published%20Collections/m_3761d926-c16f-4477-a63b-741a9db1c16c/m_3761d926-c16f-4477-a63b-741a9db1c16c__50_0.Html}{Medical exposure, optimization and reference levels}.
-\item The course names Cherry, Sorenson and Phelps, \emph{Physics of Nuclear Medicine}, as the main textbook. Consult the edition assigned in the syllabus. This note does not claim that a specific edition or its unseen figures were reviewed.
-\end{enumerate}
-
-\clearpage
-\appendix
-\section{Recording identifiers and scope notes}\label{app:sources}
-These identifiers allow the private source recordings to be found again; the recordings themselves and participant names are not reproduced.
+\item \textbf{Quantum numbers} describe electronic states:
 \begin{itemize}
-\item L1: \texttt{of\_c43c23ec493b984d9d936abce8e31e3b}.
-\item L2: \texttt{of\_3d9aa268c8c0bd17ece8914d0471a0ee}.
-\item L3: \texttt{of\_92c075a3191c66b0f5a9adb07f8c389b}.
-\item L4: \texttt{of\_2b17d4008cb10aa998c96fd1230c6011}.
+\item \textbf{Principal quantum number (n)} specifies shell/energy level.
+\item \textbf{Orbital quantum number (l)} specifies orbital shape (s, p, d, f, g).
+\item \textbf{Magnetic quantum number (m)} specifies spatial orientation in a magnetic field.
+\item \textbf{Spin magnetic quantum number (m\ensuremath{{}_{s}})} specifies intrinsic electron spin (+1/2 or -1/2).
 \end{itemize}
-Transcript coverage was complete for the four selected recordings. Selection was based on the full library's recording titles and the scientific content of the selected transcripts. Unrelated-course recordings were not treated as nuclear medicine sources. Audio, lecture-slide images, chat answers and Canvas materials were not independently available for visual or auditory verification in this synthesis.
+\end{itemize}
+The three spatial orientations (px, py, pz) apply specifically to the \textbf{p subshell} (l = 1). Other subshells have different numbers of m-states (s: 1; d: 5; f: 7), consistent with 2l + 1 degeneracy.
 
-Administrative digressions, attendance roll calls, personal anecdotes and speculative analogies were omitted unless they affected scientific interpretation. All important topic-level content from the four recordings is represented. Supplementary imaging, production and uncommon-decay sections are introductory; they do not imply that later course lectures have already occurred.
+Protons and neutrons are composite particles made of \textbf{quarks}:
+
+\begin{itemize}
+\item \textbf{Up quark}: charge +2/3
+\item \textbf{Down quark}: charge -1/3
+\item \textbf{Proton (uud)}: (+2/3) + (+2/3) + (-1/3) = \textbf{+1}
+\item \textbf{Neutron (udd)}: (+2/3) + (-1/3) + (-1/3) = \textbf{0}
+\end{itemize}
+This quark composition explains the charges of nucleons.
+
+
+\clearpage
+\section{Fundamental Forces and the Atomic Nucleus}
+\subsection{The Four Fundamental Forces and the Quest for Unification}
+Modern physics recognizes \textbf{four fundamental forces} that orchestrate all interactions in nature: \textbf{gravity}, \textbf{electromagnetism}, the \textbf{strong nuclear force}, and the \textbf{weak nuclear force}. The prevailing cosmological picture, the \textbf{Big Bang}, suggests that these forces were unified in the earliest moments of the universe and differentiated as the cosmos cooled and expanded. A central objective of theoretical physics is to recover this unity through a consistent framework.
+
+Historically, the unification of electricity and magnetism into \textbf{electromagnetism} --- captured classically by Maxwell's equations and quantum mechanically by \textbf{quantum electrodynamics (QED)} --- was the first major success. In the 20th century, electromagnetism and the weak force were unified in the \textbf{electroweak theory}, which accurately describes processes such as radioactive beta decay.
+
+The next step toward unification is to join the \textbf{strong interaction} with the electroweak sector within a \textbf{Grand Unification Theory (GUT)}. Among candidate ideas is \textbf{supersymmetry (SUSY)}, which posits a deep relation between matter particles (fermions) and force carriers (bosons). Despite intense experimental efforts, a validated GUT remains out of reach, in part because current technology cannot probe the extremely high energies where such unification would manifest.
+
+The most ambitious goal is a \textbf{Theory of Everything} that includes \textbf{gravity} alongside the other three forces. Proposals such as \textbf{string theory} attempt this, but they are highly theoretical and presently lack experimental confirmation.
+
+\subsubsection{Relative Strength and Dominance Across Scales}
+It is misleading to rank fundamental forces by absolute strength without specifying context. Their influence depends critically on length scale:
+
+\begin{itemize}
+\item At macroscopic and celestial scales, \textbf{gravity} dominates the dynamics of planets, stars, and galaxies, despite its small coupling at the particle level.
+\item At atomic scales, \textbf{electromagnetism} governs electron-nucleus interactions, atomic structure, and all of chemistry; gravity is negligible here.
+\item At nuclear scales (\ensuremath{\sim}10\ensuremath{{}^{-15}} m), the \textbf{strong} and \textbf{weak} forces play important roles. The strong force binds protons and neutrons in stable nuclei, overcoming proton-proton Coulomb repulsion. The weak force orchestrates processes such as beta decay in unstable nuclei.
+\end{itemize}
+The key is that each force has a characteristic range and domain of relevance: what appears ``weak'' or ``strong'' is fundamentally scale-dependent.
+
+\subsection{The Standard Model of Particle Physics}
+The \textbf{Standard Model (SM)} is the central theoretical framework that classifies all known \textbf{elementary particles} and describes their interactions via three of the four forces (gravity excluded). It is to physics what the periodic table is to chemistry: a structured catalog of constituents and rules of interaction.
+
+\subsubsection{Matter Particles: Fermions}
+All matter is built from \textbf{fermions} (spin 1/2 particles), which fall into two families:
+
+\begin{itemize}
+\item \textbf{Quarks}: Six ``flavors'' arranged in three generations --- up, down; charm, strange; top, bottom. Quarks combine to form \textbf{hadrons}:
+\begin{itemize}
+\item \textbf{Baryons}: three-quark composites (e.g., protons, neutrons) with spin 1/2 or 3/2.
+\item \textbf{Mesons}: quark--antiquark composites (e.g., pions, kaons) with spin 0 or 1.
+\end{itemize}
+\end{itemize}
+  A proton, for example, consists of two up quarks and one down quark.
+
+\begin{itemize}
+\item \textbf{Leptons}: The electron, muon, and tau, each with its associated neutrino. The \textbf{electron} is an elementary lepton; leptons do not experience the strong force.
+\end{itemize}
+For every charged matter particle, there is a corresponding \textbf{antiparticle} with the same mass and opposite electric charge.
+
+\subsubsection{Force Carriers: Gauge Bosons}
+Interactions are mediated by \textbf{gauge bosons}, the quanta exchanged between fermions:
+
+\begin{itemize}
+\item \textbf{Photon}: carrier of \textbf{electromagnetism}; massless, the quantum of light.
+\item \textbf{Gluons}: carriers of the \textbf{strong force}; they ``glue'' quarks within hadrons and confine them inside nucleons.
+\item \textbf{W\ensuremath{\pm} and Z\ensuremath{{}^{0}} bosons}: carriers of the \textbf{weak force}; massive and central to processes such as beta decay.
+\end{itemize}
+The SM does not include gravity. The hypothetical quantum of gravity, the \textbf{graviton}, has not been experimentally detected. Its absence from the SM reflects both conceptual challenges in quantizing gravity and the practical difficulty of detecting a particle associated with an extremely weak interaction at particle scales.
+
+\subsubsection{The Higgs Boson and the Origin of Mass}
+Completing the SM is the \textbf{Higgs boson}, an excitation of the \textbf{Higgs field} that permeates the universe. Elementary particles acquire \textbf{mass} through their interaction with this field. The Higgs is a \textbf{scalar} (spin-0) particle.
+
+The Higgs boson was discovered at CERN's Large Hadron Collider by the ATLAS and CMS collaborations, supporting the Standard Model's mass-generation mechanism.
+
+\subsection{From Atomic Models to the Quantum Atom}
+Our picture of the atom evolved through successive models:
+
+\begin{itemize}
+\item \textbf{Dalton}: the atom as an indivisible solid sphere.
+\item \textbf{Thomson (plum pudding)}: electrons embedded in a diffuse positive medium.
+\item \textbf{Rutherford (nuclear model)}: a dense, positively charged \textbf{nucleus} with electrons orbiting it, based on the gold foil experiment.
+\item \textbf{Bohr}: quantized electron orbits (energy levels), successful for single-electron systems such as hydrogen.
+\item \textbf{Schrödinger (quantum mechanical model)}: electrons described by wavefunctions occupying \textbf{orbitals}, i.e., regions of probability; the state of each electron is specified by quantum numbers n, l, m\ensuremath{\ell}, m\ensuremath{{}_{s}}. This model is necessary for multi-electron atoms where Bohr's picture fails.
+\end{itemize}
+Bohr's model remains pedagogically useful for introducing \textbf{quantized energy levels}, but accurate atomic structure requires the full quantum treatment.
+
+\subsection{The Atomic Nucleus: Composition, Scale, and Terminology}
+The \textbf{nucleus} is the central, massive core of the atom, containing \textbf{protons} and \textbf{neutrons}, collectively called \textbf{nucleons}. It accounts for approximately 99.9\% of the atom's mass while occupying a minute fraction of its volume.
+
+\begin{itemize}
+\item \textbf{Atomic number (Z)}: the number of protons; it uniquely identifies the element and does not change for a given element.
+\item \textbf{Neutron number (N)}: the number of neutrons.
+\item \textbf{Mass number (A)}: the total number of nucleons, given by \textbf{A = Z + N}.
+\item \textbf{Nuclear radius}: approximately obeys R \ensuremath{\approx} R\ensuremath{{}_{0}} A\ensuremath{{}^{1/3}}, with R\ensuremath{{}_{0}} \ensuremath{\approx} 1.2--1.3 fm. The nuclear scale is on the order of 10\ensuremath{{}^{-15}} m.
+\end{itemize}
+Standard nuclear notation writes a nuclide as \({}^{A}_{Z}X\), where X is the element symbol, A is the mass number (upper left), and Z is the atomic number (lower left). The neutron number N is often given separately (A = Z + N). In reaction equations, additional annotations (e.g., charge state q) may appear; if present, the net ionic charge is placed in the upper right.
+
+\subsubsection{Nuclear Terminology: Isotopes, Isotones, Isobars, and Isomers}
+\begin{itemize}
+\item \textbf{Isotopes}: same Z, different N (thus different A). Example: \ensuremath{{}^{1}}H, \ensuremath{{}^{2}}H (deuterium), \ensuremath{{}^{3}}H (tritium).
+\item \textbf{Isotones}: same N, different Z and A. Example: \ensuremath{{}^{2}}H (Z=1, N=1) and \ensuremath{{}^{3}}He (Z=2, N=1).
+\item \textbf{Isobars}: same A, different Z and N. Example: \ensuremath{{}^{3}}H (Z=1, N=2) and \ensuremath{{}^{3}}He (Z=2, N=1).
+\item \textbf{Isomers}: same Z, N, and A, but different nuclear energy states. A long-lived excited state is \textbf{metastable} and is denoted by ``m''. Example: \ensuremath{{}^{99m}}Tc and \ensuremath{{}^{99}}Tc (different half-lives).
+\end{itemize}
+A crucial principle: \textbf{All isotopes of a given element have essentially identical chemical properties} (determined by Z and the resulting electron configuration) but can have profoundly different \textbf{nuclear properties} (stability, decay modes, radiation emission), which are governed by N and nuclear structure.
+
+
+\subsection{Atomic Mass Standards and the Atomic Mass Unit}
+The standard atomic mass reference is \textbf{carbon-12}:
+
+\begin{itemize}
+\item \textbf{Carbon-12} is abundant and offers a stable, well-defined reference.
+\item By definition, the mass of a neutral ground-state \ensuremath{{}^{12}}C atom is exactly 12 atomic mass units (amu).
+\end{itemize}
+One \textbf{atomic mass unit (amu or u)} is defined as one-twelfth the mass of a \ensuremath{{}^{12}}C atom:
+
+\begin{itemize}
+\item 1 u \ensuremath{\approx} 1.6605 \ensuremath{\times} 10\ensuremath{{}^{-27}} kg (more precisely, 1.66053906660 \ensuremath{\times} 10\ensuremath{{}^{-27}} kg).
+\item Using rest-mass energy conversion, 1 u corresponds to approximately \textbf{931.5 MeV/c\ensuremath{{}^{2}}}.
+\end{itemize}
+These equivalences permit routine conversions between mass and energy via \textbf{E = mc\ensuremath{{}^{2}}}. This bridge is foundational in nuclear physics, where masses are often tabulated in energy units.
+
+\subsubsection{Particle Masses and Rest Energies}
+Key rest masses and corresponding rest energies:
+
+\begin{itemize}
+\item \textbf{Electron}: m \ensuremath{\approx} 9.11 \ensuremath{\times} 10\ensuremath{{}^{-31}} kg; E\ensuremath{{}_{0}} \ensuremath{\approx} \textbf{0.511 MeV}.
+\item \textbf{Proton}: m \ensuremath{\approx} 1.67 \ensuremath{\times} 10\ensuremath{{}^{-27}} kg; E\ensuremath{{}_{0}} \ensuremath{\approx} \textbf{938 MeV}.
+\item \textbf{Neutron}: m \ensuremath{\approx} 1.67 \ensuremath{\times} 10\ensuremath{{}^{-27}} kg; E\ensuremath{{}_{0}} \ensuremath{\approx} \textbf{939 MeV}.
+\end{itemize}
+At the nuclear scale, nucleon masses dominate energetics; at the atomic scale, electron dynamics and electromagnetism dominate structure and chemistry.
+
+
+\subsection{Charge, Ionization, and Radiation}
+The \textbf{atomic number (Z)} sets the element's identity. In a \textbf{neutral atom}, the number of electrons equals Z. Gain or loss of electrons produces \textbf{ions}:
+
+\begin{itemize}
+\item Gaining electrons \ensuremath{\rightarrow} negative ion (anion).
+\item Losing electrons \ensuremath{\rightarrow} positive ion (cation).
+\end{itemize}
+Everyday electrostatics (e.g., a plastic comb attracting small paper pieces after combing hair) exemplifies charge transfer and electrostatic attraction. In radiation physics, the distinction between excitation and ionization is central:
+
+\begin{itemize}
+\item \textbf{Non-ionizing radiation} can \textbf{excite} electrons to higher energy states without removing them from atoms.
+\item \textbf{Ionizing radiation} has sufficient energy to liberate electrons, producing an \textbf{ion pair}: a positive ion (the residual atom) and a free electron. The positive ion typically captures an electron from the environment to re-establish neutrality.
+\end{itemize}
+These processes are foundational for understanding radiation detection, biological effects, and radiation protection.
+
+\subsection{The Chart of the Nuclides and Nuclear Stability}
+Nuclear stability is systematically represented in the \textbf{Chart of the Nuclides}, which plots \textbf{neutron number (N)} versus \textbf{proton number (Z)}. Always verify axis conventions, as some resources may invert them. Stable nuclides form a narrow band often called the \textbf{line (or peninsula) of stability}. Radionuclides occupy regions away from this line, and their positions correlate with characteristic \textbf{half-lives}:
+
+\begin{itemize}
+\item In the chart discussed in class, stable isotopes are shown as black squares.
+\item Long-lived unstable isotopes: red (half-lives from \textasciitilde{}350 years to \textasciitilde{}46 billion years); practically stable on human timescales.
+\item Moderately unstable: yellow (half-lives 12 days to 350 years).
+\item Short-lived: green (1 second to 12 days).
+\item Extremely unstable: blue (less than 1 second).
+\end{itemize}
+An unstable nuclide tends to undergo one or more decay processes to move toward stability on the chart, changing Z and/or N accordingly.
+
+\subsection{Nuclear Forces at the Boundary: Protons vs Neutrons}
+Within the nucleus, the \textbf{strong nuclear force} is dominant and binds nucleons tightly despite proton-proton \textbf{Coulombic} repulsion. Crucially, the dominance of the strong force is confined to distances on the order of nuclear dimensions.
+
+\begin{itemize}
+\item If a \textbf{proton} is outside the nucleus, the \textbf{electromagnetic force} immediately dominates, and the positively charged proton experiences strong repulsion from the positively charged nucleus. Overcoming this \textbf{Coulomb barrier} requires substantial kinetic energy. At nuclear distances, the strong force can bind the proton.
+\item A \textbf{neutron}, being electrically neutral, does not face a Coulomb barrier and can approach and enter the nucleus more readily. Nonetheless, free neutrons can be hazardous due to their mass and kinetic energy; their interactions can deposit significant energy in matter, posing serious biological risks. This underlies stringent \textbf{neutron shielding} requirements in nuclear facilities and certain medical applications.
+\end{itemize}
+\subsection{Mass Defect and Nuclear Binding Energy}
+A central empirical fact is that the mass of a bound nucleus is less than the sum of the masses of its constituent free protons and neutrons. This \textbf{mass defect (\ensuremath{\Delta}m)} corresponds to the \textbf{binding energy (BE)} that holds the nucleus together, via \textbf{E = mc\ensuremath{{}^{2}}}. Binding energy is released when nucleons bind (exothermic), and the same energy must be supplied to disassemble the nucleus (endothermic).
+
+Because of the MeV scale of nuclear energies, even small mass differences translate into large binding energies compared with chemical bond energies (typically eV).
+
+To calculate BE from measured masses, one uses the conversion:
+
+\begin{itemize}
+\item 1 u \ensuremath{\approx} 931.5 MeV/c\ensuremath{{}^{2}},
+\end{itemize}
+so that
+
+\begin{itemize}
+\item \textbf{BE = \ensuremath{\Delta}m \ensuremath{\times} 931.5 MeV/amu}, when \ensuremath{\Delta}m is expressed in atomic mass units.
+\end{itemize}
+This quantitative link allows precise accounting of energy release in nuclear reactions, fission, fusion, and decay.
+
+\subsection{Isotopes in Practice: Examples and Applications}
+The lecture highlights several isotope families and uses:
+
+\begin{itemize}
+\item \textbf{Hydrogen isotopes}: \ensuremath{{}^{1}}H, \ensuremath{{}^{2}}H, \ensuremath{{}^{3}}H illustrate basic isotopic concepts and enter into fusion and tracer studies.
+\item \textbf{Carbon isotopes}: \ensuremath{{}^{12}}C defines the atomic mass unit; \textbf{\ensuremath{{}^{14}}C} is radioactive and central to \textbf{radiocarbon dating}, where its known half-life and the \ensuremath{{}^{14}}C/\ensuremath{{}^{12}}C ratio enable age determinations of organic materials.
+\item \textbf{Oxygen isotopes}: \ensuremath{{}^{16}}O, \ensuremath{{}^{17}}O, \ensuremath{{}^{18}}O are common and widely used in geochemistry and climatology.
+\item \textbf{Cesium isotopes}: \textbf{\ensuremath{{}^{137}}Cs} is important in medicine (e.g., therapy devices and calibration sources), with a half-life of about 30.17 years.
+\end{itemize}
+In radionuclide production, multiple isotopes can be generated; subsequent processing must \textbf{obtain the desired radionuclide}, because chemical methods alone cannot differentiate isotopes of the same element (their chemical properties are essentially identical).
+
+
+\subsection{Binding-Energy Exercises}
+Calculate the nuclear binding energies of \textbf{helium-4}, \textbf{lithium-7}, \textbf{oxygen-16}, and \textbf{uranium-235} using the mass defect and the mass-energy conversion.
+
+
+\clearpage
+\section{Radioactive Decay and Half-Life}
+\subsection{Exponential Decay and Core Equations}
+\begin{itemize}
+\item Decay law and differential form
+\begin{itemize}
+\item The rate of change of the number of radioactive atoms N with respect to time t is proportional to N: dN = -\ensuremath{\lambda} N dt, where \ensuremath{\lambda} is the decay constant (constant of proportionality).
+\item Lowercase n refers to the number of atoms remaining after some time t; uppercase \(N_0\) (or N at t=0) denotes the initial number of atoms at the baseline/reference time.
+\end{itemize}
+\item Integration to obtain N(t)
+\begin{itemize}
+\item Rearrangement: (dN)/N = -\ensuremath{\lambda} dt; integrating explicitly from \(N_0\) to N and from \(t_0\) (often set to 0) to t gives ln(N) - ln(\(N_0\)) = -\ensuremath{\lambda} (t - \(t_0\)).
+\item Using logarithm properties ln(N) - ln(\(N_0\)) = ln(N/\(N_0\)); exponentiating yields N/\(N_0\) = \(e^{-\lambda(t-t_0)}\).
+\item Final form (with \(t_0\) = 0 for the baseline): N(t) = \(N_0\) \(e^{-\lambda t}\). If \(t_0\) is retained, the solution is N(t) = \(N_0\) \(e^{-\lambda(t-t_0)}\).
+\end{itemize}
+\item Activity definition and equivalence in form
+\begin{itemize}
+\item Activity A is the number of disintegrations per unit time; by definition A = -dN/dt = \ensuremath{\lambda} N.
+\item Because A \ensuremath{\propto} N, the same exponential form applies: A(t) = \(A_0\) \(e^{-\lambda t}\), where \(A_0\) is activity at baseline time.
+\end{itemize}
+\end{itemize}
+\subsection{Decay Constant (\ensuremath{\lambda}) and Half-Life (\(T_{1/2}\))}
+\begin{itemize}
+\item Unique decay constants per isotope
+\begin{itemize}
+\item Each radionuclide has its own decay constant, reflecting stability: more unstable isotopes have larger \ensuremath{\lambda}.
+\end{itemize}
+\item Deriving the \ensuremath{\lambda}--half-life relationship
+\begin{itemize}
+\item Half-life \(T_{1/2}\) is the time when the activity (or number of atoms) falls to half its initial value: A/\(A_0\) = 1/2 (equivalently N/\(N_0\) = 1/2).
+\item Starting from A/\(A_0\) = \(e^{-\lambda T_{1/2}}\) = 1/2, take natural log: ln(1/2) = -\ensuremath{\lambda} \(T_{1/2}\) \ensuremath{\rightarrow} \ensuremath{\lambda} = ln(2) / \(T_{1/2}\).
+\end{itemize}
+\item Using half-life in activity equations
+\begin{itemize}
+\item Substituting \ensuremath{\lambda}: A(t) = \(A_0\) \(e^{-(\ln 2)t/T_{1/2}}\). This enables activity calculations when \(T_{1/2}\) is known but \ensuremath{\lambda} is not.
+\end{itemize}
+\end{itemize}
+\subsection{Graphical Intuition and Successive Half-Lives}
+\begin{itemize}
+\item Ratio behavior over time
+\begin{itemize}
+\item At t = 0: A/\(A_0\) = 1. As time elapses, A/\(A_0\) decreases monotonically below 1 due to exponential decay.
+\end{itemize}
+\item First, second, third, and fourth half-lives
+\begin{itemize}
+\item At t = \(T_{1/2}\): A/\(A_0\) = 1/2 = 0.5.
+\item At t = 2 \(T_{1/2}\): A/\(A_0\) = 1/4 = 0.25.
+\item At t = 3 \(T_{1/2}\): A/\(A_0\) = 1/8 = 0.125.
+\item At t = 4 \(T_{1/2}\): A/\(A_0\) = 1/16 = 0.0625.
+\end{itemize}
+\end{itemize}
+\subsection{Asymptotic Nature of Exponential Decay}
+\begin{itemize}
+\item Approaching zero without reaching it
+\begin{itemize}
+\item The exponential decay model is asymptotic to the time axis: the predicted activity approaches zero as t increases but does not intersect the axis.
+\end{itemize}
+\end{itemize}
+\subsection{Practical Considerations in Clinical and Regulatory Settings}
+\begin{itemize}
+\item Inventory and familiarity with radionuclides
+\begin{itemize}
+\item Because memorizing numerous \ensuremath{\lambda} and \(T_{1/2}\) values is difficult, hospitals should maintain an inventory/table of radionuclides including half-lives, decay constants, decay modes, branching percentages, and peak energies.
+\item Familiarity with radionuclide specifications improves with regular use.
+\end{itemize}
+\item Correct classification and communication
+\begin{itemize}
+\item Anecdote: A radiopharmaceutical believed (from regulatory information) to be therapeutic underscored the need to consult clinicians on actual diagnostic vs therapeutic use to avoid mistakes.
+\end{itemize}
+\item Radiation protection implications
+\begin{itemize}
+\item Higher source activity corresponds to higher radiation exposure to staff. As activity decays over time, exposure decreases and may approach background radiation levels.
+\item Background radiation is nonzero; a decayed check source may become close to background levels but retains some activity.
+\end{itemize}
+\end{itemize}
+\subsection{Foundations of Radioactivity}
+\begin{itemize}
+\item Definition
+\begin{itemize}
+\item Radioactivity: spontaneous disintegration of an unstable atomic nucleus (parent) into a more stable daughter nucleus, often with higher binding energy per nucleon, accompanied by emission of energetic particles and/or electromagnetic radiation.
+\end{itemize}
+\item Stochastic nature and statistical laws
+\begin{itemize}
+\item Radioactive decay is a probabilistic (stochastic) process: individual nucleus decay times are unpredictable, but large populations follow statistical laws and branchings (percentages to various decay modes).
+\end{itemize}
+\item Constancy and independence of decay probability
+\begin{itemize}
+\item The probability of decay per unit time (\ensuremath{\lambda}) is constant for a given isotope and independent of the nuclide's age. In the basic decay model used here, ordinary changes in physical or chemical state do not alter \ensuremath{\lambda}.
+\end{itemize}
+\end{itemize}
+
+\clearpage
+\section{Activity and Radioactive Decay Processes}
+\subsection{Activity and Units}
+Activity is the number of disintegrations per unit time:
+
+\[A(t)=-\frac{dN}{dt}=\lambda N(t).\]
+
+The SI unit is the \textbf{becquerel (Bq)}: one disintegration per second. The legacy unit is the \textbf{curie (Ci)}, historically associated with radium-226:
+
+\[1\,\mathrm{Bq}=1\,\mathrm{s}^{-1},\qquad 1\,\mathrm{Ci}=3.7\times10^{10}\,\mathrm{Bq}.\]
+
+\subsection{Mean Life}
+Mean life describes the average lifetime of a radioactive nucleus. It follows from the exponential probability distribution for decay:
+
+\[p(t)=\lambda e^{-\lambda t},\qquad \tau=\frac{1}{\lambda}=\frac{T_{1/2}}{\ln 2}.\]
+
+The discussion also considers radionuclide mixtures, using iodine-131 products containing other iodine isotopes as an example. Different radionuclides in a mixture have different decay constants and half-lives.
+
+\subsection{Specific Activity}
+\textbf{Specific activity} is activity per unit mass, expressed in Bq/g or Ci/g. \textbf{Activity concentration} can also be expressed per unit volume.
+
+These quantities are relevant when preparing radiopharmaceuticals. The class uses fluorine-18 FDG to discuss activity relative to patient body mass, with \textbf{4 MBq/kg} as the example value. The discussion considers how patient body dimensions affect the activity needed. This example expresses administered activity per kilogram of patient body mass.
+
+\subsection{Decay Modes and Conservation}
+Radioactive decay modes reviewed include \textbf{alpha decay}, \textbf{beta-minus}, \textbf{beta-plus (positron)}, \textbf{electron capture}, \textbf{gamma emission}, \textbf{internal conversion}, \textbf{spontaneous fission}, and \textbf{proton/neutron emission}.
+
+Across nuclear equations, check \textbf{electric charge}, \textbf{nucleon number}, \textbf{momentum}, and \textbf{energy}, including rest-mass and kinetic energy.
+
+\subsection{Alpha Decay}
+Alpha decay emits a helium-4 nucleus, decreasing the mass number by four and the atomic number by two:
+
+\[{}^{A}_{Z}X\longrightarrow{}^{A-4}_{Z-2}Y+{}^{4}_{2}\mathrm{He}.\]
+
+Example:
+
+\[{}^{238}_{92}\mathrm{U}\longrightarrow{}^{234}_{90}\mathrm{Th}+{}^{4}_{2}\mathrm{He}.\]
+
+\subsection{Beta-Minus Decay}
+A neutron converts to a proton, emitting an electron and an antineutrino. The mass number is unchanged and the atomic number increases by one:
+
+\[n\longrightarrow p+e^-+\bar\nu_e.\]
+
+Example:
+
+\[{}^{14}_{6}\mathrm{C}\longrightarrow{}^{14}_{7}\mathrm{N}+e^-+\bar\nu_e.\]
+
+\subsection{Beta-Plus Decay and Positron Annihilation}
+A proton converts to a neutron, emitting a positron and a neutrino. The mass number is unchanged and the atomic number decreases by one:
+
+\[p\longrightarrow n+e^++\nu_e\quad\text{(within the nucleus).}\]
+
+Example:
+
+\[{}^{10}_{6}\mathrm{C}\longrightarrow{}^{10}_{5}\mathrm{B}+e^++\nu_e.\]
+
+Positron annihilation with an electron yields two \textbf{511 keV photons}, emitted approximately \textbf{180 degrees apart}.
+
+\subsection{Electron Capture}
+An inner-shell electron is captured by the nucleus; K-shell capture is often the most probable. The process converts a proton to a neutron:
+
+\[p+e^-\longrightarrow n+\nu_e.\]
+
+The atomic number decreases by one while the mass number remains unchanged. Example:
+
+\[{}^{11}_{6}\mathrm{C}+e^-\longrightarrow{}^{11}_{5}\mathrm{B}+\nu_e.\]
+
+The inner-shell vacancy triggers \textbf{characteristic X-ray} emission as electrons fill the vacancy. These energies are characteristic of the element. The \textbf{Auger effect} is named as a related atomic relaxation process for subsequent discussion.
+
+\subsection{Gamma Emission}
+Gamma emission is nuclear de-excitation. It changes the nuclear energy state without changing the atomic number or mass number. A relatively long-lived excited state is \textbf{metastable}, denoted by \textbf{m}.
+
+\[{}^{99\mathrm{m}}_{43}\mathrm{Tc}\longrightarrow{}^{99}_{43}\mathrm{Tc}+\gamma.\]
+
+\subsection{Internal Conversion}
+Internal conversion is an alternative nuclear de-excitation pathway involving an orbital electron. The nucleus transfers its excitation energy to that electron, which is emitted.
+
+\subsection{Fission}
+A heavy nucleus splits into lighter fragments and releases neutrons. \textbf{Spontaneous fission} occurs without an incident neutron; \textbf{neutron-induced fission} begins after neutron absorption.
+
+The uranium-235 example illustrates neutron absorption to form excited uranium-236, followed by fission. One balanced example is:
+
+\[{}^{235}_{92}\mathrm{U}+{}^{1}_{0}n\longrightarrow{}^{236}_{92}\mathrm{U}^{*}\longrightarrow{}^{141}_{56}\mathrm{Ba}+{}^{92}_{36}\mathrm{Kr}+3\,{}^{1}_{0}n.\]
+
+Check the nucleon numbers: \textbf{235 + 1 = 141 + 92 + 3}. Check the proton numbers: \textbf{92 = 56 + 36}.
+
+Released neutrons can sustain a \textbf{chain reaction}. Reactor moderators slow neutrons and affect the likelihood of subsequent fission.
+
+\subsection{Decay and the Chart of Nuclides}
+The probabilistic nature of decay governs branching and event likelihoods. Decay pathways can be related to movement on the chart of nuclides toward more stable configurations.
+
+Nuclear stability reflects the balance between nuclear attraction and proton-proton electrical repulsion. \textbf{Even-even nuclei} are especially common among stable nuclides. Changes in proton and neutron number identify the direction associated with each decay mode.
+
 \end{document}
