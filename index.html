@@ -2,902 +2,1182 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Apps & Subjects</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Joaquin del Pilar · Vault</title>
     <meta
       name="description"
-      content="A simple hub for apps, subjects, study tools, and contact links."
+      content="Joaquin del Pilar's vault: apps, subject notes, and links, mapped as a connected graph."
     />
+    <meta name="theme-color" content="#161616" />
 
     <style>
       :root {
-        --bg: #080808;
-        --panel: rgba(255, 255, 255, 0.04);
-        --panel-hover: rgba(255, 255, 255, 0.07);
-        --border: rgba(255, 255, 255, 0.12);
-        --text: rgba(255, 255, 255, 0.96);
-        --muted: rgba(255, 255, 255, 0.65);
-        --soft: rgba(255, 255, 255, 0.42);
-        --accent: #49d9ff;
-        --radius: 28px;
-        --max-width: 1050px;
+        --bg: #161616;
+        --bg-graph: #1a1a1a;
+        --bg-side: #202020;
+        --bg-elev: #262626;
+        --bg-hover: #2c2c2c;
+        --border: #333333;
+        --text: #dcddde;
+        --text-strong: #f2f2f2;
+        --muted: #999999;
+        --faint: #6a6a6a;
+        --accent: #a882ff;
+        --accent-soft: rgba(168, 130, 255, 0.16);
+        --pulse: #49d9ff;
+        --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --side-w: 260px;
+        --note-w: 380px;
+        --bar-h: 42px;
       }
 
-      * {
-        box-sizing: border-box;
-      }
+      * { box-sizing: border-box; }
 
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
+      html, body {
         margin: 0;
-        min-height: 100vh;
-        font-family: Inter, Arial, Helvetica, sans-serif;
+        height: 100%;
         background: var(--bg);
         color: var(--text);
-        overflow-x: hidden;
+        font-family: var(--sans);
+        font-size: 15px;
+        overflow: hidden;
+        -webkit-font-smoothing: antialiased;
       }
 
-      a {
-        color: inherit;
+      a { color: inherit; }
+      button { font: inherit; color: inherit; }
+
+      /* ============ APP SHELL ============ */
+
+      .app {
+        display: grid;
+        grid-template-columns: 44px var(--side-w) 1fr;
+        height: 100vh;
+        height: 100dvh;
+      }
+
+      /* Ribbon */
+      .ribbon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 10px 0;
+        background: var(--bg);
+        border-right: 1px solid var(--border);
+      }
+
+      .ribbon-btn {
+        display: grid;
+        place-items: center;
+        width: 32px;
+        height: 32px;
+        border: 0;
+        border-radius: 6px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
         text-decoration: none;
       }
+      .ribbon-btn:hover { background: var(--bg-hover); color: var(--text-strong); }
+      .ribbon-btn[aria-pressed="true"] { color: var(--accent); }
+      .ribbon-btn svg { width: 18px; height: 18px; }
+      .ribbon-spacer { flex: 1; }
 
-      /* =========================
-         BACKGROUND
-      ========================= */
-
-      .background {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        z-index: 0;
+      /* Sidebar / file explorer */
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        background: var(--bg-side);
+        border-right: 1px solid var(--border);
         overflow: hidden;
       }
 
-      .background::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-
-        background:
-          radial-gradient(
-            circle at top,
-            rgba(73, 217, 255, 0.16),
-            transparent 30%
-          ),
-          linear-gradient(
-            to bottom,
-            rgba(73, 217, 255, 0.05),
-            transparent 26%
-          );
-      }
-
-      .ecg {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 22rem;
-      }
-
-      .ecg-line {
-        fill: none;
-        stroke-linecap: round;
-        stroke-linejoin: round;
-        vector-effect: non-scaling-stroke;
-      }
-
-      .ecg-line-back {
-        stroke: rgba(73, 217, 255, 0.22);
-        stroke-width: 8;
-        filter: url(#glow);
-      }
-
-      .ecg-line-front {
-        stroke: var(--accent);
-        stroke-width: 3.5;
-        filter: url(#glow);
-        stroke-dasharray: 380 1220;
-        animation: ecgMove 3.2s linear infinite;
-      }
-
-      @keyframes ecgMove {
-        from {
-          stroke-dashoffset: 1600;
-        }
-
-        to {
-          stroke-dashoffset: 0;
-        }
-      }
-
-      /* =========================
-         PAGE
-      ========================= */
-
-      .page {
-        position: relative;
-        z-index: 1;
-      }
-
-      .container {
-        width: min(calc(100% - 48px), var(--max-width));
-        margin: 0 auto;
-      }
-
-      /* =========================
-         TOP NAVIGATION
-      ========================= */
-
-      .topbar {
-        position: sticky;
-        top: 0;
-        z-index: 10;
-
-        background: rgba(8, 8, 8, 0.72);
-
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-
+      .vault-head {
+        padding: 18px 16px 14px;
         border-bottom: 1px solid var(--border);
       }
 
-      .topbar-inner {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        gap: 20px;
-
-        padding: 18px 0;
-      }
-
-      .brand {
-        font-size: 0.8rem;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-
-        color: rgba(255, 255, 255, 0.85);
-      }
-
-      .nav {
-        display: flex;
-        gap: 22px;
-        flex-wrap: wrap;
-      }
-
-      .nav a,
-      .contact-links a {
-        color: rgba(255, 255, 255, 0.7);
-        transition: color 0.2s ease;
-      }
-
-      .nav a:hover,
-      .contact-links a:hover {
-        color: white;
-      }
-
-      /* =========================
-         HERO
-      ========================= */
-
-      .hero {
-        min-height: 76vh;
-
-        display: flex;
-        align-items: center;
-
-        padding: 112px 0 80px;
-      }
-
-      .hub-grid {
-        width: 100%;
-
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-
-        gap: 24px;
-      }
-
-      /* =========================
-         MAIN HUB BOXES
-      ========================= */
-
-      .hub-box {
-        background: var(--panel);
-
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-
-        overflow: hidden;
-
-        transition:
-          transform 0.2s ease,
-          background 0.2s ease,
-          border-color 0.2s ease;
-      }
-
-      .hub-box:hover {
-        transform: translateY(-2px);
-
-        background: var(--panel-hover);
-
-        border-color: rgba(255, 255, 255, 0.2);
-      }
-
-      .hub-box[open] {
-        background: rgba(255, 255, 255, 0.055);
-
-        border-color: rgba(73, 217, 255, 0.38);
-      }
-
-      .hub-box > summary {
-        list-style: none;
-        cursor: pointer;
-
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        gap: 20px;
-
-        min-height: 170px;
-
-        padding: 34px;
-
-        font-size: clamp(2rem, 5vw, 3.7rem);
-        font-weight: 700;
-
-        letter-spacing: -0.04em;
-
-        user-select: none;
-      }
-
-      .hub-box > summary::-webkit-details-marker {
-        display: none;
-      }
-
-      .hub-box > summary::after {
-        content: "+";
-
-        flex: 0 0 auto;
-
-        font-size: 2rem;
-        font-weight: 300;
-
-        color: var(--soft);
-
-        transition:
-          transform 0.25s ease,
-          color 0.25s ease;
-      }
-
-      .hub-box[open] > summary::after {
-        transform: rotate(45deg);
-
-        color: var(--accent);
-      }
-
-      .hub-content {
-        display: grid;
-
-        gap: 14px;
-
-        padding: 0 24px 24px;
-      }
-
-      /* =========================
-         ITEMS
-      ========================= */
-
-      .item {
-        display: block;
-
-        padding: 22px;
-
-        border-radius: 20px;
-
-        border: 1px solid rgba(255, 255, 255, 0.09);
-
-        background: rgba(255, 255, 255, 0.025);
-
-        transition:
-          transform 0.2s ease,
-          background 0.2s ease,
-          border-color 0.2s ease;
-      }
-
-      .item:hover {
-        transform: translateY(-2px);
-
-        background: rgba(255, 255, 255, 0.06);
-
-        border-color: rgba(255, 255, 255, 0.18);
-      }
-
-      .item-title {
-        display: flex;
-
-        align-items: center;
-        justify-content: space-between;
-
-        gap: 18px;
-
+      .vault-name {
         margin: 0;
-
-        font-size: 1.22rem;
-        font-weight: 650;
-      }
-
-      .item-title::after {
-        content: "↗";
-
-        color: var(--soft);
-
-        font-size: 1rem;
-      }
-
-      .item-description {
-        margin: 9px 0 0;
-
-        color: var(--muted);
-
-        font-size: 0.94rem;
-
-        line-height: 1.65;
-      }
-
-      /* =========================
-         SUBJECT DROPDOWNS
-      ========================= */
-
-      .subject-dropdown {
-        border: 1px solid rgba(255, 255, 255, 0.09);
-
-        border-radius: 20px;
-
-        overflow: hidden;
-
-        background: rgba(255, 255, 255, 0.025);
-
-        transition:
-          background 0.2s ease,
-          border-color 0.2s ease;
-      }
-
-      .subject-dropdown:hover {
-        background: rgba(255, 255, 255, 0.045);
-
-        border-color: rgba(255, 255, 255, 0.16);
-      }
-
-      .subject-dropdown[open] {
-        background: rgba(255, 255, 255, 0.04);
-
-        border-color: rgba(73, 217, 255, 0.25);
-      }
-
-      .subject-dropdown .subject-summary {
-        list-style: none;
-
-        cursor: pointer;
-
-        display: flex;
-
-        align-items: center;
-        justify-content: space-between;
-
-        gap: 16px;
-
-        padding: 20px 22px;
-
-        color: rgba(255, 255, 255, 0.9);
-
-        font-size: 0.82rem;
-        font-weight: 600;
-
-        letter-spacing: 0.18em;
-
-        text-transform: uppercase;
-
-        user-select: none;
-      }
-
-      .subject-dropdown .subject-summary::-webkit-details-marker {
-        display: none;
-      }
-
-      .subject-dropdown .subject-summary::after {
-        content: "+";
-
-        color: var(--soft);
-
-        font-size: 1.25rem;
-        font-weight: 300;
-
-        transition:
-          transform 0.2s ease,
-          color 0.2s ease;
-      }
-
-      .subject-dropdown[open] .subject-summary::after {
-        transform: rotate(45deg);
-
-        color: var(--accent);
-      }
-
-      .subject-content {
-        display: grid;
-
-        gap: 12px;
-
-        padding: 0 12px 12px;
-      }
-
-      /* =========================
-         CONTACT
-      ========================= */
-
-      .contact {
-        padding: 10px 0 80px;
-      }
-
-      .contact-inner {
-        display: flex;
-
-        align-items: center;
-        justify-content: space-between;
-
-        gap: 24px;
-
-        padding-top: 28px;
-
-        border-top: 1px solid var(--border);
-      }
-
-      .contact-label {
-        margin: 0;
-
-        color: var(--soft);
-
-        font-size: 0.76rem;
-
-        letter-spacing: 0.3em;
-
-        text-transform: uppercase;
-      }
-
-      .contact-links {
-        display: flex;
-
-        justify-content: flex-end;
-
-        gap: 20px;
-
-        flex-wrap: wrap;
-
         font-size: 0.95rem;
+        font-weight: 650;
+        color: var(--text-strong);
       }
 
-      .contact-links a {
-        text-decoration: underline;
-
-        text-underline-offset: 5px;
-
-        text-decoration-color: rgba(255, 255, 255, 0.2);
+      .vault-sub {
+        margin: 4px 0 0;
+        font-size: 0.78rem;
+        color: var(--muted);
+        line-height: 1.45;
       }
 
-      /* =========================
-         TABLET
-      ========================= */
-
-      @media (max-width: 760px) {
-        .hero {
-          min-height: auto;
-
-          padding: 86px 0 60px;
-        }
-
-        .hub-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .hub-box > summary {
-          min-height: 140px;
-
-          padding: 28px;
-        }
-
-        .contact-inner {
-          align-items: flex-start;
-
-          flex-direction: column;
-        }
-
-        .contact-links {
-          justify-content: flex-start;
-        }
-
-        .ecg {
-          height: 18rem;
-        }
+      .search {
+        margin: 12px 12px 4px;
+        position: relative;
+      }
+      .search input {
+        width: 100%;
+        padding: 7px 10px 7px 30px;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: var(--bg);
+        color: var(--text);
+        font: inherit;
+        font-size: 0.85rem;
+        outline: none;
+      }
+      .search input:focus { border-color: var(--accent); }
+      .search svg {
+        position: absolute;
+        left: 9px;
+        top: 50%;
+        width: 14px;
+        height: 14px;
+        transform: translateY(-50%);
+        color: var(--faint);
       }
 
-      /* =========================
-         MOBILE
-      ========================= */
-
-      @media (max-width: 520px) {
-        .container {
-          width: min(calc(100% - 30px), var(--max-width));
-        }
-
-        .topbar-inner {
-          align-items: flex-start;
-
-          flex-direction: column;
-        }
-
-        .nav {
-          gap: 16px;
-        }
-
-        .hub-box > summary {
-          min-height: 120px;
-
-          font-size: 2.25rem;
-        }
-
-        .subject-dropdown .subject-summary {
-          padding: 18px;
-
-          font-size: 0.75rem;
-        }
-
-        .ecg-line-back {
-          stroke-width: 6;
-        }
-
-        .ecg-line-front {
-          stroke-width: 2.5;
-        }
+      .tree {
+        flex: 1;
+        overflow-y: auto;
+        padding: 8px 6px 16px;
+        font-size: 0.86rem;
       }
 
-      /* =========================
-         REDUCED MOTION
-      ========================= */
+      .tree details > summary {
+        list-style: none;
+      }
+      .tree details > summary::-webkit-details-marker { display: none; }
+
+      .tree-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        width: 100%;
+        padding: 4px 8px;
+        border: 0;
+        border-radius: 5px;
+        background: transparent;
+        color: var(--text);
+        text-align: left;
+        cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .tree-row:hover { background: var(--bg-hover); }
+      .tree-row.is-active { background: var(--accent-soft); color: var(--text-strong); }
+      .tree-row .chev {
+        flex: 0 0 auto;
+        width: 12px;
+        color: var(--faint);
+        transition: transform 0.15s ease;
+      }
+      .tree details[open] > summary .chev { transform: rotate(90deg); }
+      .tree-row .ico { flex: 0 0 auto; width: 14px; height: 14px; color: var(--faint); }
+      .tree-children {
+        margin-left: 14px;
+        padding-left: 6px;
+        border-left: 1px solid var(--border);
+      }
+      .tree-folder > summary { font-weight: 550; color: var(--text-strong); }
+
+      .side-foot {
+        padding: 10px 16px 14px;
+        border-top: 1px solid var(--border);
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--faint);
+        letter-spacing: 0.04em;
+      }
+
+      /* ============ MAIN / GRAPH ============ */
+
+      .main {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        background: var(--bg-graph);
+      }
+
+      .tabbar {
+        display: flex;
+        align-items: flex-end;
+        height: var(--bar-h);
+        padding: 0 8px;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .tab {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 34px;
+        padding: 0 14px;
+        border: 1px solid var(--border);
+        border-bottom: 0;
+        border-radius: 8px 8px 0 0;
+        background: var(--bg-graph);
+        color: var(--text-strong);
+        font-size: 0.83rem;
+        margin-bottom: -1px;
+      }
+      .tab svg { width: 14px; height: 14px; color: var(--accent); }
+
+      .menu-btn { display: none; }
+
+      .graph-wrap {
+        position: relative;
+        flex: 1;
+        min-height: 0;
+      }
+
+      #graph {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        cursor: grab;
+        touch-action: none;
+      }
+      #graph.dragging { cursor: grabbing; }
+      #graph.pointing { cursor: pointer; }
+
+      .graph-hint {
+        position: absolute;
+        left: 16px;
+        bottom: 14px;
+        margin: 0;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--faint);
+        letter-spacing: 0.04em;
+        pointer-events: none;
+      }
+
+      .graph-controls {
+        position: absolute;
+        right: 14px;
+        top: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 4px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: rgba(32, 32, 32, 0.9);
+      }
+      .graph-controls button {
+        display: grid;
+        place-items: center;
+        width: 30px;
+        height: 30px;
+        border: 0;
+        border-radius: 5px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+      }
+      .graph-controls button:hover { background: var(--bg-hover); color: var(--text-strong); }
+      .graph-controls svg { width: 16px; height: 16px; }
+
+      /* ============ NOTE PANEL ============ */
+
+      .note {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: min(var(--note-w), 100%);
+        display: flex;
+        flex-direction: column;
+        background: var(--bg-side);
+        border-left: 1px solid var(--border);
+        transform: translateX(100%);
+        transition: transform 0.22s ease;
+        z-index: 5;
+      }
+      .note.is-open { transform: translateX(0); }
+
+      .note-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        height: var(--bar-h);
+        padding: 0 8px 0 16px;
+        border-bottom: 1px solid var(--border);
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        color: var(--faint);
+      }
+      .note-path {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .note-close {
+        display: grid;
+        place-items: center;
+        width: 30px;
+        height: 30px;
+        border: 0;
+        border-radius: 5px;
+        background: transparent;
+        color: var(--muted);
+        cursor: pointer;
+      }
+      .note-close:hover { background: var(--bg-hover); color: var(--text-strong); }
+
+      .note-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 26px 22px 28px;
+      }
+
+      .note-body h1 {
+        margin: 0 0 6px;
+        font-size: 1.65rem;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        color: var(--text-strong);
+      }
+
+      .note-kind {
+        margin: 0 0 20px;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      .note-text {
+        margin: 0 0 22px;
+        line-height: 1.7;
+        color: var(--text);
+      }
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 0 0 22px;
+      }
+      .tag {
+        padding: 2px 9px;
+        border: 0;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 0.78rem;
+        cursor: pointer;
+      }
+      .tag:hover { background: rgba(168, 130, 255, 0.28); }
+
+      .open-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 16px;
+        border-radius: 6px;
+        background: var(--accent);
+        color: #16101f;
+        font-weight: 650;
+        font-size: 0.88rem;
+        text-decoration: none;
+      }
+      .open-btn:hover { filter: brightness(1.08); }
+      .open-btn svg { width: 14px; height: 14px; }
+
+      .links-block { margin-top: 28px; }
+      .links-block h2 {
+        margin: 0 0 8px;
+        font-size: 0.72rem;
+        font-family: var(--mono);
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--faint);
+      }
+      .links-block ul { margin: 0; padding: 0; list-style: none; }
+      .wikilink {
+        display: block;
+        width: 100%;
+        padding: 6px 8px;
+        margin: 0 -8px;
+        border: 0;
+        border-radius: 5px;
+        background: transparent;
+        color: var(--accent);
+        text-align: left;
+        cursor: pointer;
+        font-size: 0.9rem;
+      }
+      .wikilink::before { content: "[["; color: var(--faint); }
+      .wikilink::after { content: "]]"; color: var(--faint); }
+      .wikilink:hover { background: var(--bg-hover); }
+
+      /* Accessible list for screen readers / no-JS */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .scrim { display: none; }
+
+      :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+      /* ============ RESPONSIVE ============ */
+
+      @media (max-width: 860px) {
+        .app { grid-template-columns: 1fr; }
+        .ribbon { display: none; }
+
+        .sidebar {
+          position: fixed;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          width: min(300px, 86vw);
+          z-index: 20;
+          transform: translateX(-100%);
+          transition: transform 0.22s ease;
+          box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+        }
+        .sidebar.is-open { transform: translateX(0); }
+
+        .scrim {
+          display: block;
+          position: fixed;
+          inset: 0;
+          z-index: 15;
+          background: rgba(0, 0, 0, 0.5);
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.2s ease;
+        }
+        .scrim.is-open { opacity: 1; pointer-events: auto; }
+
+        .menu-btn {
+          display: grid;
+          place-items: center;
+          align-self: center;
+          width: 34px;
+          height: 34px;
+          margin-right: 6px;
+          border: 0;
+          border-radius: 6px;
+          background: transparent;
+          color: var(--muted);
+          cursor: pointer;
+        }
+        .menu-btn svg { width: 18px; height: 18px; }
+
+        .note {
+          top: auto;
+          left: 0;
+          width: 100%;
+          height: min(62%, 520px);
+          border-left: 0;
+          border-top: 1px solid var(--border);
+          border-radius: 14px 14px 0 0;
+          transform: translateY(100%);
+        }
+        .note.is-open { transform: translateY(0); }
+        .graph-hint { display: none; }
+      }
 
       @media (prefers-reduced-motion: reduce) {
-        html {
-          scroll-behavior: auto;
-        }
-
-        .ecg-line-front {
-          animation: none;
-        }
-
-        .hub-box,
-        .item,
-        .subject-dropdown {
-          transition: none;
-        }
+        .note, .sidebar, .scrim, .tree-row .chev { transition: none; }
       }
     </style>
   </head>
 
   <body>
+    <div class="app">
+      <!-- Ribbon -->
+      <nav class="ribbon" aria-label="Quick links">
+        <button class="ribbon-btn" id="ribbon-graph" aria-pressed="true" title="Graph view" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="8" r="2.5"/><circle cx="9" cy="18" r="2.5"/><path d="M8.2 7.2 15.7 7.6M7 8.3l1.4 7.3M10.9 16.6l5.6-6.6"/></svg>
+        </button>
+        <button class="ribbon-btn" id="ribbon-random" title="Open a random note" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+        </button>
+        <div class="ribbon-spacer"></div>
+        <a class="ribbon-btn" href="https://github.com/joaquindelpilar" target="_blank" rel="noopener noreferrer" title="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+        </a>
+      </nav>
 
-    <!-- =========================
-         ECG BACKGROUND
-    ========================== -->
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar" aria-label="Vault files">
+        <div class="vault-head">
+          <p class="vault-name">Joaquin del Pilar</p>
+          <p class="vault-sub">Physics · Medical Instrumentation. Apps I've built and notes from my subjects.</p>
+        </div>
+        <label class="search">
+          <span class="sr-only">Search the vault</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="search" type="search" placeholder="Search notes…" autocomplete="off" />
+        </label>
+        <div class="tree" id="tree" role="tree"></div>
+        <div class="side-foot"><span id="stat"></span></div>
+      </aside>
+      <div class="scrim" id="scrim"></div>
 
-    <div class="background" aria-hidden="true">
+      <!-- Main -->
+      <main class="main">
+        <div class="tabbar">
+          <button class="menu-btn" id="menu-btn" type="button" aria-label="Open file explorer" aria-controls="sidebar" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <div class="tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="8" r="2.5"/><circle cx="9" cy="18" r="2.5"/><path d="M8.2 7.2 15.7 7.6M7 8.3l1.4 7.3M10.9 16.6l5.6-6.6"/></svg>
+            Graph view
+          </div>
+        </div>
 
-      <svg
-        class="ecg"
-        viewBox="0 0 1600 320"
-        preserveAspectRatio="none"
-      >
+        <div class="graph-wrap">
+          <canvas id="graph" aria-label="Graph of notes. Use the file explorer to browse them as a list."></canvas>
 
-        <defs>
-
-          <filter
-            id="glow"
-            x="-20%"
-            y="-20%"
-            width="140%"
-            height="140%"
-          >
-
-            <feGaussianBlur
-              stdDeviation="4"
-              result="blur"
-            ></feGaussianBlur>
-
-            <feMerge>
-
-              <feMergeNode in="blur"></feMergeNode>
-
-              <feMergeNode in="SourceGraphic"></feMergeNode>
-
-            </feMerge>
-
-          </filter>
-
-        </defs>
-
-        <path
-          class="ecg-line ecg-line-back"
-          d="
-            M0 180
-            L120 180
-            L170 180
-            L205 180
-            L232 150
-            L255 220
-            L285 72
-            L318 180
-            L510 180
-            L560 180
-            L595 180
-            L622 150
-            L645 220
-            L675 72
-            L708 180
-            L900 180
-            L950 180
-            L985 180
-            L1012 150
-            L1035 220
-            L1065 72
-            L1098 180
-            L1290 180
-            L1340 180
-            L1375 180
-            L1402 150
-            L1425 220
-            L1455 72
-            L1488 180
-            L1600 180
-          "
-        ></path>
-
-        <path
-          class="ecg-line ecg-line-front"
-          d="
-            M0 180
-            L120 180
-            L170 180
-            L205 180
-            L232 150
-            L255 220
-            L285 72
-            L318 180
-            L510 180
-            L560 180
-            L595 180
-            L622 150
-            L645 220
-            L675 72
-            L708 180
-            L900 180
-            L950 180
-            L985 180
-            L1012 150
-            L1035 220
-            L1065 72
-            L1098 180
-            L1290 180
-            L1340 180
-            L1375 180
-            L1402 150
-            L1425 220
-            L1455 72
-            L1488 180
-            L1600 180
-          "
-        ></path>
-
-      </svg>
-
-    </div>
-
-    <!-- =========================
-         PAGE
-    ========================== -->
-
-    <div class="page">
-
-      <!-- =========================
-           MAIN CONTENT
-      ========================== -->
-
-      <main id="top">
-
-        <section class="hero container">
-
-          <div class="hub-grid">
-
-            <!-- =========================
-                 APPS
-            ========================== -->
-
-            <details
-              id="apps"
-              class="hub-box"
-            >
-
-              <summary>
-                Apps
-              </summary>
-
-              <div class="hub-content">
-
-                <a
-                  class="item"
-                  href="https://apps.apple.com/ph/app/farmers-direct-ph/id6761509775"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-
-                  <p class="item-title">
-                    Farmers Direct PH
-                  </p>
-
-                  <p class="item-description">
-                    An iOS marketplace connecting buyers with local farmers
-                    and fishers across the Philippines.
-                  </p>
-
-                </a>
-
-              </div>
-
-            </details>
-
-            <!-- =========================
-                 SUBJECTS
-            ========================== -->
-
-            <details
-              id="subjects"
-              class="hub-box"
-            >
-
-              <summary>
-                Subjects
-              </summary>
-
-              <div class="hub-content">
-
-                <!-- =====================
-                     ELECTRONICS 2
-                ====================== -->
-
-                <details class="subject-dropdown">
-
-                  <summary class="subject-summary">
-                    Electronics 2 · ELECP02
-                  </summary>
-
-                  <div class="subject-content">
-
-                    <a
-                      class="item"
-                      href="./electronics_2_notes.html"
-                    >
-
-                      <p class="item-title">
-                        Control Systems Study Notes
-                      </p>
-
-                      <p class="item-description">
-                        Three lectures consolidated into circuit foundations, feedback,
-                        block diagrams, transfer functions, transforms, case studies,
-                        and assignments.
-                      </p>
-
-                    </a>
-
-                  </div>
-
-                </details>
-
-                <!-- =====================
-                     NUCLEAR MEDICINE
-                ====================== -->
-
-                <details class="subject-dropdown">
-
-                  <summary class="subject-summary">
-                    Nuclear Medicine
-                  </summary>
-
-                  <div class="subject-content">
-
-                    <a
-                      class="item"
-                      href="./nuclear_medicine_activity_notes.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-
-                      <p class="item-title">
-                        Nuclear Medicine: Foundations, Activity &amp; Decay
-                      </p>
-
-                      <p class="item-description">
-                        Lecture notes on atomic and nuclear structure, fundamental forces,
-                        binding energy, radioactive decay, activity, and decay processes.
-                      </p>
-
-                    </a>
-
-                  </div>
-
-                </details>
-
-              </div>
-
-            </details>
-
+          <div class="graph-controls">
+            <button id="zoom-in" type="button" title="Zoom in" aria-label="Zoom in">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <button id="zoom-out" type="button" title="Zoom out" aria-label="Zoom out">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
+            </button>
+            <button id="zoom-fit" type="button" title="Reset view" aria-label="Reset view">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+            </button>
           </div>
 
-        </section>
+          <p class="graph-hint">drag nodes · scroll to zoom · click to open</p>
 
-        <!-- =========================
-             CONTACT / LINKS
-        ========================== -->
-
-        <section
-          id="contact"
-          class="container contact"
-        >
-
-          <div class="contact-inner">
-
-            <p class="contact-label">
-              Links
-            </p>
-
-            <div class="contact-links">
-
-              <a
-                href="https://github.com/joaquindelpilar"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                GitHub
-              </a>
-
-              <a
-                href="https://www.linkedin.com/in/joaquindelpilar/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LinkedIn
-              </a>
-
-              <a href="mailto:joaquin_delpilar@dlsu.edu.ph">
-                Email
-              </a>
-
+          <!-- Note panel -->
+          <article class="note" id="note" aria-live="polite" aria-hidden="true">
+            <div class="note-head">
+              <span class="note-path" id="note-path"></span>
+              <button class="note-close" id="note-close" type="button" aria-label="Close note">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+              </button>
             </div>
-
-          </div>
-
-        </section>
-
+            <div class="note-body" id="note-body"></div>
+          </article>
+        </div>
       </main>
-
     </div>
 
+    <!-- Plain list of everything, for screen readers and no-JS visitors -->
+    <noscript>
+      <style>.app{display:none}html,body{overflow:auto}</style>
+      <div style="padding:24px;max-width:640px;margin:auto;line-height:1.7">
+        <h1>Joaquin del Pilar</h1>
+        <h2>Apps</h2>
+        <p><a href="https://apps.apple.com/ph/app/farmers-direct-ph/id6761509775">Farmers Direct PH</a>: an iOS marketplace connecting buyers with local farmers and fishers across the Philippines.</p>
+        <h2>Subjects</h2>
+        <p><a href="./electronics_2_notes.html">Electronics 2 · Control Systems Study Notes</a></p>
+        <p><a href="./nuclear_medicine_activity_notes.pdf">Nuclear Medicine: Foundations, Activity &amp; Decay</a></p>
+        <h2>Links</h2>
+        <p><a href="https://github.com/joaquindelpilar">GitHub</a> · <a href="https://www.linkedin.com/in/joaquindelpilar/">LinkedIn</a> · <a href="mailto:joaquin_delpilar@dlsu.edu.ph">Email</a></p>
+      </div>
+    </noscript>
+
+    <script>
+      (() => {
+        // ============================================================
+        // VAULT DATA: add a node + its links here to grow the graph.
+        // kind: hub | folder | note | link | tag
+        // ============================================================
+        const NODES = [
+          { id: "home", title: "Joaquin del Pilar", kind: "hub", path: "Home.md",
+            text: "Physics student specializing in medical instrumentation. This vault holds the apps I've built and the notes I've written for my subjects. Every circle is a note; every line is a connection.",
+            tags: ["physics", "medical-instrumentation"] },
+
+          { id: "apps", title: "Apps", kind: "folder", path: "Apps/",
+            text: "Software I've designed and shipped." },
+          { id: "farmers", title: "Farmers Direct PH", kind: "note", path: "Apps/Farmers Direct PH.md", parent: "apps",
+            text: "An iOS marketplace connecting buyers with local farmers and fishers across the Philippines.",
+            url: "https://apps.apple.com/ph/app/farmers-direct-ph/id6761509775", cta: "View on the App Store",
+            tags: ["ios"] },
+
+          { id: "subjects", title: "Subjects", kind: "folder", path: "Subjects/",
+            text: "Study notes and guides from my coursework." },
+          { id: "elec2", title: "Electronics 2 · ELECP02", kind: "folder", path: "Subjects/Electronics 2/", parent: "subjects",
+            text: "Course notes for Electronics 2.", tags: ["physics"] },
+          { id: "ctrl", title: "Control Systems Study Notes", kind: "note", path: "Subjects/Electronics 2/Control Systems Study Notes.md", parent: "elec2",
+            text: "Three lectures consolidated into circuit foundations, feedback, block diagrams, transfer functions, transforms, case studies, and assignments.",
+            url: "./electronics_2_notes.html", cta: "Open study notes", tags: ["control-systems"] },
+          { id: "nucmed", title: "Nuclear Medicine", kind: "folder", path: "Subjects/Nuclear Medicine/", parent: "subjects",
+            text: "Course notes for Nuclear Medicine.", tags: ["medical-instrumentation"] },
+          { id: "nmnotes", title: "Foundations, Activity & Decay", kind: "note", path: "Subjects/Nuclear Medicine/Foundations, Activity & Decay.pdf", parent: "nucmed",
+            text: "Lecture notes on atomic and nuclear structure, fundamental forces, binding energy, radioactive decay, activity, and decay processes.",
+            url: "./nuclear_medicine_activity_notes.pdf", cta: "Open PDF", tags: ["physics"] },
+
+          { id: "links", title: "Links", kind: "folder", path: "Links/",
+            text: "Where else to find me." },
+          { id: "github", title: "GitHub", kind: "link", path: "Links/GitHub.md", parent: "links",
+            text: "Code for this site and my other projects.", url: "https://github.com/joaquindelpilar", cta: "Open GitHub" },
+          { id: "linkedin", title: "LinkedIn", kind: "link", path: "Links/LinkedIn.md", parent: "links",
+            text: "Experience and background.", url: "https://www.linkedin.com/in/joaquindelpilar/", cta: "Open LinkedIn" },
+          { id: "email", title: "Email", kind: "link", path: "Links/Email.md", parent: "links",
+            text: "joaquin_delpilar@dlsu.edu.ph", url: "mailto:joaquin_delpilar@dlsu.edu.ph", cta: "Send an email" },
+        ];
+
+        const EXTRA_LINKS = [
+          ["home", "apps"], ["home", "subjects"], ["home", "links"],
+        ];
+
+        // ---------- Build graph: parent links + extra links + tag nodes ----------
+        const byId = new Map(NODES.map((n) => [n.id, n]));
+        const edgeSet = new Set();
+        const edges = [];
+        const addEdge = (a, b) => {
+          const k = a < b ? a + "|" + b : b + "|" + a;
+          if (a === b || edgeSet.has(k)) return;
+          edgeSet.add(k);
+          edges.push({ a, b });
+        };
+
+        NODES.forEach((n) => n.parent && addEdge(n.parent, n.id));
+        EXTRA_LINKS.forEach(([a, b]) => addEdge(a, b));
+
+        NODES.slice().forEach((n) => {
+          (n.tags || []).forEach((t) => {
+            const id = "#" + t;
+            if (!byId.has(id)) {
+              const tagNode = { id, title: "#" + t, kind: "tag", path: "Tags/" + t, text: "Notes tagged #" + t + "." };
+              NODES.push(tagNode);
+              byId.set(id, tagNode);
+            }
+            addEdge(n.id, id);
+          });
+        });
+
+        const neighbors = new Map(NODES.map((n) => [n.id, new Set()]));
+        edges.forEach((e) => {
+          neighbors.get(e.a).add(e.b);
+          neighbors.get(e.b).add(e.a);
+        });
+
+        const RADIUS = { hub: 13, folder: 8, note: 6, link: 5, tag: 4 };
+        NODES.forEach((n, i) => {
+          const deg = neighbors.get(n.id).size;
+          n.r = RADIUS[n.kind] + Math.min(deg, 6) * 0.5;
+          const a = (i / NODES.length) * Math.PI * 2;
+          const d = n.kind === "hub" ? 0 : 120 + Math.random() * 80;
+          n.x = Math.cos(a) * d;
+          n.y = Math.sin(a) * d;
+          n.vx = 0;
+          n.vy = 0;
+        });
+
+        // ---------- Canvas setup ----------
+        const canvas = document.getElementById("graph");
+        const ctx = canvas.getContext("2d");
+        const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        let W = 0, H = 0, DPR = 1;
+        const view = { x: 0, y: 0, k: 1 };
+
+        function resize() {
+          const rect = canvas.getBoundingClientRect();
+          DPR = Math.min(window.devicePixelRatio || 1, 2);
+          W = rect.width;
+          H = rect.height;
+          canvas.width = Math.round(W * DPR);
+          canvas.height = Math.round(H * DPR);
+          wake();
+        }
+
+        function fitView() {
+          let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+          NODES.forEach((n) => {
+            minX = Math.min(minX, n.x); maxX = Math.max(maxX, n.x);
+            minY = Math.min(minY, n.y); maxY = Math.max(maxY, n.y);
+          });
+          const pad = 90;
+          const k = Math.min((W - pad * 2) / (maxX - minX || 1), (H - pad * 2) / (maxY - minY || 1), 1.6);
+          view.k = Math.max(0.35, k);
+          view.x = -((minX + maxX) / 2);
+          view.y = -((minY + maxY) / 2);
+          wake();
+        }
+
+        const toScreen = (x, y) => [(x + view.x) * view.k + W / 2, (y + view.y) * view.k + H / 2];
+        const toWorld = (sx, sy) => [(sx - W / 2) / view.k - view.x, (sy - H / 2) / view.k - view.y];
+
+        // ---------- Force simulation ----------
+        let alpha = 1;
+        const wake = (a = 0.3) => { alpha = Math.max(alpha, a); };
+
+        function tick() {
+          if (alpha < 0.002) return;
+          const N = NODES.length;
+          for (let i = 0; i < N; i++) {
+            const p = NODES[i];
+            for (let j = i + 1; j < N; j++) {
+              const q = NODES[j];
+              let dx = q.x - p.x, dy = q.y - p.y;
+              let d2 = dx * dx + dy * dy || 0.01;
+              const f = (2600 / d2) * alpha;
+              const d = Math.sqrt(d2);
+              dx /= d; dy /= d;
+              p.vx -= dx * f; p.vy -= dy * f;
+              q.vx += dx * f; q.vy += dy * f;
+            }
+          }
+          edges.forEach((e) => {
+            const p = byId.get(e.a), q = byId.get(e.b);
+            const dx = q.x - p.x, dy = q.y - p.y;
+            const d = Math.sqrt(dx * dx + dy * dy) || 0.01;
+            const rest = p.kind === "tag" || q.kind === "tag" ? 70 : 85;
+            const f = ((d - rest) / d) * 0.06 * alpha;
+            p.vx += dx * f; p.vy += dy * f;
+            q.vx -= dx * f; q.vy -= dy * f;
+          });
+          NODES.forEach((n) => {
+            n.vx -= n.x * 0.004 * alpha;
+            n.vy -= n.y * 0.004 * alpha;
+            if (n === drag.node) { n.vx = n.vy = 0; return; }
+            n.vx *= 0.6; n.vy *= 0.6;
+            n.x += n.vx; n.y += n.vy;
+          });
+          alpha *= 0.985;
+        }
+
+        // ---------- State ----------
+        let hover = null;
+        let selected = null;
+        let query = "";
+        const matches = (n) =>
+          !query || n.title.toLowerCase().includes(query) || (n.text || "").toLowerCase().includes(query);
+
+        // Pulses that travel along edges (a quiet nod to the old ECG line)
+        const pulses = [];
+        let lastPulse = 0;
+
+        // ---------- Render ----------
+        const css = getComputedStyle(document.documentElement);
+        const C = {
+          edge: "rgba(255,255,255,0.13)",
+          edgeHi: css.getPropertyValue("--accent").trim(),
+          node: "#8c8c8c",
+          hub: "#e8e8e8",
+          folder: "#b5b5b5",
+          tag: "#6f9e6f",
+          link: "#7a8fa8",
+          accent: css.getPropertyValue("--accent").trim(),
+          pulse: css.getPropertyValue("--pulse").trim(),
+          label: "#dcddde",
+        };
+        const colorOf = (n) => (n.kind === "hub" ? C.hub : n.kind === "folder" ? C.folder : n.kind === "tag" ? C.tag : n.kind === "link" ? C.link : C.node);
+
+        function draw(t) {
+          ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+          ctx.clearRect(0, 0, W, H);
+
+          const focus = hover || selected;
+          const focusSet = focus ? neighbors.get(focus.id) : null;
+          const isLit = (n) => !focus || n === focus || focusSet.has(n.id);
+
+          // edges
+          ctx.lineWidth = 1;
+          edges.forEach((e) => {
+            const p = byId.get(e.a), q = byId.get(e.b);
+            const lit = focus && (p === focus || q === focus);
+            const dim = (focus && !lit) || (query && !(matches(p) && matches(q)));
+            const [x1, y1] = toScreen(p.x, p.y);
+            const [x2, y2] = toScreen(q.x, q.y);
+            ctx.strokeStyle = lit ? C.edgeHi : C.edge;
+            ctx.globalAlpha = dim ? 0.25 : lit ? 0.9 : 1;
+            ctx.lineWidth = lit ? 1.6 : 1;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+          });
+          ctx.globalAlpha = 1;
+
+          // pulses
+          if (!reduceMotion) {
+            if (t - lastPulse > 650 && pulses.length < 6) {
+              lastPulse = t;
+              const e = edges[Math.floor(Math.random() * edges.length)];
+              pulses.push({ e, s: 0, flip: Math.random() < 0.5 });
+            }
+            for (let i = pulses.length - 1; i >= 0; i--) {
+              const pl = pulses[i];
+              pl.s += 0.012;
+              if (pl.s >= 1) { pulses.splice(i, 1); continue; }
+              const p = byId.get(pl.flip ? pl.e.b : pl.e.a), q = byId.get(pl.flip ? pl.e.a : pl.e.b);
+              const [x1, y1] = toScreen(p.x, p.y);
+              const [x2, y2] = toScreen(q.x, q.y);
+              const x = x1 + (x2 - x1) * pl.s, y = y1 + (y2 - y1) * pl.s;
+              ctx.globalAlpha = Math.sin(pl.s * Math.PI) * 0.9;
+              ctx.fillStyle = C.pulse;
+              ctx.shadowColor = C.pulse;
+              ctx.shadowBlur = 8;
+              ctx.beginPath();
+              ctx.arc(x, y, 1.8, 0, Math.PI * 2);
+              ctx.fill();
+            }
+            ctx.shadowBlur = 0;
+            ctx.globalAlpha = 1;
+          }
+
+          // nodes
+          NODES.forEach((n) => {
+            const [x, y] = toScreen(n.x, n.y);
+            const r = n.r * Math.max(0.6, Math.min(view.k, 1.6));
+            const lit = isLit(n);
+            const hit = matches(n);
+            ctx.globalAlpha = (!lit ? 0.22 : 1) * (hit ? 1 : 0.2);
+            if (n === focus || n === selected) {
+              ctx.fillStyle = C.accent;
+              ctx.shadowColor = C.accent;
+              ctx.shadowBlur = 14;
+            } else {
+              ctx.fillStyle = focus && lit ? "#cfc0ff" : colorOf(n);
+              ctx.shadowBlur = 0;
+            }
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+          });
+
+          // labels
+          ctx.textAlign = "center";
+          ctx.textBaseline = "top";
+          NODES.forEach((n) => {
+            const lit = isLit(n);
+            const important = n.kind === "hub" || n.kind === "folder";
+            let a = view.k > 0.75 ? 1 : important ? 1 : Math.max(0, (view.k - 0.45) / 0.3);
+            if (focus) a = lit ? 1 : 0.15;
+            if (query && !matches(n)) a *= 0.2;
+            if (a <= 0.02) return;
+            const [x, y] = toScreen(n.x, n.y);
+            const r = n.r * Math.max(0.6, Math.min(view.k, 1.6));
+            const size = n.kind === "hub" ? 14 : n.kind === "folder" ? 12.5 : 11.5;
+            ctx.font = `${n.kind === "hub" ? 650 : 450} ${size}px ${css.getPropertyValue("--sans")}`;
+            ctx.globalAlpha = a;
+            ctx.fillStyle = n === focus ? "#ffffff" : C.label;
+            ctx.fillText(n.title, x, y + r + 5);
+          });
+          ctx.globalAlpha = 1;
+        }
+
+        function loop(t) {
+          tick();
+          draw(t);
+          requestAnimationFrame(loop);
+        }
+
+        // ---------- Interaction ----------
+        const drag = { node: null, pan: false, sx: 0, sy: 0, moved: false, vx: 0, vy: 0 };
+        const pointers = new Map();
+        let pinchDist = 0;
+
+        function nodeAt(sx, sy) {
+          const [wx, wy] = toWorld(sx, sy);
+          let best = null, bestD = Infinity;
+          NODES.forEach((n) => {
+            const d = Math.hypot(n.x - wx, n.y - wy);
+            const r = (n.r * Math.max(0.6, Math.min(view.k, 1.6))) / view.k + 8 / view.k;
+            if (d < r && d < bestD) { best = n; bestD = d; }
+          });
+          return best;
+        }
+
+        const local = (e) => {
+          const r = canvas.getBoundingClientRect();
+          return [e.clientX - r.left, e.clientY - r.top];
+        };
+
+        canvas.addEventListener("pointerdown", (e) => {
+          canvas.setPointerCapture(e.pointerId);
+          const [sx, sy] = local(e);
+          pointers.set(e.pointerId, [sx, sy]);
+          if (pointers.size === 2) {
+            const [a, b] = [...pointers.values()];
+            pinchDist = Math.hypot(a[0] - b[0], a[1] - b[1]);
+            drag.node = null;
+            drag.pan = false;
+            return;
+          }
+          drag.sx = sx; drag.sy = sy; drag.moved = false;
+          drag.node = nodeAt(sx, sy);
+          drag.pan = !drag.node;
+          drag.vx = view.x; drag.vy = view.y;
+          canvas.classList.add("dragging");
+        });
+
+        canvas.addEventListener("pointermove", (e) => {
+          const [sx, sy] = local(e);
+          if (pointers.has(e.pointerId)) pointers.set(e.pointerId, [sx, sy]);
+
+          if (pointers.size === 2) {
+            const [a, b] = [...pointers.values()];
+            const d = Math.hypot(a[0] - b[0], a[1] - b[1]);
+            if (pinchDist) zoomAt((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, d / pinchDist);
+            pinchDist = d;
+            return;
+          }
+
+          if (drag.node || drag.pan) {
+            if (Math.hypot(sx - drag.sx, sy - drag.sy) > 4) drag.moved = true;
+            if (drag.node && drag.moved) {
+              const [wx, wy] = toWorld(sx, sy);
+              drag.node.x = wx; drag.node.y = wy;
+              wake(0.4);
+            } else if (drag.pan) {
+              view.x = drag.vx + (sx - drag.sx) / view.k;
+              view.y = drag.vy + (sy - drag.sy) / view.k;
+            }
+            return;
+          }
+
+          if (e.pointerType === "mouse") {
+            const n = nodeAt(sx, sy);
+            if (n !== hover) {
+              hover = n;
+              canvas.classList.toggle("pointing", !!n);
+            }
+          }
+        });
+
+        const endPointer = (e) => {
+          pointers.delete(e.pointerId);
+          if (pointers.size > 0) return;
+          pinchDist = 0;
+          canvas.classList.remove("dragging");
+          if (!drag.moved) {
+            const n = drag.node;
+            if (n) openNote(n.id);
+            else if (drag.pan) closeNote();
+          }
+          drag.node = null;
+          drag.pan = false;
+        };
+        canvas.addEventListener("pointerup", endPointer);
+        canvas.addEventListener("pointercancel", endPointer);
+        canvas.addEventListener("pointerleave", (e) => {
+          if (e.pointerType === "mouse" && !drag.node && !drag.pan) {
+            hover = null;
+            canvas.classList.remove("pointing");
+          }
+        });
+
+        canvas.addEventListener("dblclick", (e) => {
+          const n = nodeAt(...local(e));
+          if (n && n.url) window.open(n.url, n.url.startsWith("./") ? "_self" : "_blank", "noopener");
+        });
+
+        function zoomAt(sx, sy, factor) {
+          const [wx, wy] = toWorld(sx, sy);
+          view.k = Math.min(4, Math.max(0.25, view.k * factor));
+          view.x = (sx - W / 2) / view.k - wx;
+          view.y = (sy - H / 2) / view.k - wy;
+        }
+
+        canvas.addEventListener("wheel", (e) => {
+          e.preventDefault();
+          const [sx, sy] = local(e);
+          zoomAt(sx, sy, Math.exp(-e.deltaY * 0.0015));
+        }, { passive: false });
+
+        document.getElementById("zoom-in").onclick = () => zoomAt(W / 2, H / 2, 1.25);
+        document.getElementById("zoom-out").onclick = () => zoomAt(W / 2, H / 2, 0.8);
+        document.getElementById("zoom-fit").onclick = fitView;
+
+        // ---------- Note panel ----------
+        const note = document.getElementById("note");
+        const noteBody = document.getElementById("note-body");
+        const notePath = document.getElementById("note-path");
+        const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+        const KIND_LABEL = { hub: "Home", folder: "Folder", note: "Note", link: "Link", tag: "Tag" };
+
+        function openNote(id) {
+          const n = byId.get(id);
+          if (!n) return;
+          selected = n;
+          wake(0.05);
+
+          const linked = [...neighbors.get(id)].map((x) => byId.get(x));
+          const outgoing = linked.filter((x) => x.kind !== "tag");
+          const ext = n.url && !n.url.startsWith("./");
+
+          noteBody.innerHTML = `
+            <h1>${esc(n.title)}</h1>
+            <p class="note-kind">${KIND_LABEL[n.kind]}</p>
+            ${n.text ? `<p class="note-text">${esc(n.text)}</p>` : ""}
+            ${n.tags && n.tags.length ? `<div class="tags">${n.tags.map((t) => `<button class="tag" data-id="#${esc(t)}" type="button">#${esc(t)}</button>`).join("")}</div>` : ""}
+            ${n.url ? `<a class="open-btn" href="${esc(n.url)}" ${ext ? 'target="_blank" rel="noopener noreferrer"' : ""}>${esc(n.cta || "Open")}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></a>` : ""}
+            ${outgoing.length ? `<div class="links-block"><h2>Linked notes · ${outgoing.length}</h2><ul>${outgoing.map((x) => `<li><button class="wikilink" data-id="${esc(x.id)}" type="button">${esc(x.title)}</button></li>`).join("")}</ul></div>` : ""}
+          `;
+          notePath.textContent = n.path;
+          note.classList.add("is-open");
+          note.setAttribute("aria-hidden", "false");
+          markActive(id);
+          if (history.replaceState) history.replaceState(null, "", "#" + encodeURIComponent(id));
+          closeSidebar();
+        }
+
+        function closeNote() {
+          selected = null;
+          note.classList.remove("is-open");
+          note.setAttribute("aria-hidden", "true");
+          markActive(null);
+          if (history.replaceState) history.replaceState(null, "", location.pathname + location.search);
+        }
+
+        noteBody.addEventListener("click", (e) => {
+          const b = e.target.closest("[data-id]");
+          if (b) { openNote(b.dataset.id); centerOn(byId.get(b.dataset.id)); }
+        });
+        document.getElementById("note-close").onclick = closeNote;
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") { closeNote(); closeSidebar(); }
+        });
+
+        function centerOn(n) {
+          if (!n) return;
+          const start = { x: view.x, y: view.y };
+          // Aim the node at the middle of the space the open note leaves free:
+          // a bottom sheet on phones, a right-hand panel on larger screens.
+          const open = note.classList.contains("is-open");
+          const phone = window.innerWidth <= 860;
+          const offX = open && !phone ? note.offsetWidth / 2 : 0;
+          const offY = open && phone ? note.offsetHeight / 2 : 0;
+          const target = { x: -n.x - offX / view.k, y: -n.y - offY / view.k };
+          if (reduceMotion) { view.x = target.x; view.y = target.y; return; }
+          const t0 = performance.now();
+          const step = (t) => {
+            const p = Math.min(1, (t - t0) / 380);
+            const ease = 1 - Math.pow(1 - p, 3);
+            view.x = start.x + (target.x - start.x) * ease;
+            view.y = start.y + (target.y - start.y) * ease;
+            if (p < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        }
+
+        // ---------- File explorer ----------
+        const tree = document.getElementById("tree");
+        const ICON = {
+          file: '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>',
+          link: '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>',
+          home: '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg>',
+          tag: '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/></svg>',
+        };
+        const CHEV = '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>';
+
+        function rowHTML(n) {
+          const ico = n.kind === "hub" ? ICON.home : n.kind === "link" ? ICON.link : n.kind === "tag" ? ICON.tag : ICON.file;
+          return `<button class="tree-row" role="treeitem" data-id="${esc(n.id)}" type="button">${ico}<span>${esc(n.title)}</span></button>`;
+        }
+
+        function folderHTML(f) {
+          const kids = NODES.filter((n) => n.parent === f.id);
+          return `<details class="tree-folder" open>
+              <summary class="tree-row" data-id="${esc(f.id)}">${CHEV}<span>${esc(f.title)}</span></summary>
+              <div class="tree-children">${kids.map((k) => (k.kind === "folder" ? folderHTML(k) : rowHTML(k))).join("")}</div>
+            </details>`;
+        }
+
+        function renderTree() {
+          const roots = NODES.filter((n) => n.kind === "folder" && !n.parent);
+          const tags = NODES.filter((n) => n.kind === "tag");
+          tree.innerHTML =
+            rowHTML(byId.get("home")) +
+            roots.map(folderHTML).join("") +
+            `<details class="tree-folder"><summary class="tree-row">${CHEV}<span>Tags</span></summary>
+              <div class="tree-children">${tags.map(rowHTML).join("")}</div></details>`;
+        }
+        renderTree();
+
+        tree.addEventListener("click", (e) => {
+          const row = e.target.closest("[data-id]");
+          if (!row) return;
+          // Let folder summaries still toggle, but also open the note.
+          openNote(row.dataset.id);
+          centerOn(byId.get(row.dataset.id));
+        });
+
+        function markActive(id) {
+          tree.querySelectorAll(".tree-row").forEach((r) => r.classList.toggle("is-active", r.dataset.id === id));
+        }
+
+        document.getElementById("stat").textContent = `${NODES.length} notes · ${edges.length} links`;
+
+        // Search filters the graph and the tree
+        const search = document.getElementById("search");
+        search.addEventListener("input", () => {
+          query = search.value.trim().toLowerCase();
+          tree.querySelectorAll(".tree-row[data-id]").forEach((r) => {
+            const n = byId.get(r.dataset.id);
+            r.style.opacity = !n || matches(n) ? "" : "0.35";
+          });
+        });
+        search.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            const first = NODES.find((n) => query && matches(n));
+            if (first) { openNote(first.id); centerOn(first); }
+          }
+        });
+
+        document.getElementById("ribbon-random").onclick = () => {
+          const pool = NODES.filter((n) => n.kind === "note" || n.kind === "link");
+          const n = pool[Math.floor(Math.random() * pool.length)];
+          openNote(n.id);
+          centerOn(n);
+        };
+        document.getElementById("ribbon-graph").onclick = () => { closeNote(); fitView(); };
+
+        // Mobile sidebar
+        const sidebar = document.getElementById("sidebar");
+        const scrim = document.getElementById("scrim");
+        const menuBtn = document.getElementById("menu-btn");
+        function closeSidebar() {
+          sidebar.classList.remove("is-open");
+          scrim.classList.remove("is-open");
+          menuBtn.setAttribute("aria-expanded", "false");
+        }
+        menuBtn.onclick = () => {
+          const open = !sidebar.classList.contains("is-open");
+          sidebar.classList.toggle("is-open", open);
+          scrim.classList.toggle("is-open", open);
+          menuBtn.setAttribute("aria-expanded", String(open));
+        };
+        scrim.onclick = closeSidebar;
+
+        // ---------- Start ----------
+        window.addEventListener("resize", resize);
+        resize();
+        // Settle the layout before the first paint so it doesn't explode in.
+        for (let i = 0; i < 300; i++) tick();
+        alpha = 0.05;
+        fitView();
+        requestAnimationFrame(loop);
+
+        const fromHash = decodeURIComponent(location.hash.slice(1));
+        if (fromHash && byId.has(fromHash)) { openNote(fromHash); centerOn(byId.get(fromHash)); }
+      })();
+    </script>
   </body>
 </html>
-
-
